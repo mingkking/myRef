@@ -87,3 +87,51 @@ for (int i = 1; i <= 50; i++) {
 	
 }
 ```
+### 4. 오버로딩
+```
+/*
+ * 오버로딩 (overloading)
+ * 		- 여러개의 함수가 동일 함수명 사용
+ * 		- 인자의 자료형과 갯수가 다름
+ * [주의] 리턴형만 다른 것은 아님
+ * 		void test(int a) {}
+ * 		double test(int z) {}
+ * 		char test(int h) {}
+ * 
+ */
+```
+### 5. 재귀호출
+```
+public static void main(String[] args) {
+	/*
+	 * 재귀호출 -함수가 자기 자신을 호출하는 것
+	 */
+	int sum = 0;
+	sum = sumFunc(10);
+	System.out.println("총합: " + sum);
+}
+
+static int sumFunc(int i) {
+	if (i == 1) {
+		return 1;
+	}
+
+	return i + sumFunc(i - 1);
+}
+```
+### 6. CallByRef
+```
+/*
+ * CallByRef
+ * 		- 메소드의 인자가 참조형인 경우
+ * 		주소복사가 되어서 원본에 영향이 있음
+ */
+```
+### 7. Call by value
+```
+/*
+ * Call by value
+ * 		인자의 자료형이 기본형인 경우
+ * 
+ */
+```
