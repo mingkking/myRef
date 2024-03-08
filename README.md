@@ -67,3 +67,23 @@ for (int i = 0; i < lotto.length; i++) {
 	System.out.println();
 }
 ```
+### 3. 369게임 코드
+```
+/*
+ * 1부터 50까지 숫자 중에서 3, 6, 9 게임처럼
+ * 3, 6, 9 숫자를 포함하면 그 갯수만큼 "짝" 글자를 출력하고
+ * 그렇지 않으면 그 숫자를 출력한다.
+ */
+for (int i = 1; i <= 50; i++) {
+	int save = i;
+	while(save != 0) {
+		if( save % 10 == 3 || save % 10 == 6 || save % 10 == 9 ) { // 예) 33 은 짝 한번 출력 후 밑 save에 3이 저장 됨 후 짝 출력 후 0이라서 괄호 밖으로 빠짐
+			System.out.print("짞 ");
+		}
+		save = save / 10;
+	}
+	
+	System.out.println(i);
+	
+}
+```
