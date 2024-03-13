@@ -173,7 +173,7 @@ static int sumFunc(int i) {
  * 		- 클래스명으로 접근 가능
  */
 ```
-### 10. 상속
+### 10. 상속 (extends)
 ```
  /*
  * 클래스 상속관계
@@ -238,4 +238,19 @@ public static DBConnect getInstance() {
  * protected : 동일 패키지에서만 접근 허용
  * 				다른 패키지인 경우 자식 클래스에서만 접근 허용
  */
+```
+### 13. 참고
+```
+1 클래스 public default abstract final
+2 변수 public default private protected static final
+3 생성자 public default private protected
+4 메소드 public default private protected static abstact final
+```
+### 14. 인터페이스 (implements)
+```
+인터페이스 : 다중상속
+interface B{
+	[public static final] int B;
+	[public abstract] void B();
+}
 ```
