@@ -228,3 +228,14 @@ public static DBConnect getInstance() {
 }
 
 ```
+### 12. 접근지정자
+```
+/*
+ * 접근지정자
+ * private : 다른 클래스에서 접근 안됨
+ * public : 다른 패키지에서도 접근 허용
+ * default : 동일 패키지에서만 접근 허용
+ * protected : 동일 패키지에서만 접근 허용
+ * 				다른 패키지인 경우 자식 클래스에서만 접근 허용
+ */
+```
