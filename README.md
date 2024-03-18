@@ -254,7 +254,7 @@ interface B{
 	[public abstract] void B();
 }
 ```
-### 15. MySQL
+### 15. MySQL - cmd
 ```
 1. bin 경로를 환경변수 path 쪽에 추가
 	C:\Program Files\MySQL\MySQL Server 8.0\bin
@@ -278,7 +278,15 @@ interface B{
 	테이블 목록
 		show tables;
 	SQL파일 실행
-		source C:\downloads\db\scott_emp.sql
-	
+		source C:\downloads\db\scott_emp.sql	
+```
+### 16. MySQL - 명령어
+```
+1. 컬럼 추가
+	alter table student add (컬럼이름 타입);
+2. 컬럼 보기
+	desc [테이블명]
+3. 컬럼 지우기
+	alter table student drop column [컬럼명]
 ```
 
