@@ -254,3 +254,4 @@ interface B{
 	[public abstract] void B();
 }
 ```
+
