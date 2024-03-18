@@ -268,11 +268,17 @@ interface B{
 	DB 접속
 		use world;
 	계정생성
-		create user scott@'%' identified by 'tiger'; 	
+		create user scott@'%' identified by 'tiger';
+		create user jung@'%' identified by '1234';
+		create user jungminki@'%' identified by 'admin1234';
 	권한부여
 		grant all on *.* to scott@'%' with grant option;
+		grant all on *.* to jungminki@'%' with grant option;
+		grant select, insert, update, delete on basic.* to jung@'%';
 	테이블 목록
 		show tables;
+	SQL파일 실행
+		source C:\downloads\db\scott_emp.sql
 	
 ```
 
