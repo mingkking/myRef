@@ -254,4 +254,25 @@ interface B{
 	[public abstract] void B();
 }
 ```
+### 15. MySQL
+```
+1. bin 경로를 환경변수 path 쪽에 추가
+	C:\Program Files\MySQL\MySQL Server 8.0\bin
+2. cmd
+	root계정으로 접속
+		mysql -u root -p
+	DB목록보기
+		show databases;
+	DB 생성
+		create database basic;
+	DB 접속
+		use world;
+	계정생성
+		create user scott@'%' identified by 'tiger'; 	
+	권한부여
+		grant all on *.* to scott@'%' with grant option;
+	테이블 목록
+		show tables;
+	
+```
 
