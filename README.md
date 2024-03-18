@@ -283,10 +283,17 @@ interface B{
 ### 16. MySQL - 명령어
 ```
 1. 컬럼 추가
-	alter table student add (컬럼이름 타입);
+	alter table [테이블명] add (컬럼이름 타입);
 2. 컬럼 보기
-	desc [테이블명]
+	desc [테이블명];
 3. 컬럼 지우기
-	alter table student drop column [컬럼명]
+	alter table [테이블명] drop column [컬럼명];
+4. 컬럼 변경
+	alter table [테이블명] change [컬럼명] [컬럼명] [데이타타입];
+	alter table [테이블명] modify [컬럼명] [데이타타입]
+5. 테이블 복사
+	create table [복사할테이블명]
+	as select [컬럼명], [컬럼명], ...deptno
+	from [복사해서만들어질테이블명]; 
 ```
 
