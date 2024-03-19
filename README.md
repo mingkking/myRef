@@ -304,6 +304,13 @@ interface B{
 		ADD CONSTRAINT [테이블명]_[컬럼명]_uq UNIQUE KEY ([컬럼명]);
   	3. CHECK
 		ALTER TABLE [테이블명]
-		ADD CONSTRAINT [테이블명]_[컬럼명]_ck CHECK ([컬럼명] IN('?', '?'));
+		ADD CONSTRAINT [테이블명]_[컬럼명]_ck CHECK ([컬럼명] IN('[값]', '[값]'));
+	4. DEFAULT
+		ALTER TABLE [테이블명] MODIFY [컬럼명] [타입] DEFAULT '[값]';
+	5. FOREIGN KEY (외래키 - )
+		ALTER TABLE [적용테이블명]
+		ADD CONSTRAINT [적용테이블명]_[컬럼명]_fk FOREIGN KEY ([컬럼명]) REFERENCES [참조테이블명]([컬럼명])
+	6. ON DELETE CASCADE(fk 뒤쪽에 쓰면 됨) - 외래키 삭제시 연쇄삭제
+	7. ON DELETE SET NULL(fk 뒤쪽에 쓰면 됨) - 외래키 삭제시 연결되어 있는 곳 NULL 값 지정
 ```
 
