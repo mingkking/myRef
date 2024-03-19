@@ -315,4 +315,16 @@ interface B{
 	6. ON DELETE CASCADE(fk 뒤쪽에 쓰면 됨) - 외래키 삭제시 연쇄삭제
 	7. ON DELETE SET NULL(fk 뒤쪽에 쓰면 됨) - 외래키 삭제시 연결되어 있는 곳 NULL 값 지정
 ```
+### 17. MySQL - 함수
+```
+1. LIKE
+	이름이 두번째 문자가 L인 사원명 출력
+	SELECT ename 
+	FROM emp
+	WHERE ename LIKE ('_L%');
 
+	이름에 L이 두 번 이상 포함된 사원명 출력
+	SELECT ename 
+	FROM emp
+	WHERE ename LIKE ('%L%L%');
+```
