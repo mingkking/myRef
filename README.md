@@ -294,6 +294,16 @@ interface B{
 5. 테이블 복사
 	create table [복사할테이블명]
 	as select [컬럼명], [컬럼명], ...deptno
-	from [복사해서만들어질테이블명]; 
+	from [복사해서만들어질테이블명];
+6. 컬럼 제약조건
+	1. PK (프라이머리 키 - 중복X, 널값X)
+		ALTER TABLE [테이블명] 
+		ADD CONSTRAINT [테이블명]_[컬럼명]_pk PRIMARY KEY ([컬럼명]);
+	2. UNIQUE (고유키 - 중복X, 널값 허용)
+		ALTER TABLE [테이블명] 
+		ADD CONSTRAINT [테이블명]_[컬럼명]_uq UNIQUE KEY ([컬럼명]);
+  	3. CHECK
+		ALTER TABLE [테이블명]
+		ADD CONSTRAINT [테이블명]_[컬럼명]_ck CHECK ([컬럼명] IN('?', '?'));
 ```
 
