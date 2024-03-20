@@ -343,6 +343,29 @@ interface B{
 15. LPAD / RPAD (str, n, ch) - n 자리수 만큼 확보 후 빈 공백에 특정 문자로 채움
 16. TRIM / LTRIM / RTRIM - 문자를 제거  (*)양쪽 공백 제거에 사용
 17. REPLACE ( column, str1, str2 ) - 문자열에서 str1을 str2로 대신
-
-
+18. CURDATE() - 년-월-일
+19. CURTIME() - 시:분:초
+20. NOW() - 년-월-일 시:분:초
+21. SYSDATE() - 년-월-일 시:분:초
+22. ADDDATE(날짜, 차이) - 날짜 + 차이
+23. SUBDATE(날짜, 차이) - 날짜 - 차이
+24. DATEDIFF(날짜1, 날짜2) - 날짜1 – 날짜2
+25. TIMEDIFF(시간1, 시간2) - 시간1 – 시간2
+26. TIMEDIFF(날짜1, 시간2) - 날짜1 – 시간2
+27. DAYOFWEEK(날짜) - 요일 ( 일요일 : 1 ~ )
+28. MONTHNAME(날짜) - 월이름
+29. LAST_DAY(날짜) - 해당 달의 마지막 날
+30. TIMESTAMPDIFF( MONTH | WEEK | DAY , 날짜1, 날짜2 ) - 날짜1과 날짜2의 차이
+31. if / case end
+	SELECT name, jumin,
+	if(substring(jumin,8,1)='1','남','여') AS gender
+	FROM info_tab;
+	
+	SELECT name, jumin,
+		CASE substring(jumin,8,1)
+			WHEN '1' THEN '남자'
+			WHEN '3' THEN '남자'
+			ELSE '여자'
+		END AS gender
+	FROM info_tab;
 ```
