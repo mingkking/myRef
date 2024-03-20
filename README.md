@@ -327,4 +327,22 @@ interface B{
 	SELECT ename 
 	FROM emp
 	WHERE ename LIKE ('%L%L%');
+2. ROUND (n ) - 숫자 n을 소숫점 반올림
+3. CEILING (n) - 가장 큰 정수
+4. FLOOR (n) - 가장 작은 정수
+5. TRUNCATE(n, i) - 숫자 n에서 i번째 기준으로 자르기
+6. MOD (n2, n1) - n2에서 n1을 나눈 나머지 연산
+7. POW (n2, n1) - n2의 n1 제곱값
+8. SQRT (n) - n의 제곱근의 값
+9. LOWER (str) - 알파벳을 소문자로 변환
+10. UPPER (str) - 알파벳을 대문자로 변환
+11. CONCAT (str1, str2) - 두 문자열을 연결
+12. SUBSTRING (str, i, n) - 문자열 중 i번째에서 n개의 일부 문자를 선택
+13. LENGTH (str) - 문자열의 길이
+14. LEFT(str, i) / RIGHT(str, i) - 문자열에서 i길이만큼 반환
+15. LPAD / RPAD (str, n, ch) - n 자리수 만큼 확보 후 빈 공백에 특정 문자로 채움
+16. TRIM / LTRIM / RTRIM - 문자를 제거  (*)양쪽 공백 제거에 사용
+17. REPLACE ( column, str1, str2 ) - 문자열에서 str1을 str2로 대신
+
+
 ```
