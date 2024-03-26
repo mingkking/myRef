@@ -370,3 +370,65 @@ interface B{
 		END AS gender
 	FROM info_tab;
 ```
+### 18. DB연동 - mysql
+```
+// 0. 필요한 변수
+String driver = "com.mysql.cj.jdbc.Driver";
+String url = "jdbc:mysql://175.114.130.8:3306/basic";
+String user = "scott";
+String pass = "tiger";
+
+try {
+	// 1. 드라이버 메모리 로딩
+	Class.forName(driver);
+	System.out.println("Driver 성공");
+
+	// 2. 연결객체 얻어오기
+	Connection con = DriverManager.getConnection(url, user, pass);
+	System.out.println("Con 성공");
+
+	// 3. 사용자 입력값을 받는다고 가정
+	int empno = 4331;
+	String ename = "그루트2";
+	String job = "개발";
+	int sal = 10000;
+	int mgr = 7788;
+	int sdeptno = 30;
+
+	// 4. SQL 문장 만들기
+	String sql = "INSERT INTO emp(empno, ename, job, sal, mgr, deptno) VALUES (?, ?, ?, ?, ?, ?)";
+	System.out.println("문장 작성");
+
+	// 5. 전송객체 얻어오기
+	/*
+	 * 		- statement : 완성된 sql 문장을 전송할 때
+	 * 		- PreparedStatement : 미완성된 sql 문장을 전송할 때 
+	 * 		- CallableStatement : pl-sql(function/procedure) 호출 할 때
+	 */
+	PreparedStatement ps = con.prepareStatement(sql);
+	System.out.println("전송객체");
+
+	// 6. 전송
+	/*
+	 * 		- executeUpdate() : INSERT, UPDATE, DELETE
+	 * 			reutrn 값이 int형
+	 * 		- executeQuery() : SELECT
+	 * 			return 값이 결과집합
+	 */
+		ps.setInt(1, i);
+		ps.setString(2, ename);
+		ps.setString(3, job);
+		ps.setInt(4, sal);
+		ps.setInt(5, mgr);
+		ps.setInt(6, sdeptno);
+		ps.executeUpdate();
+		System.out.println("SQL 전송");
+
+	// 7. 닫기
+	ps.close();
+	con.close();
+
+} catch (Exception e) {
+	System.out.println("DB연동 실패: " + e.getMessage());
+}
+```
