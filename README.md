@@ -432,3 +432,12 @@ try {
 	System.out.println("DB연동 실패: " + e.getMessage());
 }
 ```
+### 19. 트랜잭션 - java
+```
+// tranjection을 위해 auto commit 풀기
+con.setAutoCommit(false);
+// 잘못되었을 경우 rollback
+con.rollback();
+// 잘되었을 경우 commit
+con.commit();
+```
