@@ -441,3 +441,55 @@ con.rollback();
 // 잘되었을 경우 commit
 con.commit();
 ```
+### 20. HTML/CSS
+```
+웹에서 메소드 : 전송방식 (get/post)
+	get : http(네트워크의 전송규칙)에 헤더부분에 url로 데이타를 전송
+	post : http(네트워크의 전송규칙)에 바디부분으로 데이타를 전송
+1. Text 꾸미기
+	태그
+	<br> - 개행
+	<b>진하게</b><br/>
+	<strong>중요한</strong><br/>
+	<em>강조</em><br/>
+	<i>이태릭체</i><br/>
+	<b><i>이태릭체</i></b><br/>
+	<mark>하이라이팅</mark><br/>
+	보통문자 <small>한단계 작은 문자</small><br/>
+	보통문자 <sub>아래 첨자</sub><br/>
+	보통문자 <sup>윗첨자</sup><br/>
+	<ins>추가문자</ins><br/>
+	<del>삭제문자</del><br/>
+	&nbsp; - 띄어쓰기
+	<label> - user Interface의 제목 역
+2. form
+	method - get(url에 parameter가 보임), post(url에 parameter가 안 보임)
+	target - _blank(새창에서 페이지를 띄움), _parent(부모의 창에서 페이지를 띄움)
+	<form action="#" >
+		날짜: <input type="date" min="2011-11-01" max="2011-12-31" step="1" value="2011-11-11"/> <br/>
+		범위: <input type="range" min="0" max="100" step="1" value="50"/> <br/>
+		숫자: <input type="number" min="0" max="100" step="1" value="50"/> <br/>
+		검색: <input type="search"/> <br/>
+		URL: <input type="url" list="url_list"/>	<br/>
+		메일: <input type="email"/> <br/>
+		힌트문자: <input type="text" placeholder="이름을 입력하세요"/> <br/>
+		자동포커스: <input type="text" autofocus/> <br/>
+		빈값검사: <input type="text" required/> <br/>
+		정규표현식: <input type="text" pattern="(010|011)-\d{3,4}-\d{4}"/> <br/>
+		<input type="submit" value="Submit"/> 
+	</form>
+3. 선택자
+	E - 가중치 1
+	E#idname - 가중치 100
+	E.classname - 가중치 10
+	input[type="text"] - input에서 text속성
+	E F - (자손)
+	E > F - (자식)
+	E + F - (바로다음)
+	E ~ F - (형제) 
+	p:nth-of-type(2) - 부모로부터 2번째 <p>요소
+	text-align - 글자 정렬
+	text-decoration - <a>태그 밑줄 제거
+	border-style - dotted, dashed, solid, double, groove, ridge, inset, outset, inherit
+	border-width - 외곽선 두께
+```
