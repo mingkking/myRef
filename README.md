@@ -517,6 +517,9 @@ con.commit();
 			float: left;
 		}
 	</style>
+	width: 50%;
+	-webkit-transition-property: width;
+	-webkit-transition-duration: 2s;
 <!-- 프린트한다면 -->
 <style type="text/css" media="print">
 	#left, #footer, #header {
