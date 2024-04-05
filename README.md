@@ -487,9 +487,43 @@ con.commit();
 	E > F - (자식)
 	E + F - (바로다음)
 	E ~ F - (형제) 
-	p:nth-of-type(2) - 부모로부터 2번째 <p>요소
+	p:nth-of-type(2) - 부모로부터 2번째 <p>요소	
+4. CSS
+	overflow: auto - 보더 지정 후 텍스트 수가 그 칸을 벗어나면 스크롤이 생김
+	position: absolute - 위치를 절대값으로 바꿔 줌
+	position: fixed - 스크롤을 내려도 그 위치에 있음
+	display: inline-block - 개행되지 않게 끔
+	div:nth-of-type(odd):hover - hover 는 마우스가 올려져있을 때
+	align-content: center - 위 아래 가운데 배치하기
+	z-index: -4 - 그림이 앞쪽에 보이거나 뒤에 보이거나 순서를 정할 수 있음
 	text-align - 글자 정렬
 	text-decoration - <a>태그 밑줄 제거
 	border-style - dotted, dashed, solid, double, groove, ridge, inset, outset, inherit
 	border-width - 외곽선 두께
+	opacity: 0.9 - 투명도 /* 0.0 ~ 1.0 */
+	
+	
+<!-- 반응형 웹 원리 - 설정을 해줘야 함 -->
+	header -
+	left - float: left / 왼쪽 메뉴 영역
+	right - float: right / 오른쪽 콘텐츠 영역
+	footer - clear: both / 푸터 영역
+	<style type="text/css" media="screen and (max-width: 500px)">
+		#left{
+			display: none;
+		}
+		
+		#content {
+			float: left;
+		}
+	</style>
+<!-- 프린트한다면 -->
+<style type="text/css" media="print">
+	#left, #footer, #header {
+		display: none;
+	}
+	#content {
+		float: left;
+	}
+</style>
 ```
