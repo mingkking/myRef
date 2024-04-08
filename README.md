@@ -536,10 +536,21 @@ con.commit();
 	변수를 설정해놓고 밑에서 또 선언해도 잘 작동함. - 그래서 최근에는 let(변수)으로 변수를 설정한다.
 	자바와 다르게 들어가는 값에 따라서 자료형이 결정이 됨.
 	const(상수)로 변수를 설정해도 배열안에 원소 값은 변경 가능
+	if 안에서 0은 false 나머지 모든 숫자는 true
+	문자열 비교할 때 자바와 다르게 값 그대로를 비교
+	문자 "10" == 숫자 10 은 같음 / ===으로 비교하면 다름
+	string == string 을 하면 주소 값이 아닌 값 자체를 비교함
+	NaN(Not a Number)
+	
+	
 1. 변수 설정 
 	var byeunsu = "문자열";
 2. 웹화면 출력
-	document.write("변수의 값: " + byeunsu + "<br/>");
+	document.writeln("변수의 값: " + byeunsu);
 3. 콘솔창 출력
-	console.log("변수의 값: " + byeunsu + "<br/>"); 
+	console.log("변수의 값: " + byeunsu + "<br/>");
+4. for
+	for(var i = 0; i < arr.length; i++)
+	for(var i in arr) - i가 출력
+	for(var i of arr) - 값이 출력
 ```
