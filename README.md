@@ -543,6 +543,7 @@ con.commit();
 	NaN(Not a Number)
 	
 	
+	
 1. 변수 설정 
 	var byeunsu = "문자열";
 2. 웹화면 출력
@@ -553,4 +554,15 @@ con.commit();
 	for(var i = 0; i < arr.length; i++)
 	for(var i in arr) - i가 출력
 	for(var i of arr) - 값이 출력
+5. 함수
+	arr.join('/') - /기호로 나누기
+	arr.slice(3) - 자르기
+	arr.reverse() - 순서 반대로
+	arr.sort() - 오름차순정렬 / *문자만 정렬
+	arr.concat(arrTemp) - 배열에도 콘캣함수가 적용되지만 원본에는 영향을 주지 않음
+	arr.pop() - 스택 : 후입선출
+	arr.shift() - 큐 : 선입선출
+	arr.forEach( function(value, index) { - forEach 함수 문법
+		document.write(index + " : " + value + "<br/>");
+	}); 
 ```
