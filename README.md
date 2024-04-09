@@ -562,7 +562,62 @@ con.commit();
 	arr.concat(arrTemp) - 배열에도 콘캣함수가 적용되지만 원본에는 영향을 주지 않음
 	arr.pop() - 스택 : 후입선출
 	arr.shift() - 큐 : 선입선출
-	arr.forEach( function(value, index) { - forEach 함수 문법
+	arr.forEach( function(value, index) { - forEach 함수 문법 / 리턴 값이 없음
 		document.write(index + " : " + value + "<br/>");
-	}); 
+	});
+	var result = arr.map(function(value, index) { - map 함수 문법 / 리턴 값이 있음
+		return value * index;
+	});
+Map - 키, 발루
+	for (let [key, v] of m) {
+		/* document.write(`${key} : ${v} '<br/>'`); */
+		if( key === inputId & v === inputPw){
+			document.write(`<h1>로그인 성공</h1>`);
+			break;
+		}
+	}
+Set - 발루
+	for (let v of s) {
+		document.write(`${v} <br/>`);
+	}
+Date - 날짜
+	var d = new Date('2023/08/15');
+	document.writeln( d  + '<br/>');
+	document.writeln( d.getYear()  + '<br/>');
+	document.writeln( d.getFullYear()  + '<br/>');
+	document.writeln( d.getMonth()  + '<br/>');
+	document.writeln( d.getDate()  + '<br/>');
+	document.writeln( d.getDay()  + '<br/>');
+마지막 날짜
+	d.setDate(0);
+날짜 계산
+	var diff = (eDate - sDate)/(1000*60*60*24); // 1000=초단위, 60=분단위, 60=시간단위, 24=일단위
+패턴
+	var p = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w-.\/?%&=]*)?/gi;
+	var result = str.match(p);
+	for (var i = 0; i < result.length; i++) {
+		document.write(`${result[i]}<br/>`);
+	}
+
+이벤트
+	// [1] HTML에서 이벤트 함수를 호출
+	function btn_click() {
+		alert('이벤트발생');
+	}
+	// [2] 윈도우가 업로드 될 때까지 기다리고 이벤트 실행
+	window.onload = function() {
+		// [2] 이벤트 핸들러 방식 : html과 js 분리
+		document.getElementById('btn').onclick = function() {
+			alert(`이벤트2`);
+		}	
+	}
+	// [3] 윈도우가 업로드 될 때까지 기다리고 이벤트 실행
+	window.onload = function() {
+		// [3] 이벤트 리스터 방식
+		document.getElementById('btn').addEventListener('click', btn_click);
+		
+		function btn_click() {
+			alert('이벤트3');
+		}
+	}
 ```
