@@ -1,4 +1,8 @@
 # myRef
+```
+윤년
+	y % 4 == 0 && y % 100 != 0 || y % 400 == 0
+```
 
 ### 1. jdk 환경변수 설정하는 법
  - 1.  JAVA_HOME
@@ -541,6 +545,10 @@ con.commit();
 	문자 "10" == 숫자 10 은 같음 / ===으로 비교하면 다름
 	string == string 을 하면 주소 값이 아닌 값 자체를 비교함
 	NaN(Not a Number)
+	귀찮게 반복되는 멤버변수를 지정하고 싶을때는 myForm['txt'+i] 이용하기
+		for (let i = 0; i < 4; i++) {
+			document.myForm['txt'+i].value = "홍길동" + i;	
+		}
 	
 1. 변수 설정 
 	var byeunsu = "문자열";
@@ -557,8 +565,8 @@ con.commit();
 	alert - 경고 메세지
 	confirm("이 페이지는 이사갑니다. 이동할까요?") - true, false 값을 받을 수 있음
 	prompt("원하는 사이트를 입력하세요") - 값을 입력 받을 수 있음
-	let userName = document.forms[0].username.value - form 태그 들 중에 name속성 안에 username이라는 애를 가져오기
-	var userName = document.frm.username.value - 화면 form 태그 name이 frm 인 name속성 안에 username 이라는 애를 가져오기
+	let userName = document.forms[0].username.value - form 태그로 찾기
+	var userName = document.frm.username.value - 화면 form name속성으로 찾기
 	
 	arr.join('/') - /기호로 나누기
 	arr.slice(3) - 자르기
