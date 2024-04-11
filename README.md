@@ -542,8 +542,6 @@ con.commit();
 	string == string 을 하면 주소 값이 아닌 값 자체를 비교함
 	NaN(Not a Number)
 	
-	
-	
 1. 변수 설정 
 	var byeunsu = "문자열";
 	let byeunsu - 변수
@@ -558,6 +556,10 @@ con.commit();
 	location - url 이동
 	alert - 경고 메세지
 	confirm("이 페이지는 이사갑니다. 이동할까요?") - true, false 값을 받을 수 있음
+	prompt("원하는 사이트를 입력하세요") - 값을 입력 받을 수 있음
+	let userName = document.forms[0].username.value - form 태그 들 중에 name속성 안에 username이라는 애를 가져오기
+	var userName = document.frm.username.value - 화면 form 태그 name이 frm 인 name속성 안에 username 이라는 애를 가져오기
+	
 	arr.join('/') - /기호로 나누기
 	arr.slice(3) - 자르기
 	arr.reverse() - 순서 반대로
