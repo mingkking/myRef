@@ -546,15 +546,18 @@ con.commit();
 	
 1. 변수 설정 
 	var byeunsu = "문자열";
-2. 웹화면 출력
-	document.writeln("변수의 값: " + byeunsu);
-3. 콘솔창 출력
-	console.log("변수의 값: " + byeunsu + "<br/>");
-4. for
+	let byeunsu - 변수
+	const byeunsu - 상수
+2. for
 	for(var i = 0; i < arr.length; i++)
 	for(var i in arr) - i가 출력
 	for(var i of arr) - 값이 출력
-5. 함수
+3. 함수
+	console.log("변수의 값: " + byeunsu + "<br/>"); - 콘솔창 출력
+	document.writeln("변수의 값: " + byeunsu); - 웹화면 출력
+	location - url 이동
+	alert - 경고 메세지
+	confirm("이 페이지는 이사갑니다. 이동할까요?") - true, false 값을 받을 수 있음
 	arr.join('/') - /기호로 나누기
 	arr.slice(3) - 자르기
 	arr.reverse() - 순서 반대로
@@ -568,6 +571,7 @@ con.commit();
 	var result = arr.map(function(value, index) { - map 함수 문법 / 리턴 값이 있음
 		return value * index;
 	});
+	
 Map - 키, 발루
 	for (let [key, v] of m) {
 		/* document.write(`${key} : ${v} '<br/>'`); */
