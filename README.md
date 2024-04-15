@@ -549,7 +549,19 @@ con.commit();
 		for (let i = 0; i < 4; i++) {
 			document.myForm['txt'+i].value = "홍길동" + i;	
 		}
-	
+[참고]
+	자바 스크립트인 경우 소문자 대문자로 메소드와 클래스를 구별한다!
+   	1. 함수
+ 			(1) 선언
+ 				function func(){}
+ 			(2) 호출
+ 				func();
+ 		2. 클래스
+ 			(1) 선언
+ 				function student(){}
+ 			(2) 객체 생성
+ 				var s = new Student();
+
 1. 변수 설정 
 	var byeunsu = "문자열";
 	let byeunsu - 변수
