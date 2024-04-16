@@ -970,3 +970,32 @@ Date - 날짜
 		// 마우스를 올려놨을 때 2초 동안 왼쪽 여백이 15 증가 마우스를 내려놨을 때는 그 반대로 움직인다 끝
 	});
 ```
+```
+	$(function(){
+		// +버튼을 클릭했을 때
+		$('.fontSize button:eq(0)').click(function(){
+			$('#txt').animate({
+				color: 'white',
+				fontSize: '+=10px',
+				color: 'black'
+			}, 1000);
+		});
+		// +버튼을 클릭했을 때 끝
+		// -버튼을 클릭했을 때
+		$('.fontSize button:eq(1)').click(function(){
+			$('#txt').animate({
+				color: 'white',
+				fontSize: '-=10px',
+				color: 'black'
+			}, 1000);
+		});
+		// -버튼을 클릭했을 때 끝
+		// 글씨체 바꾸기
+		$('#fontstyle').change(function(){
+			$('#txt').css({
+				'font-family':$(this).val()
+			});
+		});
+		// 글씨체 바꾸기 끝
+	});
+```
