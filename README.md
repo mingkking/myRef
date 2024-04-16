@@ -886,3 +886,66 @@ Date - 날짜
 	});
 	// 화면이 로딩 될 때까지 기다림 끝
 ```
+```
+	// 화면 완료 후
+	$(function() {
+		// 테이블에서 짝수행을 css 적용
+		$('#celebs > table.data > tbody tr:odd').addClass('table_striping');
+	
+		// 테이블에 마우스가 올라갔을 때 td_mouseover 클래스 속성을 적용하고
+		$('#celebs > table.data > tbody tr').mouseenter(function() {
+			//$(this).addClass('td_mouseover');
+			$('#celebs > table.data > tbody tr:hover').addClass('td_mouseover');
+		});
+	
+		// 마우스가 내려가면 td_mouseover 클래스 속성을 제거
+		$('#celebs > table.data > tbody tr').mouseleave(function() {
+			//$(this).removeClass('td_mouseover');
+			$('#celebs > table.data > tbody tr').removeClass('td_mouseover');
+		});
+	
+		// 감추기 버튼이 눌려졌을 때
+		$('#hideButton').click(function() {
+			//$('#intro img').fadeOut(2000); // 2초동안 사라짐
+			$('#intro img').slideUp(2000); // 2초동안 위 왼쪽으로 사라짐
+		});
+		
+		// 보이기 버튼이 눌려졌을 때
+		$('#showButton').click(function() {
+			//$('#intro img').fadeIn(1); // 0.001초동안 나타남
+			$('#intro img').slideDown(2000); // 2초동안 위 왼쪽에서 나타남
+		});
+		
+		// 감추기/보이기 버튼이 눌려졌을 때
+		$('#toggleButton').click(function() {
+			//$('#intro img').toggle(2000); // 감추기/보이기 둘다
+			//$('#intro img').fadeToggle(2000); // 감추기/보이기 둘다
+			//$('#intro img').slideToggle(2000); // 감추기/보이기 둘다
+			// 함수 이용 없이
+			let img = $('#intro img'); // 이미지 가져오기
+			if(img.is(':visible')){ // 이미지가 보일때
+				img.fadeOut(1000); // 이미지 사라지게
+				$(this).val('보이기'); // 버튼의 글씨는 보이기로
+			}else{ // 이미지가 안보일때
+				img.fadeIn(1000);
+				$(this).val('안보이기');
+			}	
+			
+		});
+	
+	});
+```
+```
+	$(function(){
+		// img 위에 마우스를 올려놨을때
+		$('.header .menu .rollover img' ).hover(function(){
+			$(this).attr('src', $(this).attr('src').replace('off', 'on')); // 해당 이미지에 속성 src 를 바꾸는데 해당이미지의 src 속성에 들어있는 글자를 가져와서 off 를 on으로 바꾼다 
+		}
+		// img 위에 마우스를 올려놨을때 끝
+		// img 위에서 마우스가 벗어 났을 때
+		 , function(){
+			$(this).attr('src', $(this).attr('src').replace('on', 'off')); // 해당 이미지에 속성 src 를 바꾸는데 해당이미지의 src 속성에 들어있는 글자를 가져와서 on 을 off로 바꾼다
+		});
+		// img 위에서 마우스가 벗어 났을 때 끝
+	});
+```
