@@ -647,3 +647,242 @@ Date - 날짜
 		}
 	}
 ```
+### 22. JQuery
+```
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		var h = $('#here');
+		/*
+		h.click(function() {
+			h.text('클릭하면 글씨 변경');	
+		});
+		
+		h.mouseenter(function() {
+			h.text('마우스 들어감');
+		});
+		
+		h.mouseleave(function() {
+			h.text('마우스 나감');
+		});
+		
+		h.hover(function() {
+			h.css(
+				{'background':'pink'}	
+			);
+		}, function() {
+			h.css(
+				{'background':'yellow'}	
+			);
+		})
+		*/
+		/* h.fadeOut(2000).fadeIn(2000); */
+		h.slideUp(2000).slideDown(2000);
+		
+		let s = $('#student');
+		var a = s.find('#age');
+		a.css({'color':'#654321', 'font-size':'30px','background':'white'});
+	});
+```
+```
+	// 화면이 로딩 될 때까지 기다림
+	$(function() {
+		let man = $('.man'); // 화면에서 man이라는 클래스를 가진 태그를 가져옴
+		// 가져온 태그의 글씨색깔을 분홍색으로 변경
+		man.css( 
+			{'color':'pink'}
+		);
+		// 가져온 태그의 글씨색깔을 분홍색으로 변경 끝
+		// 위랑 같음
+		let woman = $('.woman');
+		woman.css(
+			{'background':'yellow'}
+		);
+		// 위랑 같음 끝
+		// 화면에 li태그를 클릭했을 때
+		$('li').click(function(){
+			alert($(this).text()); // 각 li에 해당하는 태그 안쪽 글자
+			$(this).text("반갑습니다."); // 각 li에 해당하는 태그 안쪽 글자를 반갑습니다 로 변경
+		});
+		// 화면에 li태그를 클릭했을 때 끝
+		
+	});
+	// 화면이 로딩 될 때까지 기다림 끝
+	// 화면이 로딩 될 때까지 기다림
+	$(function(){
+		let redBox = $('.inputText'); // inputText 클래스를 가져옴
+		// 포커싱이 되었을 때
+		redBox.focus(function(e){
+			$(this).addClass('active'); // 각 포커싱이 된 inputText에 속성 class="active" 를 추가
+			/*alert('OK');
+			e.preventDefault();*/
+		});
+		// 포커싱이 되었을 때 끝
+		// 포커싱이 없어졌을 때
+		redBox.blur(function(e){
+			$(this).removeClass('active');
+		});
+		// 포커싱이 없어졌을 때 끝
+	});
+	// 화면이 로딩 될 때까지 기다림 끝
+	// 화면이 로딩 될 때까지 기다림
+	$(function(){
+		$('#divText').click(function(){
+			$('#divText').text('<img src="images/grim.jpg">');
+		});
+		$('#divHtml').click(function(){
+			$('#divHtml').html('<img src="images/grim.jpg">');
+		});
+		$('#divEmpty').click(function(){
+			$('#divEmpty').empty();
+		});
+		$('#changeGrim').click(function(){
+			$('#changeGrim').attr('src', 'images/cat.jpg');
+		});
+		$('#changeGrim').click(function(){
+			let src = $('#changeGrim').attr('src');
+			$('#changeGrim').attr('src', src.replace('puppy', 'cat'));
+			
+		});
+		
+	});
+	// 화면이 로딩 될 때까지 기다림 끝
+	// 화면이 로딩 될 때까지 기다림
+	$(function(){
+		$('#check').click(function(){
+			let name = $('#tf');
+			let messege = $('#ta');
+			let addr = $('#sel');
+			let island = $('#sel_m option:selected');
+			let islandStr = "";
+			let gender = $('input[name=gender]:checked');
+			let love = $('input[name=love]:checked');
+			
+			let result = $('#result');
+			
+			for(let i=0; i<island.length; i++){
+				islandStr += island[i].value + " ";	
+			}
+			result.html("이름: " + name.val() + "<br/>메세지: " + messege.val() + "<br/>주소: " + addr.val() + "<br/>섬: " + islandStr + "<br/>성별: " + 				gender.val() + "<br/>애인: " + love.val());
+			
+		});
+	});
+	// 화면이 로딩 될 때까지 기다림 끝
+	// 화면이 로딩 될 때까지 기다림 
+	$(function(){
+		$('#init').click(function(){ // 초기화 버튼을 클릭했을 때
+			let name = $('#tf');
+			let messege = $('#ta');
+			let addr = $('#sel');
+			let island = $('#sel_m');
+			let gender = $('input[name=gender]');
+			let love = $('input[name=love]');
+			
+			name.val('내 이름은 홍길동입니다.');
+			messege.val('작성중....');
+			addr.val('마산');
+			island.val(['제주도', '거제도']);
+			gender.eq(1).prop('checked', 'true');
+			love.eq(0).prop('checked', 'true');
+		});
+	});
+	// 화면이 로딩 될 때까지 기다림 끝
+	// 5번
+	$(function(){
+		/*
+			부모/자식 관계 맺기
+				부모.append(자식)
+				자식.appendTo(부모)
+		*/
+		let actor = $('#actor');
+		let tae = $('#tae');
+		let su = $('#su');
+		let bin = $('#bin');
+		
+		actor.append(tae);
+		su.appendTo(actor);
+		/*
+			let n = $('div');
+			let n = $('#div');
+			let n = $('.div');
+			let n = $('div'); // 화면에 있는 div 요소를 선택하여 변수 n이 가리킴
+			let n = $('<div/>'); // div 요소의 객체에 메모리 상에 생성하고 변수 n이 가리킴
+		*/
+		let n = $('<div/>');
+		n.text('한배우'); // <div>한배우</div>
+		actor.append(n);
+		actor.append($('<div>두배우</div>')); // <div>두배우</div>
+		
+	});
+	
+	// 6번
+	$(function(){
+		$('.data').click(function(){
+			alert($(this).html());
+		});
+	});
+```
+```
+	// 화면이 로딩 될 때까지 기다림
+	$(function() {
+		// 첫 요소
+		//$('ul li').first().addClass('borderRed'); // ul 자손 li 중 첫 번째
+		//$('ul').find('li').eq(0).addClass('borderRed'); // ul에서 find로 li를 찾고 eq로 그중 첫번째
+		//$('ul > li:eq(0)').addClass('bg'); // ul 자식 1개 li 첫번째
+		$('ul > li:nth-child(1)').addClass('bg'); // ul 자식 모든 li 첫 번째 
+		
+		// 음식 중 세번째 요소
+		$('ul#food > li:eq(2)').addClass('borderRed'); // ul 태그 중 id가 food 인 ul 자식 li 중에서 세 번째 li에 클래스를 추가
+		
+		// 술 중에서 두번째 요소
+		$('ul:nth-of-type(2) > li:nth-of-type(2)').addClass('borderRed'); // 두 번째 ul 자식 li 중 2번 째
+		
+		// 튀김을 포함한 요소
+		//$('li:contains("튀김")').addClass('borderRed'); // 튀김을 포함한 li
+		let l = $('li').text();
+		for(let i=0; l.length; i++){
+		}
+			
+		 
+	});
+	// 화면이 로딩 될 때까지 기다림 끝
+```
+```
+	// 화면이 로딩 될 때까지 기다림
+	$(function() {
+		// 원래 이벤트 처리
+		/*
+		$('li').bind('click', function(){
+			$('#result').html($(this).html());
+			//$('#result').text($(this).text());
+		});
+		*/
+		// 축약형
+		// li를 클릭했을 때
+		$('li').click(function(evt){
+			$('#result').text($(this).text());
+			for(let prop in evt){
+				console.log( prop + "=" + evt[prop]);
+			}
+		});
+		// // li를 클릭했을 때 끝
+		
+		$('h1').css({'cursor':'pointer'}); // 해당하는 곳에 마우스를 갖다대면 손가락 모양으로 바뀜
+		
+		// h1 태그 클릭 (동적으로 li를 추가했는데 이벤트가 위쪽에 먹히지 않음)
+		$('h1').click(function(){
+			let li = $('<li></li>'); // li 태그 추가
+			li.text(new Date()); // li 태그에 날짜를 추가
+			$('ul').append(li); // ul의 자식으로 추가
+			$('li').css({'cursor':'pointer'}); // 해당하는 곳에 마우스를 갖다대면 손가락 모양으로 바뀜
+			
+		});
+		
+		// 동적으로 생성된 요소의 이벤트 처리
+		$('ul').on('click','li', function(){
+			$('#result').text($(this).text());
+		});
+		// 동적으로 생성된 요소의 이벤트 처리 끝
+	});
+	// 화면이 로딩 될 때까지 기다림 끝
+```
