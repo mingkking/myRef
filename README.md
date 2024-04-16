@@ -1050,7 +1050,7 @@ Date - 날짜
 						${$('#addr').val()}
 					</td>
 					<td>
-						<input id="del" type="button" value="삭제"/>
+						<input class="del" type="button" value="삭제"/>
 					</td>
 				</tr>`);
 				// 테이블 id 밑에 tbody 밑에 자식을 추가 끝
@@ -1060,7 +1060,7 @@ Date - 날짜
 		});
 		// 입력 버튼을 눌렀을 때 끝
 		// 동적으로 생성된 요소의 삭제 이벤트 처리
-		$('#listTable').on('click','#del', function(){ // id값 listTable에 동적으로 생성 된 삭제버튼에다가 클릭 이벤트를 만들어주기
+		$('#listTable').on('click','.del', function(){ // id값 listTable에 동적으로 생성 된 삭제버튼에다가 클릭 이벤트를 만들어주기
 			$(this).closest("tr").remove(); // 삭제 버튼 이벤트가 발생할 때 tr 행 전체를 삭제하기
 		});
 		// 동적으로 생성된 요소의 삭제 이벤트 처리 끝
