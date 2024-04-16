@@ -999,3 +999,72 @@ Date - 날짜
 		// 글씨체 바꾸기 끝
 	});
 ```
+```
+	// Example
+	$(function(){
+		// +버튼을 클릭했을 때
+		$('.fontSize button:eq(0)').click(function(){
+			$('#txt').animate({
+				color: 'white',
+				fontSize: '+=10px',
+				color: 'black'
+			}, 1000);
+		});
+		// +버튼을 클릭했을 때 끝
+		// -버튼을 클릭했을 때
+		$('.fontSize button:eq(1)').click(function(){
+			$('#txt').animate({
+				color: 'white',
+				fontSize: '-=10px',
+				color: 'black'
+			}, 1000);
+		});
+		// -버튼을 클릭했을 때 끝
+		// 글씨체 바꾸기
+		$('#fontstyle').change(function(){
+			$('#txt').css({
+				'font-family':$(this).val()
+			});
+		});
+		// 글씨체 바꾸기 끝
+	});
+	// Example 끝
+	// 9_연습_동적테이블
+	$(function(){
+		// 입력 버튼을 눌렀을 때
+		$('#bInsert').click(function(){
+			// 입력 값이 전부 다 있을 경우
+			if($('#name').val() != "" && $('#age').val() != "" && $('#tel').val() != "" && $('#addr').val() != ""){
+				// 테이블 id 밑에 tbody 밑에 자식을 추가
+				$('#listTable tbody').append(`<tr> 
+					<td>
+						${$('#name').val()}
+					</td>
+					<td>
+						${$('#age').val()}
+					</td>
+					<td>
+						${$('#tel').val()}
+					</td>
+					<td>
+						${$('#addr').val()}
+					</td>
+					<td>
+						<input id="del" type="button" value="삭제"/>
+					</td>
+				</tr>`);
+				// 테이블 id 밑에 tbody 밑에 자식을 추가 끝
+				$('#listTable tbody tr').css({'cursor':'pointer'});
+			}
+			// 입력 값이 전부 다 있을 경우 끝
+		});
+		// 입력 버튼을 눌렀을 때 끝
+		// 동적으로 생성된 요소의 삭제 이벤트 처리
+		$('#listTable').on('click','#del', function(){ // id값 listTable에 동적으로 생성 된 삭제버튼에다가 클릭 이벤트를 만들어주기
+			$(this).closest("tr").remove(); // 삭제 버튼 이벤트가 발생할 때 tr 행 전체를 삭제하기
+		});
+		// 동적으로 생성된 요소의 삭제 이벤트 처리 끝
+		
+	});
+	// 9_연습_동적테이블 끝
+```
