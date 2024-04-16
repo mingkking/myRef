@@ -949,3 +949,24 @@ Date - 날짜
 		// img 위에서 마우스가 벗어 났을 때 끝
 	});
 ```
+```
+	$(function(){
+		// 2초 동안 여백이 20px 글씨크기가 30px 로 바뀐다 
+		$('p#intro').animate({ 
+			padding : '20px',
+			fontSize : '30px'
+		}, 2000);
+		// 2초 동안 여백이 20px 글씨크기가 30px 로 바뀐다 끝
+		// 마우스를 올려놨을 때 2초 동안 왼쪽 여백이 15 증가 마우스를 내려놨을 때는 그 반대로 움직인다
+		$('#navigation a').hover(function(){
+			$(this).animate({
+				paddingLeft : '+=15px'
+			}, 2000);
+		}, function(){
+			$(this).animate({
+				paddingLeft : '-=15px'
+			}, 2000);
+		});
+		// 마우스를 올려놨을 때 2초 동안 왼쪽 여백이 15 증가 마우스를 내려놨을 때는 그 반대로 움직인다 끝
+	});
+```
