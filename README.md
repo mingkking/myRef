@@ -1128,8 +1128,51 @@ Date - 날짜
 ```
 1
 ```
+달력
 ```
-2
+<!-- 달력 꾸며주는 -->
+<link rel="stylesheet" type="text/css"
+  href="http://code.jquery.com/ui/1.10.0/themes/ui-lightness/jquery-ui.css" />
+<!-- 제이쿼리 -->
+<script type="text/javascript"  src="http://code.jquery.com/jquery-1.9.0.js"></script>
+<script type="text/javascript"   src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+<!-- Datepicker 한국어  -->
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/i18n/datepicker-ko.js"></script>
+<script type="text/javascript">
+$(function(){
+   var onul = new Date();
+   var year = onul.getFullYear();
+   var month = onul.getMonth()+1;
+   var day = onul.getDate();
+   
+   $('#today').text(year+"년"+month+"월"+day+"일");
+   
+   $('#fromDate').datepicker({
+      onClose : function(selectedDate){ //selectedDate : 선택한 날짜
+         // minDate가 내가 선택한 날짜
+         // 내가 시작 날짜를 15일로 정하면 그 전의 날짜는 선택하지 못하게 막음
+         $("#toDate").datepicker("option","minDate",selectedDate);
+         
+      }
+   });
+   
+   $('#toDate').datepicker({
+      onClose : function(selectedDate){
+         // maxDate가 내가 선택한 날짜
+         // 내가 끝날 날짜를 15일로 정하면 그 이후의 날짜는 선택하지 못하게 막음
+         $("#fromDate").datepicker("option","maxDate",selectedDate);
+      }
+   });
+});
+</script>
+</head>
+<body>
+오늘의 날짜 : <span id="today"></span>
+<hr/>
+<label for="fromDate">시작일</label>
+<input id="fromDate" type="text">~
+<label for="toDate">종료일</label>
+<input id="toDate" type="text">
 ```
 그림 슬라이드
 ```
