@@ -1125,3 +1125,64 @@ Date - 날짜
 		 
 	});
 ```
+```
+1
+```
+```
+2
+```
+그림 슬라이드
+```
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<title> Plugin </title>
+	<style type="text/css">
+	*{margin:0;padding:0;}
+	img{border:none 0;vertical-align:top;}
+	#banner_wrap{position:relative;width:470px;margin:0 auto;}
+	
+	#prevBtn{position:absolute;left:0;top:10px;} 
+	#nextBtn{position:absolute;right:15px;top:10px;} 
+	</style>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+	<!-- 제이쿼리 -->>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<!-- bxslider -->
+	<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+	
+	<script>
+	  $(document).ready(function(){
+		// 이미지 파일들을 슬라이드 형식으로 바뀜
+	    $("#slide_banner").bxSlider({
+	    	minSlides : 4, // 최소 표현되는 그림
+	    	maxSlides : 4, // 최대 표현되는 그림
+	    	slideMargin : 10, // 슬라이드의 마진
+	    	slideWidth : 80, // 슬라이드의 너비
+	    	moveSlides : 1, // 그림 움직이는 개수
+	    	auto : true // 자동으로 움직이게
+	    	
+	    });
+	  });
+	</script>
+	
+	</head>
+	<body>
+	 <div id="banner_wrap">
+	     <!-- bxslider가 인식할 수 있도록 구조 변경 -->
+	      <div id="slide_banner">
+	         <div><a href="#"><img src="images/pic_t1.jpg" alt="사진1" /></a></div>
+	         <div><a href="#"><img src="images/pic_t2.jpg" alt="사진2" /></a></div>
+	         <div><a href="#"><img src="images/pic_t3.jpg" alt="사진3" /></a></div>
+	         <div><a href="#"><img src="images/pic_t4.jpg" alt="사진4" /></a></div>
+	         <div><a href="#"><img src="images/pic_t5.jpg" alt="사진5" /></a></div>
+	         <div><a href="#"><img src="images/pic_t6.jpg" alt="사진6" /></a></div>
+	         <div><a href="#"><img src="images/pic_t7.jpg" alt="사진7" /></a></div>
+	         <div><a href="#"><img src="images/pic_t8.jpg" alt="사진8" /></a></div>
+	      </div>    
+	</div>
+	   
+	</body>
+	</html>
+```
