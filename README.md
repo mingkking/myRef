@@ -1125,8 +1125,36 @@ Date - 날짜
 		 
 	});
 ```
+팝업
 ```
-1
+  <!-- prettyPopin의 표준 스타일을 임포트（1） -->
+  <link rel=stylesheet    href="css/prettyPopin.css" type="text/css" />
+
+  <!-- jQuery라이브러리를 임포트（2） -->
+  <script type="text/javascript"   src="../../lib/jquery-1.9.1.js"></script>
+
+  <!-- prettyPopin라이브러리를 임포트（3） -->
+  <script type="text/javascript"   src="js/jquery.prettyPopin.js"></script>
+  <!-- js 외부파일 -->
+  <script type="text/javascript"  src="js/scripts.js"></script>
+	$(function(){
+	// prettyPopin = 팝업창 띄우기
+	// 속성 ref 이 prettyPopin 인 첫 번째 a 태그
+	$('a[rel="prettyPopin"]:eq(0)').prettyPopin({
+		width: 500
+	});
+	// 속성 ref 이 prettyPopin 인 첫 번째 a 태그 끝
+	// 속성 ref 이 prettyPopin 인 두 번째 a 태그
+	$('a[rel="prettyPopin"]:eq(1)').prettyPopin({
+		width: 500,
+		// 팝업창을 닫았을 때 함수 실행
+		callback : function(){
+			alert('팝업을 닫습니다.');
+		}
+		// 팝업창을 닫았을 때 함수 실행 끝
+	});
+	// 속성 ref 이 prettyPopin 인 두 번째 a 태그 끝
+});
 ```
 달력
 ```
