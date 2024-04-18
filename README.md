@@ -648,6 +648,7 @@ Date - 날짜
 	}
 ```
 ### 22. JQuery
+$선택자로 가져와서 css 주기
 ```
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script type="text/javascript">
