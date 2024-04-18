@@ -1344,3 +1344,16 @@ jStorage
 	});
 </script>
 ```
+### 22. JSP
+에러났을 때 페이지 이동 - 보통은 web.xml에 설정해놓음
+```
+	<%@ page errorPage="02_NormalErrorPage.jsp" %>
+```
+다른 페이지 삽입
+```
+	<%@ include file="04_footer.jsp" %>
+```
+jsp에서 한글이 깨질 때
+```
+	request.setCharacterEncoding("UTF-8");
+```
