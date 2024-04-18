@@ -1257,3 +1257,57 @@ $(function(){
 	</body>
 	</html>
 ```
+쿠키
+```
+<!-- 제이쿼리 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<!-- 쿠키 플러그인 -->
+<script type="text/javascript"   src="js/jquery.cookie.js"></script>
+<!-- 자바스크립트 작성 -->
+<script type="text/javascript">
+	$(function() {
+		if($.cookie('promotion') != 'no' ){
+			window.open("9_promotion.html","","width=400, height=360");	
+		}
+	});
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script type="text/javascript"   src="js/jquery.cookie.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$('#closeWin').click(function() {
+			if( $('input[type="checkbox"]').is(':checked') ){
+				$.cookie("promotion", "no", {expires: 1});
+			}
+			window.close();
+		});
+	});
+</script>
+
+<script type="text/javascript">
+	/*
+	 	웹상에서 쿠키
+	 		- 클라이언트(웹)에 저장하는 데이타(정보)
+	 		- 보안 취약
+	 		- 문자열만 저장
+	 */
+	$(function() {
+		// 2. 화면에 뜨자마자 쿠키 값 가져오기
+		let cookieVar = $.cookie('myemail');
+		if(cookieVar){
+			$('#txtMail').val(cookieVar);
+		}
+		
+		// 1. 버튼이 눌렸을 때 쿠키 입력 값 저장
+		$('#btnSave').click(function() {
+			let msg = $('#txtMail').val(); 
+			$.cookie('myemail', "즐 " + msg, { // myemail 이 key 값
+				expires: 1, // 하루동안 보관 / 안 쓰면 계속 보관
+			}); // 쿠키에 입력 값 저장
+			
+			$('#txtMail').val(''); // 입력 값 지우기
+		});
+	});
+</script>
+```
