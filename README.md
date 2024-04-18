@@ -1311,3 +1311,35 @@ $(function(){
 	});
 </script>
 ```
+jStorage
+```
+<!-- jQuery라이브러리를 임포트 -->
+ <script type="text/javascript"  src="http://code.jquery.com/jquery-1.9.0.js"></script>
+ <!-- jstorage라이브러리를 임포트 -->
+ <script type="text/javascript" src="js/jstorage.min.js"></script>
+ <!-- js작성 -->
+ <script type="text/javascript">
+	$(function() {
+		/*
+			jStorage 웹에 직접 지워주기 전까지 계속 저장하고 있는 저장창고? 같은 느낌
+		*/
+		// jStorage에 myname, mymemo 로 저장한 값을 불러온다
+		let myname = $.jStorage.get('myname');
+		let mymemo = $.jStorage.get('mymemo');
+		
+		// 등록버튼 눌렀을 때
+		$('#set').click(function() {
+			// jStorage에 myname, mymemo 로 저장
+			$.jStorage.set('myname', $('#name').val());
+			$.jStorage.set('mymemo', $('#memo').val());
+		});
+		
+		// 삭제버튼 눌렀을 때
+		$('#del').click(function() {
+			// jStorage에 myname, mymemo 삭제 
+			$.jStorage.deleteKey('myname');
+			$.jStorage.deleteKey('mymemo');
+		});
+	});
+</script>
+```
