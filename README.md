@@ -1357,3 +1357,7 @@ jsp에서 한글이 깨질 때
 ```
 	request.setCharacterEncoding("UTF-8");
 ```
+jsp 페이지 이동
+```
+	response.sendRedirect("04_responseSecond.jsp");
+```
