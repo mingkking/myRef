@@ -1430,3 +1430,56 @@ jsp 세션 값 얻어오기
 	//# 3. null이 아니라면 String 형변환하여 변수에 지정
 	String user = (String)id;
 ```
+jsp 세션 메소드
+```
+	getAttribute()
+	setAttribute()
+	removeAttribute()
+	invalidate() - 세션 전체 삭제 (로그아웃)
+```
+jsp 장바구니 담기
+```
+	request.setCharacterEncoding("utf-8");
+	ArrayList<Goods> glist = null;
+	Goods vo = null;
+
+	// 1. Form의 값(hidden값) 넘겨받기 ( id, name, price )
+	String id = request.getParameter("id");
+	String name = request.getParameter("name");;
+	int price = Integer.parseInt(request.getParameter("price"));
+	
+	// 2. 세션의 cart 속성을 얻어온다.
+	Object obj = session.getAttribute("cart");
+	
+	// 3. 만일 null이면 ArrayList 객체 새로 생성하고 그렇지 않으면 ArrayList 변수(glist)에 지정
+	if(obj == null){
+		glist = new ArrayList<Goods>();
+	}else{
+		glist = (ArrayList<Goods>)obj;
+	}
+	
+	// 4. 1번의 값들을 Goods 객체로 생성후 ArrayList 에 추가
+	glist.add(new Goods(id, name, price));
+	
+	// 5. 세션에 cart 라는 이름에 ArrayList를 저장
+	session.setAttribute("cart", glist);
+```
+jsp 구매완료 후 장바구니 삭제
+```
+	ArrayList<Goods> glist = null;
+
+	request.setCharacterEncoding("utf-8");
+	
+	// 1. 세션에서 지정한 cart 속성값을 얻어온다
+	Object obj = session.getAttribute("cart");
+	
+	// 2. 위의 값이 null 이면 리턴하고, 그렇지 않으면 glist 에 세션의 값을 지정
+	if(obj == null){
+		return;
+	}else{
+		glist = (ArrayList<Goods>)obj;
+	}
+	
+	// 3. 세션에서 속성을 제거한다
+	session.removeAttribute("cart");
+```
