@@ -1361,3 +1361,28 @@ jsp 페이지 이동
 ```
 	response.sendRedirect("04_responseSecond.jsp");
 ```
+jsp 쿠키 생성
+```
+	// 1. Cookie 객체 생성
+	Cookie c = new Cookie("id", "jumki12");
+	
+	// 2. 속성 부여
+	c.setMaxAge(5); // 1초 60초 3초
+	
+	// 3. 클라이언트에 쿠키 전송
+	response.addCookie(c);
+```
+jsp 쿠키 값 가져오기
+```
+	// 1. 클라이언트로부터 Cookie를 얻어옴 
+	Cookie[] c = request.getCookies();
+	
+	// 2. 쿠키 이름 중에 "yourid"가 있다면 그 쿠키의 값을 출력
+	String id = "";
+	for(int i = 0; i < c.length; i++){
+		System.out.println(c[i].getName() + " " + c[i].getValue());
+		if(c[i].getName().equals("id")){
+			id = c[i].getValue(); 
+		}
+	}
+```
