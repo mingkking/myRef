@@ -1386,3 +1386,39 @@ jsp 쿠키 값 가져오기
 		}
 	}
 ```
+jsp 세션 생성
+```
+	// 실제로는 DB에서 가져와야하는 값
+	String saveUser = "jumki12";
+	String savePass = "1234";
+	
+	// 이전화면 폼에서 넘겨받는 값
+	String user = request.getParameter("user");
+	String pass = request.getParameter("pass");
+			
+	// user, password가 같을 때 로그인 성공, 그렇지 않으면 로그인 실패
+	if( ( user.equals(saveUser) ) && ( pass.equals(savePass) ) ){
+		// #2. 세션에 "id"라는 이름에 변수 user 값을 저장
+		// 서버에 메모리에 저장 , 기본 30분 저장 , 웹브라우저를 닫으면 사라짐
+		session.setAttribute("id", user); 
+		
+		// #1. 로그인 성공하면 바로 MainPage.jsp를 요청
+		response.sendRedirect("MainPage.jsp");
+	} else {
+
+		// #1. 로그인에 실패하면 바로 LoginForm.jsp을 요청
+		response.sendRedirect("LoginForm.jsp");
+	}
+```
+jsp 세션 값 얻어오기
+```
+	//# 1."id"로 저장된 세션값을 얻어온다.
+	Object id = (String)session.getAttribute("id");
+	//# 2. 값이 null이라면 LoginForm.jsp로 페이지 이동
+	if(id == null){
+		response.sendRedirect("LoginForm.jsp");
+		return;
+	}
+	//# 3. null이 아니라면 String 형변환하여 변수에 지정
+	String user = (String)id;
+```
