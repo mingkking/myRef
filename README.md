@@ -1525,3 +1525,53 @@ ajax 축약형
 ```
 	$.get('02_server.jsp', param, parseData);
 ```
+ajax - dataType = 'xml'
+```
+	// 가져오기 버튼이 눌렸을 때
+	$('#btnSelect').click(function() {
+		$.ajax({
+			type : 'get',
+			url : 'DataSelect.jsp',
+			dataType : 'xml',
+			success : selectResult,
+			error : function(err) {
+				alert("서버전송 실패");
+				console.log(err);
+			}
+		}); // $.ajax
+		
+		$('#tbd').empty(); // 기존에 있는 동적 테이블 삭제
+		function selectResult(result) {
+			let person = $(result).find('person');
+			person.each(function() {
+				let name = $(this).find('name').text();
+				let age = $(this).find('age').text();
+				let tel = $(this).find('tel').text();
+				let addr = $(this).find('addr').text();
+				
+				$('#tbd').append('<tr>'
+					+ '<td>' + name + '</td>'
+					+ '<td>' + age + '</td>'
+					+ '<td>' + tel + '</td>'
+					+ '<td>' + addr + '</td>'
+					+ '</tr>'
+				);
+			});
+		}
+		
+	}); // $('#btnSelect').click
+```
+```
+	rtn_xml += "<customer>";
+
+	while (rs.next()){		
+		rtn_xml += "<person>";
+		rtn_xml += "<name>" + rs.getString("name") + " </name>";
+		rtn_xml += "<age>" + rs.getString("age") +  "</age>";
+		rtn_xml += "<tel>" + rs.getString("tel") +  "</tel>";
+		rtn_xml += "<addr>" + rs.getString("addr") +  "</addr>";
+		rtn_xml += "</person>";		
+	}	
+	rtn_xml += "</customer>";
+	out.write(rtn_xml);
+```
