@@ -1520,3 +1520,7 @@ ajax
 		}
 	});
 ```
+ajax 축약형
+```
+	$.get('02_server.jsp', param, parseData);
+```
