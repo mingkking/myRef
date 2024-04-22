@@ -1500,3 +1500,23 @@ jsp 빈즈 액션태그
 	<jsp:forward> 다른페이지로 이동
 	<jsp:param> jsp 페이지에 프로퍼티 추가
 ```
+ajax
+```
+	let param = { 
+		cate : 'book', 
+		name : 'kim' 
+	};
+	
+	// 비동기 통신(ajax)
+	// 화면을 가만히 있는 상태에서 서버에 요청하고 그 결과 받아오기
+	$.ajax({
+		type : 'get',
+		url : '02_server.jsp',
+		data : param,
+		success : parseData,
+		error : function(err) {
+			alert('에러발생');
+			console.log(err);
+		}
+	});
+```
