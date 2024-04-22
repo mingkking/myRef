@@ -1513,6 +1513,7 @@ ajax
 		type : 'get',
 		url : '02_server.jsp',
 		data : param,
+		dataType : 'text', // 응답 데이타 종류 (text/html/xml/json.....)
 		success : parseData,
 		error : function(err) {
 			alert('에러발생');
