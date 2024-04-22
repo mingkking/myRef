@@ -1360,6 +1360,7 @@ jsp에서 한글이 깨질 때
 jsp 페이지 이동
 ```
 	response.sendRedirect("04_responseSecond.jsp");
+	<jsp:forward page="02_forwardSecond.jsp"/>
 ```
 jsp 쿠키 생성
 ```
@@ -1482,4 +1483,20 @@ jsp 구매완료 후 장바구니 삭제
 	
 	// 3. 세션에서 속성을 제거한다
 	session.removeAttribute("cart");
+```
+jsp 빈즈 액션태그
+```
+	<jsp:useBean> 자바빈 객체 생성
+		<jsp:useBean id="빈이름" class="빈클래스이름"
+		scope="범위"></jsp:useBean> - scope(자바빈 객체가 저장될 영역)
+	<jsp:setProperty> 자바빈 프로퍼티 변경
+		<jsp:setProperty name="자바빈" property="이름"
+		</jsp:setProperty> - 추가속성 value(변경할 프로퍼티 값) , param(프로퍼티 값에 파라미터 값 대입)
+	<jsp:getProperty> 자바빈 프로퍼티 읽기
+	<jsp:include> 다른페이지를 동적 삽입
+		<jsp:include page="03_paramImage.jsp"> // 페이지를 삽입하면서 name 벨류 값을 바꿀 수 있음
+			<jsp:param value="sp" name="lang"/>
+		</jsp:include>
+	<jsp:forward> 다른페이지로 이동
+	<jsp:param> jsp 페이지에 프로퍼티 추가
 ```
