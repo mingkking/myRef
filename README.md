@@ -1575,3 +1575,131 @@ ajax - dataType = 'xml'
 	rtn_xml += "</customer>";
 	out.write(rtn_xml);
 ```
+### 23. mybatis
+mybatis-config.xml
+```
+	<?xml version="1.0" encoding="UTF-8" ?>
+	<!DOCTYPE configuration
+	 PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	 "http://mybatis.org/dtd/mybatis-3-config.dtd">
+	<configuration>
+		<!-- db설정 db.properties -->
+		<properties resource="db.properties"/>
+		<!-- 추가 설정 -->
+		<settings>
+			<setting name="mapUnderscoreToCamelCase" value="true"/>
+		</settings>
+		<environments default="development">
+			<environment id="development">
+				<transactionManager type="JDBC" />
+				<dataSource type="POOLED">
+					<property name="driver" value="${driver}" />
+					<property name="url" value="${url}" />
+					<property name="username" value="${username}" />
+					<property name="password" value="${password}" />
+				</dataSource>
+			</environment>
+		</environments>
+		<mappers>
+			<mapper resource="mybatis/guest/mapper/CommentMapper.xml" />
+		</mappers>
+	</configuration>
+```
+CommentMapper.xml
+```
+	<?xml version="1.0" encoding="UTF-8" ?>
+	<!DOCTYPE mapper
+	 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="CommentMapper">
+		<!-- [중요] resultMap 사용하지 않을 예정 
+			 	   우리는 resultType만 사용할 예정
+		-->
+		<!-- parameterType에 hashmap을 넣고 키에 따라서 조건을 줄수 있음
+			 그래서 하나의 select 태그로 여러 검색이 가능함
+		 -->
+		<select id="selectComment" parameterType="hashmap" resultType="mybatis.guest.model.CommentVO">
+			SELECT * 
+			FROM comment_tab
+			<where>
+				<if test="commentNo != null">
+					comment_no = #{commentNo}
+				</if>
+			</where>
+		</select>
+		
+		<insert id="insertComment" parameterType="mybatis.guest.model.CommentVO">
+			INSERT INTO comment_tab(user_id, comment_content, reg_date)
+			VALUES(#{userId}, #{commentContent}, sysdate())
+		</insert>
+		
+		
+	</mapper>
+```
+CommentRepository.java
+```
+	package mybatis.guest.session;
+	import java.io.*;
+	import java.util.*;
+	import mybatis.guest.model.CommentVO;
+	import org.apache.ibatis.io.Resources;
+	import org.apache.ibatis.session.*;
+	
+	public class CommentRepository 
+	{
+		//	private final String namespace = "CommentMapper";
+	
+		private SqlSessionFactory getSqlSessionFactory() {
+			
+			InputStream inputStream;
+			try {
+				inputStream = Resources.getResourceAsStream("mybatis-config.xml");
+			} catch (IOException e) {
+				throw new IllegalArgumentException(e);
+			}
+			SqlSessionFactory sessFactory =  new SqlSessionFactoryBuilder().build(inputStream);
+			return sessFactory;
+		}
+		
+		/*
+		 * JDBC : Connection (연결)
+		 * mybatis : SqlSession (연결)
+		 */
+		public List<CommentVO> selectComment(){
+			SqlSession session = getSqlSessionFactory().openSession();
+			try {
+				List<CommentVO> list = session.selectList("CommentMapper.selectComment");
+				return list;
+			}finally {
+				session.close(); // 연결 객체를 반환
+			}
+		}
+		
+		public void insertComment(CommentVO vo){
+			SqlSession session = getSqlSessionFactory().openSession();
+			try {
+				int result = session.insert("CommentMapper.insertComment", vo);
+				if(result != 0) {
+					session.commit();
+				}else {
+					session.rollback();
+				}
+			}finally {
+				session.close(); // 연결 객체를 반환
+			}
+		}
+		
+		public CommentVO selectCommentByPk(int commentNo){
+			SqlSession session = getSqlSessionFactory().openSession();
+			try {
+				HashMap map = new HashMap();
+				map.put("commentNo", commentNo);
+				CommentVO vo = session.selectOne("CommentMapper.selectComment", map);
+				return vo;
+			}finally {
+				session.close(); // 연결 객체를 반환
+			}
+		}
+		
+	}
+```
