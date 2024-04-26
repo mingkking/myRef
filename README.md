@@ -1506,6 +1506,11 @@ jsp에서 데이타 받는 방법
 	${sessionScope.login } - 세션 값
 	${cookie.isFlag.value } - 쿠키 값
 ```
+JSTL
+```
+	lib에 jstl.jar , standard.jar 세팅 후
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+```
 ajax
 ```
 	let param = { 
