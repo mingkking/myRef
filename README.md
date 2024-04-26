@@ -1510,6 +1510,52 @@ JSTL
 ```
 	lib에 jstl.jar , standard.jar 세팅 후
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<!-- 변수 선언 -->
+	<c:set var="gender" value="female"/>
+	
+	<!-- if문 -->
+	<c:if test="${gender == 'male' }">
+		당신은 남자입니다.
+	</c:if> <br/>
+	<c:if test="${gender == 'female' }">
+		당신은 여자입니다.
+	</c:if> <br/>
+	
+	<!-- 변수 선언 -->
+	<c:set var="age" value="9"/>
+	
+	<!-- choose when -->
+	<c:choose>
+	
+		<c:when test="${age < 10 }">
+			<c:out value="${gender }"></c:out>
+		</c:when>
+		<c:when test="${age >= 10 && age < 20 }">
+			<c:out value="청소년">밍낑</c:out>
+		</c:when>
+		<c:otherwise>어른밍낑</c:otherwise>
+	</c:choose>
+	
+	<!-- 변수 선언 -->
+	<c:set var="sum" value="0"/>
+	
+	<!-- forEach -->
+	<c:forEach var="i" begin="1" end="100">
+		<c:set var="sum" value="${sum+i }"></c:set>
+	</c:forEach>
+	<hr/>
+	1~100까지의 합 : ${sum }
+	<hr/>
+	
+	<!-- 1부터 100까지의 홀수의 합과 짝수의 합을 출력하기 -->
+	<c:forEach var="i" begin="1" end="100">
+		<c:if test="${i % 2 == 0 }">
+			<c:set var="even" value="${even+i }"></c:set>
+		</c:if>
+		<c:if test="${i % 2 != 0 }">
+			<c:set var="odd" value="${odd+i }"></c:set>
+		</c:if>
+	</c:forEach>
 ```
 ajax
 ```
