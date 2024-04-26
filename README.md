@@ -1500,6 +1500,12 @@ jsp 빈즈 액션태그
 	<jsp:forward> 다른페이지로 이동
 	<jsp:param> jsp 페이지에 프로퍼티 추가
 ```
+jsp에서 데이타 받는 방법
+```
+	${param.data } - 파라미터 값
+	${sessionScope.login } - 세션 값
+	${cookie.isFlag.value } - 쿠키 값
+```
 ajax
 ```
 	let param = { 
