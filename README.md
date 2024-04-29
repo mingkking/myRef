@@ -1787,3 +1787,16 @@ applicationContext.xml - bean 정의
 		Message bean2 = context.getBean("en", Message.class);
 		bean2.sayHello("Jane");
 ```
+bean 생성할 때 setter로 값 지정해놓기
+```
+	<!-- 기본형 멤버값 지정 
+		1. setter 이용
+	-->
+	<bean id="member" class="ex2_xml_ref.MemberBean">
+		<property name="name" value="홍길동"></property>
+		<property name="age" value="34"></property>
+		<property name="message">
+			<value>쿄쿄쿄</value>
+		</property>
+	</bean>
+```
