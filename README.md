@@ -1928,3 +1928,18 @@ applicationContext.xml
 ```
 	<context:component-scan base-package="ex4_annotation"></context:component-scan>
 ```
+@Autowired
+@Qualifier("outputer2") - 2개가 있을때 오토와이어를 쓰고 퀄리파이어로 id명을 입력
+```
+	@Autowired
+	@Qualifier("outputer2")
+	private Outputer outputer;
+
+	<bean id="outputer" class="ex5_autowired.OutputerImpl">
+		<property name="path" value="src\\ex5_autowired\\save.txt"></property>
+	</bean>
+
+	<bean id="outputer2" class="ex5_autowired.OutputerImpl">
+		<property name="path" value="src\\ex5_autowired\\message.txt"></property>
+	</bean>
+```
