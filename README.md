@@ -1760,3 +1760,13 @@ CommentRepository.java
 		
 	}
 ```
+### 24. spring
+pom.xml 세팅 - spring-context
+```
+	<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-context</artifactId>
+	    <version>5.3.23</version>
+	</dependency>
+```
