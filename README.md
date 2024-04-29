@@ -1874,6 +1874,55 @@ list형식 bean
 	<bean id="m2" class="ex3_xml_list.MemberBean">
 		<constructor-arg index="2" value="홍길국"></constructor-arg>
 		<constructor-arg index="1" value="22"></constructor-arg>
-		<constructor-arg index="0" value="쿄쿄쿄"	></constructor-arg>
+		<constructor-arg index="0" value="쿄쿄쿄"></constructor-arg>
 	</bean>
+```
+### 어노테이션
+@Component - MemberBean
+```
+	@Component
+	public class MemberBean {
+		private String name = "홍길숙";
+		private int age = 33;
+		private String message = "맛점";
+			
+		public void output() {
+			System.out.println("MemberBean [name=" + name + ", age=" + age + ", message=" + message + "]"); 
+		}
+	}
+```
+@Autowired - 의존성 주입
+```
+	@Component
+	public class MemberDAO {
+		// DI
+		@Autowired
+		private MemberBean member;
+		
+		/*
+		 * 생성자나 setter 이용하여 멤버변수 지정해야 함
+		 */
+		public void insert() {
+			member.output();
+		}
+		
+	}
+```	
+@Component("memberDAO") - 객체명을 지정
+```
+	MemberDAO dao = (MemberDAO)context.getBean("memberDAO");
+```
+Main
+```
+	public class MainApp {
+		public static void main(String[] args) {
+			ApplicationContext context = new ClassPathXmlApplicationContext("ex4_annotation/applicationContext.xml");
+			MemberDAO dao = (MemberDAO)context.getBean("memberDAO");
+			dao.insert();
+		}
+	}
+```
+applicationContext.xml
+```
+	<context:component-scan base-package="ex4_annotation"></context:component-scan>
 ```
