@@ -1799,4 +1799,12 @@ bean 생성할 때 setter로 값 지정해놓기
 			<value>쿄쿄쿄</value>
 		</property>
 	</bean>
+	<!-- 기본형 멤버값 지정 
+		2. constructor 이용
+	-->
+	<bean id="member2" class="ex2_xml_ref.MemberBean">
+		<constructor-arg index="2" value="홍길국"></constructor-arg>
+		<constructor-arg index="1" value="22"></constructor-arg>
+		<constructor-arg index="0" value="쿄쿄쿄"	></constructor-arg>
+	</bean>
 ```
