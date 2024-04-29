@@ -1822,3 +1822,58 @@ bean 생성할 때 setter로 값 지정해놓기
 		<constructor-arg index="0" ref="member"></constructor-arg>
 	</bean>
 ```
+list형식 bean
+```
+	ApplicationContext context = new ClassPathXmlApplicationContext("ex3_xml_list/applicationContext.xml");
+		
+	ListBean bean = context.getBean("bean", ListBean.class);
+	
+	for(Integer i : bean.getIntList()) {
+		System.out.println(i);
+	}
+	
+	for (MemberBean mb : bean.getMemberList()) {
+		mb.output();
+	}
+
+	<!-- 빈(bean) 정의 -->
+	<bean id="bean" class="ex3_xml_list.ListBean">
+		<property name="intList">
+			<list>
+				<value>22</value>
+				<value>33</value>
+				<value>44</value>
+			</list>
+		</property>
+		
+		<property name="memberList">
+			<list>
+				<ref bean="m1"/>
+				<ref bean="m2"/>
+				<!-- bean -->
+				<bean class="ex3_xml_list.MemberBean">
+					<property name="name" value="홍길숙"></property>
+					<property name="age" value="23"></property>
+					<property name="message">
+						<value>쿄쿄쿄23</value>
+					</property>
+				</bean>
+			</list>
+		</property>
+		
+	</bean>
+	
+	<bean id="m1" class="ex3_xml_list.MemberBean">
+		<property name="name" value="홍길동"></property>
+		<property name="age" value="34"></property>
+		<property name="message">
+			<value>쿄쿄쿄</value>
+		</property>
+	</bean>
+	
+	<bean id="m2" class="ex3_xml_list.MemberBean">
+		<constructor-arg index="2" value="홍길국"></constructor-arg>
+		<constructor-arg index="1" value="22"></constructor-arg>
+		<constructor-arg index="0" value="쿄쿄쿄"	></constructor-arg>
+	</bean>
+```
