@@ -1824,6 +1824,7 @@ bean 생성할 때 setter로 값 지정해놓기
 ```
 list형식 bean
 ```
+	// 자바 쪽
 	ApplicationContext context = new ClassPathXmlApplicationContext("ex3_xml_list/applicationContext.xml");
 		
 	ListBean bean = context.getBean("bean", ListBean.class);
@@ -1836,6 +1837,7 @@ list형식 bean
 		mb.output();
 	}
 
+	// xml 파일 쪽쪽
 	<!-- 빈(bean) 정의 -->
 	<bean id="bean" class="ex3_xml_list.ListBean">
 		<property name="intList">
