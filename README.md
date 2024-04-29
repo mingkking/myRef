@@ -1770,3 +1770,20 @@ pom.xml 세팅 - spring-context
 	    <version>5.3.23</version>
 	</dependency>
 ```
+applicationContext.xml - bean 정의
+```
+	xml 쪽
+		<!-- 빈(bean) 정의 -->
+		<bean id="ko" class="ex1_xml.MessageBeanKoImpl"></bean> / bean 태그 안 속성 scope - (singleton, prototype)
+		<bean id="en" class="ex1_xml.MessageBeanEnImpl"></bean>
+	자바 쪽
+		// 1. 스프링 설정파일 연결
+		ApplicationContext context = new ClassPathXmlApplicationContext("ex1_xml/applicationContext.xml");
+		
+		// 2. DI : 스프링 컨테이너에서 빈(Bean) 가져오기
+		Message bean = context.getBean("ko", Message.class);
+		bean.sayHello("홍길숙");
+		
+		Message bean2 = context.getBean("en", Message.class);
+		bean2.sayHello("Jane");
+```
