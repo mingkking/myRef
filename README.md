@@ -1807,4 +1807,18 @@ bean 생성할 때 setter로 값 지정해놓기
 		<constructor-arg index="1" value="22"></constructor-arg>
 		<constructor-arg index="0" value="쿄쿄쿄"	></constructor-arg>
 	</bean>
+
+	<!-- 참조형 멤버값 지정 
+		3. setter 이용
+	-->
+	<bean id="dao1" class="ex2_xml_ref.MemberDAO">
+		<property name="member" ref="member2"></property>
+	</bean>
+	
+	<!-- 참조형 멤버값 지정 
+		4. constructor 이용
+	-->
+	<bean id="dao2" class="ex2_xml_ref.MemberDAO">
+		<constructor-arg index="0" ref="member"></constructor-arg>
+	</bean>
 ```
