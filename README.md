@@ -2038,3 +2038,223 @@ AOP 어노테이션으로 적용
 		<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 	
 ```
+### Spring Mybatis
+Main
+```
+	// 1. Spring 컨테이너를 구동한다.
+	AbstractApplicationContext container = new GenericXmlApplicationContext("applicationContext.xml");
+
+	// 2. Spring 컨테이너로부터 BoardServiceImpl 객체를 Lookup한다.
+	BoardService boardService = (BoardService) container.getBean("boardService");
+
+	// 3. 글 등록 기능 테스트
+	BoardVO vo = new BoardVO();
+	vo.setTitle("spring mybatis");
+	vo.setWriter("홍길동S");
+	vo.setContent("임시 내용..............");
+	boardService.insertBoard(vo);
+
+	// 4. 글 목록 검색 기능 테스트		
+	BoardVO svo = new BoardVO();
+	List<BoardVO> boardList = boardService.getBoardList(svo);
+	for (BoardVO board : boardList) {
+		System.out.println("---> " + board.toString());
+	}
+
+	// 5. Spring 컨테이너 종료
+	container.close();
+```
+Mybatis Class
+```
+	@Repository("boardDAO")
+	public class BoardDAOMybatis {
+		
+		@Autowired
+		private SqlSessionTemplate mybatis;
+		/*
+		 * JDBC : Connection
+		 * mybatis : SqlSession
+		 */
+	
+		public void insertBoard(BoardVO vo) {
+			System.out.println("===> Mybatis insertBoard() 호출");
+			mybatis.insert("BoardDAO.insertBoard", vo);
+		}
+	
+		public void updateBoard(BoardVO vo) {
+			System.out.println("===> Mybatis updateBoard() 호출");
+			mybatis.update("BoardDAO.updateBoard", vo);
+		}
+	
+		public void deleteBoard(BoardVO vo) {
+			System.out.println("===> Mybatis deleteBoard() 호출");
+			mybatis.delete("BoardDAO.deleteBoard", vo);
+		}
+	
+		public BoardVO getBoard(BoardVO vo) {
+			System.out.println("===> Mybatis getBoard() 호출");
+			return (BoardVO) mybatis.selectOne("BoardDAO.getBoard", vo);
+		}
+	
+		public List<BoardVO> getBoardList(BoardVO vo) {
+			System.out.println("===> Mybatis getBoardList() 호출");
+			return mybatis.selectList("BoardDAO.getBoardList", vo);
+		}
+	}
+```
+BoardService
+```
+	public interface BoardService {
+		// CRUD 기능의 메소드 구현
+		// 글 등록
+		void insertBoard(BoardVO vo);
+	
+		// 글 수정
+		void updateBoard(BoardVO vo);
+	
+		// 글 삭제
+		void deleteBoard(BoardVO vo);
+	
+		// 글 상세 조회
+		BoardVO getBoard(BoardVO vo);
+	
+		// 글 목록 조회
+		List<BoardVO> getBoardList(BoardVO vo);
+	}
+```
+BoardServiceImpl Class
+```
+	@Service("boardService")
+	public class BoardServiceImpl implements BoardService {
+		
+		@Autowired
+		private BoardDAOMybatis boardDAO;
+	
+		public void insertBoard(BoardVO vo) {
+			boardDAO.insertBoard(vo);
+		}
+	
+		public void updateBoard(BoardVO vo) {
+			boardDAO.updateBoard(vo);
+		}
+	
+		public void deleteBoard(BoardVO vo) {
+			boardDAO.deleteBoard(vo);
+		}
+	
+		public BoardVO getBoard(BoardVO vo) {
+			return boardDAO.getBoard(vo);
+		}
+	
+		public List<BoardVO> getBoardList(BoardVO vo) {
+			return boardDAO.getBoardList(vo);
+		}
+	}
+```
+db.properties 파일
+```
+	# ORACLE
+	#jdbc.driver=oracle.jdbc.driver.OracleDriver
+	#jdbc.url=jdbc:oracle:thin:@127.0.0.1:1521:orcl
+	#jdbc.username=javassem
+	#jdbc.password=1234
+	
+	# MYSQL
+	jdbc.driver=com.mysql.cj.jdbc.Driver
+	jdbc.url=jdbc:mysql://localhost:3306/basic
+	jdbc.username=scott
+	jdbc.password=tiger
+```
+Board-mapping.xml
+```
+	<mapper namespace="BoardDAO">
+
+		<!-- 오라클 연동 -->
+		<!-- <insert id="insertBoard" parameterType="BoardVO">		
+			INSERT INTO BOARD(SEQ, TITLE, WRITER, CONTENT, REGDATE, CNT)
+			VALUES(board_seq.nextval,
+				#{title}, #{writer}, #{content}, 
+				sysdate, 0)		
+		</insert> -->
+		<!-- Mysql 연동 -->
+		<insert id="insertBoard" parameterType="boardVO">		
+			INSERT INTO BOARD(TITLE, WRITER, CONTENT, REGDATE, CNT)
+			VALUES(	#{title}, #{writer}, #{content}, 
+				sysdate(), 0)		
+		</insert>
+		
+		<update id="updateBoard" parameterType="boardVO">
+			
+			UPDATE BOARD SET
+			TITLE = #{title},
+			CONTENT = #{content}
+			WHERE SEQ = #{seq}
+			
+		</update>
+		
+		<delete id="deleteBoard">
+			
+			DELETE FROM BOARD
+			WHERE SEQ = #{seq}
+			
+		</delete>
+		
+		<select id="getBoard" parameterType="int" resultType="boardVO">
+			
+			SELECT *
+			FROM BOARD
+			WHERE SEQ = #{seq}
+			
+		</select>
+		
+		<select id="getBoardList" resultType="boardVO">
+			
+			SELECT *
+			FROM BOARD
+			ORDER BY SEQ DESC
+			
+		</select>
+	</mapper>
+```
+applicationContext.xml 파일
+```
+	<!-- 자동 빈 생성  -->
+	<context:component-scan base-package="board.impl"></context:component-scan>
+	
+	<!-- DataSource 설정 -->
+	<context:property-placeholder location="classpath:config/db.properties"/>
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${jdbc.driver}"></property> <!-- setDriverClassName() -->
+		<property name="url" value="${jdbc.url}"></property>
+		<property name="username" value="${jdbc.username}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+	</bean>
+
+	<!-- Spring과 Mybatis 연동 설정 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property> <!-- setDataSource() -->
+		<property name="configLocation" value="classpath:mybatis-config.xml"></property> 
+	</bean>
+
+	<!-- SqlSession 객체 생성 -->
+	<bean class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSession"></constructor-arg>
+	</bean>
+```
+mybatis-config.xml
+```
+	<configuration>	
+		<!-- DB 연동부분은 스프링 설정파일로 이동 -->
+	
+	
+		<!-- Alias 설정 -->
+		<typeAliases>
+			<typeAlias type="board.vo.BoardVO" alias="boardVO"/>
+		</typeAliases>
+		
+		<!-- Sql Mapper 설정 -->
+		<mappers>
+			<mapper resource="mappings/board-mapping.xml"/>
+		</mappers>
+	</configuration>
+```
