@@ -1943,3 +1943,40 @@ applicationContext.xml
 		<property name="path" value="src\\ex5_autowired\\message.txt"></property>
 	</bean>
 ```
+### AOP
+```
+	target - 핵심 기능
+	pointcut - 목
+```
+AOP 설정 xml
+```
+	<!-- target 핵심기능 -->
+	<bean id="targetBean" class="aop1_xml.MessageBeanImpl"></bean>
+	
+	<!-- advice 공통기능 -->
+	<bean id="loggingAdvice" class="aop1_xml.LoggingAdvice"></bean>
+	<!-- 2번째 공통기능 -->
+	<bean id="sampleAdvice" class="aop1_xml.SampleAdvice"></bean>
+
+	<!-- AOP 환경설정 -->
+	<aop:config>
+	
+		<!-- 들어가는 지점 설정 -->
+		<aop:pointcut expression="execution(public * aop1_xml.*.*Hello(..))" id="pointCut"/> <!-- 접근지정자가 public 이고 반환 값이 상관없고 aop1_xml패키지 안 모든 클래스 안 Hello() 로 끝나는 모든 함수 인자는 안따짐 -->
+		
+		<!-- loggingAdvice 클래스를 연결-->
+		<aop:aspect ref="loggingAdvice">
+			<!-- pointcut에서 지정한 Hello로 끝나는 메소드 전에 advice(aop1_xml.LoggingAdvice) 안 before 함수를 실행 -->
+			<aop:before method="before" pointcut-ref="pointCut"/>
+			<!-- pointcut에서 지정한 Hello로 끝나는 메소드 이후에 advice(aop1_xml.LoggingAdvice) 안 xxxxx 함수를 실행 --> 
+			<aop:after method="xxxxx" pointcut-ref="pointCut"/>
+		</aop:aspect>
+		
+		<!-- sampleAdvice 클래스를 연결-->
+		<aop:aspect ref="sampleAdvice">
+			<!-- 전 실행 후 실행 (전과 후 둘다 실행) -->
+			<aop:around method="around" pointcut-ref="pointCut"/>
+		</aop:aspect>
+		
+	</aop:config>
+```
