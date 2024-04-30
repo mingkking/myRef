@@ -1980,3 +1980,61 @@ AOP 설정 xml
 		
 	</aop:config>
 ```
+AOP 어노테이션으로 적용
+```
+	main쪽
+		ApplicationContext context = new ClassPathXmlApplicationContext("aop2_annotation/applicationContext.xml");
+		
+		MessageBean bean = context.getBean("messageBeanImpl", MessageBean.class);
+		
+		bean.sayHello();
+		System.out.println("========================================");
+		bean.enSayHello();
+		System.out.println("========================================");
+		bean.test();
+		System.out.println("========================================");
+
+	impl쪽
+		@Component
+		public class MessageBeanImpl implements MessageBean {
+		
+			@Override
+			public void sayHello() {
+				System.out.println("sayHello() 호출");
+			}
+		
+			@Override
+			public void enSayHello() {
+				System.out.println("enSayHello() 호출");
+			}
+		
+			@Override
+			public void test() {
+				System.out.println("test() 호출");
+			}
+		
+		}
+
+	AOP 적용하는 부분
+		@Aspect // AOP 어노테이션
+		@Component // 빈 자동 생성
+		public class SampleAdvice {
+			@Around("execution(public * aop2_annotation.*.*(..))") // 어떤 메소드가 실행할때 around가 실행할지 설정
+			public Object around(ProceedingJoinPoint point) throws Throwable{
+				String name = point.getSignature().getName();
+				System.out.println("----------[사전 작업]----------: " + name);
+				Object obj = point.proceed();
+				System.out.println("----------[사후 작업]----------: " + name);
+				
+				return obj;
+			}
+		}
+
+	XML 쪽
+		<!-- 1 빈지정 자동 -->
+		<context:component-scan base-package="aop2_annotation"></context:component-scan>
+		
+		<!-- 2 AOP 적용 -->
+		<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+	
+```
