@@ -2233,7 +2233,15 @@ applicationContext.xml 파일
 	<!-- Spring과 Mybatis 연동 설정 -->
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property> <!-- setDataSource() -->
-		<property name="configLocation" value="classpath:mybatis-config.xml"></property> 
+		<property name="configLocation" value="classpath:mybatis-config.xml"></property> <!-- mybatis의 설정파일 지정 -->
+		<property name="mapperLocations"> <!-- mapper 파일들을 지정  -->
+			<value>classpath:mappings/board-mapping.xml</value>
+		</property>
+		<property name="typeAliases">
+			<list>
+				<value>board.vo.BoardVO</value> <!-- 자동으로 별칭이 BoardVO 로 지정 됨 -->
+			</list>
+		</property> 
 	</bean>
 
 	<!-- SqlSession 객체 생성 -->
