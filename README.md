@@ -2266,3 +2266,22 @@ mybatis-config.xml
 		</mappers>
 	</configuration>
 ```
+ModelAndView
+```
+	@Controller
+	public class HelloController {
+		
+		@RequestMapping(value = "start.do")
+		public ModelAndView start() {
+			System.out.println("클라이언트한테 start.do라는 요청을 받음");
+			
+			ModelAndView mv = new ModelAndView();
+			
+			mv.setViewName("hello");
+			mv.addObject("dbValue", "추후에 디비값");
+			mv.addObject("login", "아이디");
+			
+			return mv;
+		}
+	}
+```
