@@ -2285,3 +2285,19 @@ ModelAndView
 		}
 	}
 ```
+Web.xml 한글 인코딩 세팅
+```
+	<!-- 한글 인코딩 -->
+	<filter>
+		<filter-name>characterEncoding</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>characterEncoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+```
