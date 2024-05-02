@@ -2234,6 +2234,9 @@ applicationContext.xml 파일
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property> <!-- setDataSource() -->
 		<property name="configLocation" value="classpath:mybatis-config.xml"></property> <!-- mybatis의 설정파일 지정 -->
+		<!-- value 경로 해석 -->
+			<!-- mappers 안에 모든 -->
+		<!-- <property name="mapperLocations" value="classpath:mappers/**/*Mapper.xml"></property> -->
 		<property name="mapperLocations"> <!-- mapper 파일들을 지정  -->
 			<value>classpath:mappings/board-mapping.xml</value>
 		</property>
