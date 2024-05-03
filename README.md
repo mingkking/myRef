@@ -2216,6 +2216,15 @@ Board-mapping.xml
 		</select>
 	</mapper>
 ```
+Mybatis Mapper.xml 파일 안에서 비교 연산자를 인식하기
+```
+	<select id="getBoardList" resultType="BoardVO">
+		<![CDATA[
+		SELECT * FROM uploadtemp 
+		ORDER BY b_id DESC
+		]]>
+	</select>
+```
 applicationContext.xml 파일
 ```
 	<!-- 자동 빈 생성  -->
@@ -2303,4 +2312,14 @@ Web.xml 한글 인코딩 세팅
 		<filter-name>characterEncoding</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+```
+File Upload
+```
+	<!-- ################################################# -->
+	<!-- 파일업로드 -->
+	<dependency>
+		<groupId>commons-fileupload</groupId>
+		<artifactId>commons-fileupload</artifactId>
+		<version>1.3</version>
+	</dependency>
 ```
