@@ -2323,3 +2323,48 @@ File Upload
 		<version>1.3</version>
 	</dependency>
 ```
+File Upload Form태그
+```
+	<form action="saveBoard.do" method='post' enctype="multipart/form-data">
+```
+File Upload VO 쪽
+```
+	private String b_fname;		// 파일명
+	private String b_realfname; // 저장된 파일이름
+	private long b_fsize;		// 파일크기
+	
+	//*************************************************
+	MultipartFile file; // ****** type='file'의 name명과 동일
+	
+	public MultipartFile getFile() {
+		return file;
+	}
+	
+	public void setFile(MultipartFile file) {
+		this.file = file;
+		
+		// 업로드 파일이 있는 경우
+		if( !file.isEmpty()) {
+			this.b_fname = file.getOriginalFilename();
+			this.b_fsize = file.getSize();
+			
+			// 실제 저장된 파일명 만들기
+			UUID uuid = UUID.randomUUID();
+			this.b_realfname = uuid.toString() + "_" + b_fname;
+			
+			// 실제파일 저장
+			// 추후에 웹서버 경로를 찾아서 수정
+			File f = new File("C:\\springweb\\hFileBoard\\src\\main\\webapp\\resources\\upload\\" + b_realfname);
+			
+			try {
+				file.transferTo(f);
+			} catch (IllegalStateException e) {				
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+	}
+```
