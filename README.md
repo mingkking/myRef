@@ -1632,6 +1632,90 @@ ajax - dataType = 'xml'
 	rtn_xml += "</customer>";
 	out.write(rtn_xml);
 ```
+ajax VO, LIST 객체 받기
+```
+	pom.xml에 추가
+		<!-- #########  객체를 json/xml로 변환 처리  ######### -->
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>2.9.6</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.fasterxml.jackson.dataformat</groupId>
+		    <artifactId>jackson-dataformat-xml</artifactId>
+		    <version>2.9.6</version>
+		</dependency>
+	Controller 쪽
+		// ajax
+		// @Controller + @ResponseBody = @RestController
+		@RestController
+		public class SampleController {
+			
+			@RequestMapping(value = "getText", produces = "text/plain;charset=UTF-8") // 반환 값을 한글로 받을 수 있게
+			//@ResponseBody // view 페이지 말고 문자열 값을 반환 받고 싶을 때
+			public String getText() {
+				return "뷰페이지로 보냄";
+			}
+			
+			// 객체를 반환
+			@RequestMapping("getObject")
+			public SampleVO getObject() {
+				return new SampleVO("홍길동", 22, "오늘도화이팅");
+			}
+			
+			// list를 반환
+			@RequestMapping("getList")
+			public List<SampleVO> getList() {
+				List<SampleVO> list = new ArrayList<SampleVO>();
+				list.add(new SampleVO("홍길동", 22, "오늘도 화이팅"));
+				list.add(new SampleVO("홍길자", 33, "맛점"));
+				list.add(new SampleVO("홍길숙", 44, "우리팀 화이팅"));
+				
+				return list;
+			}
+			
+			// 넘어오는 변수 값 받기
+			@GetMapping("sample/{cate}/{cno}")
+			public void getUrl(@PathVariable String cate, @PathVariable Integer cno) {
+				System.out.println(cate + " : " + cno);
+			}
+			
+			@PostMapping("sample/data")
+			public SampleVO getPost(SampleVO vo) {
+				System.out.println("확인: " + vo.toString());
+				return vo;
+			}
+		}
+	JSP 쪽
+		<body>
+			<!-- 1 -->
+			<a href='getText'>1. 문자열 반환</a>
+			<hr/>
+			
+			<!-- 2 -->
+			<a href='getObject'>2. 객체 반환</a>
+			<hr/>
+			
+			<!-- 3 -->
+			<a href='getList'> 3. 리스트 객체 반환</a>
+			<hr/>
+			
+			<!-- 4 -->
+			<a href='sample/it/1001'> 4. 쿼리스트링처리 </a><br/>
+			<a href='sample/novel/2001'> 4. 쿼리스트링처리 </a><br/>
+			<hr/>
+			
+			<!-- 5 -->
+			<form action='sample/data' method='post'>
+				<input type='text' name='name'>
+				<input type='text' name='age'>
+				<input type='text' name='message'>
+				<input type='submit' value='POST전송'>
+			</form>
+		</body>
+```
 ### 23. mybatis
 mybatis-config.xml
 ```
