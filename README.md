@@ -1647,6 +1647,13 @@ ajax VO, LIST 객체 받기
 		    <artifactId>jackson-dataformat-xml</artifactId>
 		    <version>2.9.6</version>
 		</dependency>
+		<!-- 자바 객체를 json 타입의 문자열로 변환 -->
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.8.2</version>
+		</dependency>
 	Controller 쪽
 		// ajax
 		// @Controller + @ResponseBody = @RestController
@@ -1715,6 +1722,160 @@ ajax VO, LIST 객체 받기
 				<input type='submit' value='POST전송'>
 			</form>
 		</body>
+```
+ajax 댓글
+```
+	javaScript 쪽
+		$(function(){
+	 
+		 	// 댓글 추가 버튼이 눌려졌을 때
+		 	$('#replyConfirm').click(function(){
+		 	
+		 		let param = {
+		 			bno : $('#bno').val(),
+		 			replyer : $('#replyer').val(),
+		 			reply : $('#reply').val()
+		 		};
+		 		
+		 		/* form 의 내용을 한번에 받아오기  
+		 		let param = $('#replyFrm').serialize();
+		 		*/
+		 		
+				$.ajax({
+					type : 'post',
+					data : param,
+					url : '../replies/new',
+					success : function(result){
+						$('#reply').val('');
+						replyList();
+					},
+					error : function(err){
+						alert('error');
+						console.log(err);
+					}
+				});
+				
+		 	});
+		 	
+		 	// 댓글 목록을 서버에서 가지고 와서 출력
+		 	replyList();
+		 	function replyList() {
+		 	
+		 		$.ajax({
+		 		
+		 			type : 'get',
+		 			url : '../replies',
+		 			data : { bno : $('#bno').val() },
+		 			dataType : 'json',
+		 			success : function(result){
+		 				// console.log(result);
+		 				let replyList = $('#replyList'); // jsp 테이블의 아이디를 가져오기
+		 				
+		 				replyList.empty(); // 테이블 자식들을 삭제
+		 				for(row of result){ // 컨트롤러의 결과 값
+		 					var tr = $('<tr/>'); // replyList 안에 tr 태그 추가
+		 					
+		 					var rno = $('<td/>').text(row['rno']); // list 에 rno 값을 td 태그 추가 후 입력
+		 					tr.append(rno); // tr에 td 태그 추가
+		 					
+		 					var replyer = $('<td/>').text(row['replyer']); // list 에 replyer 값을 td 태그 추가 후 입력
+		 					tr.append(replyer);
+		 					
+		 					var reply = $('<td/>').text(row['reply']); // list 에 reply 값을 td 태그 추가 후 입력
+		 					tr.append(reply);
+		 					
+		 					var replydate = $('<td/>').text(row['replydate']); // list 에 replydate 값을 td 태그 추가 후 입력
+		 					tr.append(replydate);
+		 					
+		 					var modifyBtn = $('<td/>').html('<button class="modify">수정</button>');
+		 					tr.append(modifyBtn);
+		 					
+		 					var deleteBtn = $('<td/>').html('<button class="delete">삭제</button>');
+		 					tr.append(deleteBtn);
+		 					
+		 					replyList.append(tr); // 만든 tr 태그를 테이블에 추가
+		 				}
+		 				
+		 			},
+		 			error : function(err){
+		 				alert('error');
+		 				console.log(err);
+		 			}
+		 			
+		 		});
+		 		
+		 	};
+		 	
+		 	// 댓글에 '삭제' 버튼이 눌렸을 때
+		 	$('#replyList').on('click', '.delete', function(){
+		 		// 각 버튼을 클릭했을 때 tr부모까지 가서 자식들 중 0번째
+		 		let rno = $(this).parents('tr').children().eq(0).text();
+		 		
+		 		$.ajax({
+					type : 'delete',
+					url : '../replies/' + rno,
+					success : function(result){
+						replyList();
+					},
+					error : function(err){
+						alert('error');
+						console.log(err);
+					}
+				});
+				
+		 	});
+		 	
+		 	// 댓글에 '수정' 버튼이 눌렸을 때
+		 	$('#replyList').on('click', '.modify', function(){
+		 	
+		 		// 각 버튼을 클릭했을 때 tr부모까지 가서 자식들 중 0번째
+		 		let rno = $(this).parents('tr').children().eq(0).text();
+		 		var btnText = $(this).text();
+		 		
+		 		if( btnText == '수정' ){
+		 			
+		 			// replyer 수정
+		 			let replyertd = $(this).parents('tr').children().eq(1);
+		 			let replyerText = $(this).parents('tr').children().eq(1).text();
+		 			replyertd.text('');
+		 			replyertd.append('<input type="text" name="replyer" value="'+replyerText+'">');
+		 		
+		 			// reply 수정
+		 			let replytd = $(this).parents('tr').children().eq(2);
+		 			let replyText = $(this).parents('tr').children().eq(2).text();
+		 			replytd.text('');
+		 			replytd.append('<input type="text" name="reply" value="'+replyText+'">');
+		 			
+		 			$(this).text('수정하기');
+		 			
+		 		}else if( btnText == '수정하기' ){
+		 			var replyer = $(this).parents('tr').find('input').eq(0).val();
+		 			var reply = $(this).parents('tr').find('input').eq(1).val();
+		 			
+		 			var param = {
+		 				'rno' : rno,
+		 				'replyer' : replyer,
+		 				'reply' : reply
+		 			}
+		 			
+		 			$.ajax({
+		 				type : 'post',
+		 				data : param,
+		 				url : '../replies/' + rno,
+		 				success : function(result){
+		 					replyList();
+		 				},
+		 				error : function(err){
+		 					alert('error');
+		 					console.log(err);
+		 				}
+		 			});
+		 		}
+		 		
+				
+		 	});
+		 	
+		 });
 ```
 ### 23. mybatis
 mybatis-config.xml
