@@ -1344,6 +1344,141 @@ jStorage
 	});
 </script>
 ```
+유효성검사 - validation
+```
+	// oninput 이벤트 연결도 가능
+	window.onload = function(){
+			/*
+				한글이름 영어이름 숫자 이메일
+			*/
+			let pt1 = "^[가-힣]{2,5}$"; // 한글이름 유효성 패턴
+			let pt2 = "^[A-Za-z]{3,10}$"; // 영문성 이름
+			let pt3 = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"; // email
+			let pt4 = "^[0-9]{2,3}$"; // 전화번호
+			let pt5 = "^[0-9]{3,4}$"; // 전화번호1
+			let pt6 = "^[0-9]{4}$"; // 전화번호2
+			
+			let adult = document.querySelector('#adult'); // 성인
+			let teen = document.querySelector('#teen'); // 아동
+			let child = document.querySelector('#child'); // 유아
+			let checkbox = document.querySelector('#checkbox'); // 체크박스 첫번째
+			let checkbox2 = document.querySelector('#checkbox2'); // 체크박스 두번째
+			let totalMoney = document.querySelector('#totalMoney'); // 상품합계금액
+			let kname = document.querySelector('#kname'); // 한글이름
+			let radio = document.querySelector('#radio'); // 남자
+			let radio2 = document.querySelector('#radio2'); // 여자
+			let ename = document.querySelector('#ename'); // 영문이름
+			let ename1 = document.querySelector('#ename1'); // 영문이름1
+			let tel = document.querySelector('#tel'); // 전화번호
+			let tel1 = document.querySelector('#tel1'); // 전화번호1
+			let tel2 = document.querySelector('#tel2'); // 전화번호2
+			let email = document.querySelector('#email'); // email
+			let btn1 = document.querySelector('#btn1'); // 결제하기
+			let btn2 = document.querySelector('#btn2'); // 예약하기
+			let btn3 = document.querySelector('#btn3');	// 다시하기
+			let sum = 0;
+			
+			// 성인 명수 입력
+			adult.addEventListener("keydown", function(e) {
+				sum = 0;
+				if(e.key === "Enter"){
+					e.preventDefault();
+					sum = sum + (adult.value * 39000)+(teen.value * 29000)+(child.value * 19000);
+					totalMoney.value = sum;
+				}		
+			});
+			// 성인 명수 입력 끝
+			// 아동 명수 입력
+			teen.addEventListener("keydown", function(e) {
+				sum = 0;
+				if(e.key === "Enter"){
+					e.preventDefault();
+					sum = sum + (adult.value * 39000)+(teen.value * 29000)+(child.value * 19000);
+					totalMoney.value = sum;
+				}		
+			});
+			// 아동 명수 입력 끝
+			// 유아 명수 입력
+			child.addEventListener("keydown", function(e) {
+				sum = 0;
+				if(e.key === "Enter"){
+					e.preventDefault();
+					sum = sum + (adult.value * 39000)+(teen.value * 29000)+(child.value * 19000);
+					totalMoney.value = sum;
+				}		
+			});
+			// 유아 명수 입력 끝
+			
+			
+			
+			
+			// 결제하기 버튼
+			btn1.addEventListener("click", function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				
+				// 여행약관 동의 체크
+				if(!checkbox.checked){
+					alert("여행약관에 동의해주세요.");
+					return;
+				}
+				// 개인정보 동의 체크
+				if(!checkbox2.checked){
+					alert("개인정보보호정책에 동의해주세요.");
+					return;
+				}
+				// 한글이름 유효성 체크
+				if(!kname.value.match(pt1)){
+					alert("2자리 이상 5자리 이하 한글");
+					return;
+				}
+				// 남자 여자 라디오 체크
+				if( !((radio.checked && !radio2.checked) || (!radio.checked && radio2.checked)) ) {
+					alert("남자 여자 radio 체크");
+					return;
+				}
+				// email 체크
+				if(!email.value.match(pt3)){
+					alert("알 맞는 email 형식이 아닙니다.")
+					return;
+				}
+				// 영문성/이름 유효성 체크
+				if(!ename.value.match(pt2) || !ename1.value.match(pt2)){
+					alert("영문 성과 이름은 각각 3자리 이상 10자리 이하");
+					return;
+				}
+				// 전화번호
+				if(!tel.value.match(pt4)){
+					alert("전화번호 틀림");
+					return;
+				}
+				if(!tel1.value.match(pt5)){
+					alert("전화번호1 틀림");
+					return;
+				}
+				if(!tel2.value.match(pt6)){
+					alert("전화번호2 틀림");
+					return;
+				}
+				
+				document.frm.submit();
+			});
+			// 결제하기 버튼 끝
+			// 다시하기 버튼
+			btn3.addEventListener("click", function(e) {
+				e.preventDefault();
+				adult.value = "";
+				teen.value = "";
+				child.value = "";
+				sum = 0;
+				totalMoney.value = "";
+			});
+			// 다시하기 버튼 끝
+			
+			
+			
+	}
+```
 ### 22. JSP
 에러났을 때 페이지 이동 - 보통은 web.xml에 설정해놓음
 ```
