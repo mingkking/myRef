@@ -2748,3 +2748,50 @@ File Upload VO 쪽
 		
 	}
 ```
+Transaction - 트랜잭션
+```
+	root 
+		<!-- ###### Transaction ###### -->
+		<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+			<property name="dataSource" ref="dataSource"></property>
+		</bean>
+	
+		<tx:annotation-driven transaction-manager="transactionManager"/>
+	서블릿
+		<!-- Processes application requests -->
+		<servlet>
+			<servlet-name>appServlet</servlet-name>
+			<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+			<init-param>
+				<param-name>contextConfigLocation</param-name>
+				<param-value>
+				/WEB-INF/spring/appServlet/servlet-context.xml
+				/WEB-INF/spring/root-context.xml	
+				</param-value>			
+			</init-param>
+			<load-on-startup>1</load-on-startup>
+		</servlet>
+	자바쪽
+		//#########
+		@Transactional
+		@Override
+		public void addAll(CustomerVO cvo, MemberVO mvo) throws Exception {
+			mdao.insertMember(mvo);
+			cdao.insertCustomer(cvo);
+			
+		}
+```
+Exception처리 - error페이지
+```
+	자바쪽
+		@ControllerAdvice("com.javassem")
+		public class ProjectExceptionHandler {
+			
+			@ExceptionHandler(Exception.class)
+			public String handleException(Exception e, Model m) {
+				m.addAttribute("exception", e);
+				
+				return "error/TransErrorPage";
+			}
+		}
+```
