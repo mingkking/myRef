@@ -2908,3 +2908,7 @@ Exception처리 - error페이지
 		PagingVO pVO = new PagingVO(pageNum, memberService.selectMemberCount());
 		m.addAttribute("pVO", pVO);
 ```
+깃허브 - gitHub 세팅 참고
+```
+	https://github.com/devAon/Eclipse-GitHub-Coraboration-Tutorial?tab=readme-ov-file
+```
