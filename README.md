@@ -2693,7 +2693,7 @@ Web.xml 한글 인코딩 세팅
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 ```
-File Upload
+File Upload Pom.xml
 ```
 	<!-- ################################################# -->
 	<!-- 파일업로드 -->
@@ -2702,6 +2702,14 @@ File Upload
 		<artifactId>commons-fileupload</artifactId>
 		<version>1.3</version>
 	</dependency>
+```
+File Upload Servlet-Context.xml
+```
+	<!-- 파일업로드에 필요한 bean -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 파일업로드 최대 용량(byte) --> 
+		<beans:property name="maxUploadSize" value="10485760" />
+	</beans:bean>
 ```
 File Upload Form태그
 ```
