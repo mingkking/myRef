@@ -3298,3 +3298,16 @@ Exception처리 - error페이지
 		
 	}
 ```
+### 파이썬
+```
+	1. 파이썬 설치
+	    anaconda
+	        https://www.anaconda.com/download
+	    IDE : Pycharm
+	        https://www.jetbrains.com
+	2. 평가 - atosoft
+	3. 과제 : oracle cloud 회원가입
+	- 본인 핸드폰번호 / 카드
+	- 이메일주소(oracle site 등록되지 않은 이메일)
+	- 주소 (네이버 영어주소 검색)
+```
