@@ -2943,6 +2943,20 @@ Exception처리 - error페이지
 			- Writer : 문자를 출력할 때 Writer로 끝남
 
 	RandomAccessFile : 자바의 입출력스트림이 통합 되어있음
+	프로세서 (processer)
+		- cpu
+	프로세스 (process)
+		- 실제 cpu 가 실행하고 있는 프로그램
+	쓰레드 (thread)
+		- 하나의 프로세스에서 독립적인 작업
+	자바의 쓰레드 동작과정
+		1. 쓰레드클래스 생성
+			- Thread 클래스 상속
+			- Runnable 인터페이스 구현
+		2. 클래스 객체 생성
+			- 클래스 객체 생성 후 1번 객체 생성
+		3. 쓰레드의 run() 호출
+			- start() -> run() 호출
 ```
 파일 쓰기/읽기
 ```
