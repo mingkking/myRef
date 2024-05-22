@@ -3083,3 +3083,32 @@ Exception처리 - error페이지
 		tfHeight.setText(String.valueOf(height));
 		tfBloodType.setText(String.valueOf(bloodType));
 ```
+파일 객체 쓰기/읽기
+```
+	객체를 직렬화를 해야함 - implements Serializeble
+	VO 파일
+		public class DataVO implements Serializable{
+		private String name;
+		private int age;
+		private double height;
+		private char bloodType;
+	파일 쓰기
+		// 객체를 담아서 파일 생성
+		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data2.txt"));
+		DataVO dataVO = new DataVO(name, age, height, bloodType);
+		oos.writeObject(dataVO);
+		
+		oos.close();
+	파일 읽기
+		ObjectInputStream ois = new ObjectInputStream(new FileInputStream("data2.txt"));
+				
+		DataVO dataVO = new DataVO(); // 클래스 객체 생성
+		dataVO = (DataVO) ois.readObject(); // 파일안에 객체를 dataVO 객체에 담는다
+		
+		tfName.setText(dataVO.getName());
+		tfAge.setText(String.valueOf(dataVO.getAge()));
+		tfHeight.setText(String.valueOf(dataVO.getHeight()));
+		tfBloodType.setText(String.valueOf(dataVO.getBloodType()));
+		
+		ois.close();
+```
