@@ -3191,7 +3191,7 @@ Exception처리 - error페이지
 		3. 쓰레드의 run() 호출
 			- start() -> run() 호출
 ```
-쓰레드 프로그램
+쓰레드 프로그램 - extends Thread
 ```
 	package thread.basic;
 
@@ -3225,5 +3225,76 @@ Exception처리 - error페이지
 				}
 			}
 		}
+	}
+```
+쓰레드 프로그램 - implements Runnable
+```
+	package thread.basic;
+
+	public class Ex2_RunnableTest {
+		public static void main(String[] args) {
+			MakeCar2 mc1 = new MakeCar2("차틀만들기");
+			Thread t1 = new Thread(mc1);
+			t1.start();
+			
+			MakeCar2 mc2 = new MakeCar2("엔진부착");
+			Thread t2 = new Thread(mc2);
+			t2.start();
+		}
+	}
+	
+	class MakeCar2 implements Runnable{
+		String work;
+		
+		public MakeCar2(String work) {
+			this.work = work;
+		}
+	
+		@Override
+		public void run() {
+			for (int i = 0; i < 5; i++) {
+				System.out.println(work + " 작업 중");
+				
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	}
+```
+위에 코딩 축약
+```
+	package thread.basic;
+
+	public class Ex2_RunnableTest {
+		public static void main(String[] args) {
+			new Thread(new MakeCar2("차틀만들기")).start();
+			new Thread(new MakeCar2("엔진부착")).start();
+		}
+	}
+	
+	class MakeCar2 implements Runnable{
+		String work;
+		
+		public MakeCar2(String work) {
+			this.work = work;
+		}
+	
+		@Override
+		public void run() {
+			for (int i = 0; i < 5; i++) {
+				System.out.println(work + " 작업 중");
+				
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
 	}
 ```
