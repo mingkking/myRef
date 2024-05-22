@@ -3057,3 +3057,29 @@ Exception처리 - error페이지
 			}
 		}		
 ```
+파일 쓰기/읽기
+```
+	파일 쓰기
+		// 파일을 생성하는데 데이터를 필터링 해주는 클래스
+		DataOutputStream dos = new DataOutputStream(new FileOutputStream("data.txt"));
+		
+		dos.writeUTF(name);
+		dos.writeInt(age);
+		dos.writeDouble(height);
+		dos.writeChar(bloodType);
+		
+		dos.close();
+	파일 읽기
+		// 파일을 생성하는데 데이터를 필터링 해주는 클래스
+		DataInputStream dis = new DataInputStream(new FileInputStream("data.txt"));
+		
+		name = dis.readUTF();
+		age = dis.readInt();
+		height = dis.readDouble();
+		bloodType = dis.readChar();
+		
+		tfName.setText(name);
+		tfAge.setText(String.valueOf(age));
+		tfHeight.setText(String.valueOf(height));
+		tfBloodType.setText(String.valueOf(bloodType));
+```
