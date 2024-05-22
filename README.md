@@ -2930,3 +2930,130 @@ Exception처리 - error페이지
 		let today = new Date(now_utc-timeOff).toISOString().split("T")[0];
 		$("#birth").attr("max", today);
 ```
+중급자바
+```
+	Stream : 데이타를 전송하는 가상통로
+	JAVA가 기준이 돼서 입출력할 때
+	자바의 IO : 표준화
+		1. byte형 스트림
+			- InputStream - 숫자?? 를 읽을 때 Stream으로 끝남
+			- OutputStream - 숫자?? 를 출력할 때 Stream으로 끝남
+		2. char형 스트림
+			- Reader : 문자를 읽을때 Reader로 끝남
+			- Writer : 문자를 출력할 때 Writer로 끝남
+
+	RandomAccessFile : 자바의 입출력스트림이 통합 되어있음
+```
+파일 쓰기/읽기
+```
+	파일 쓰기
+		public static void main( String args[] ) 
+		{
+			try
+			{
+				// a.txt 라는 파일을 생성 후 fos 객체에 주소값 저장
+				FileOutputStream fos = new FileOutputStream("a.txt");
+				
+				for( int ch = 'A'; ch <='Z'; ch++)
+				{
+					fos.write(ch); // a.txt 파일 안에 A~Z 까지 값을 쓰기
+				}
+				
+				/*
+				 * for (int i = 0; i < 5; i++) { fos.write(i); }
+				 */
+				
+				fos.close();
+				
+			}catch( IOException ex ){
+				System.out.println("파일전송실패 :" + ex.toString() );
+			}
+		}
+	파일 읽기
+		public static  void main( String args[] ) 
+		{
+			try
+			{
+				// a.txt 라는 파일을 fis 객체로 가져옴
+				FileInputStream fis = new FileInputStream("a.txt");
+	
+				for (int i = 0; i < 26; i++) {
+					int data = fis.read(); // 파일 내용을 읽어서 int data에 저장
+					System.out.print(Character.toChars(data)); // int 형이라서 char 형으로 변환
+				}
+				
+				/*
+				 *  EOF : -1 파일이 끝났을 때는 fis.read() 에서 -1 값이 나온다
+				 */
+				while(true) {
+					int data = fis.read(); // 파일 내용을 읽어서 int data에 저장
+					if(data == -1) { // EOF : -1 파일이 끝났을 때는 fis.read() 에서 -1 값이 나온다 
+						break; // 반복문 벗어나기
+					}
+					System.out.print(Character.toChars(data)); // int 형이라서 char 형으로 변환
+				}
+				
+				/*
+				 * for (int i = 0; i < 5; i++) { fos.write(i); }
+				 */
+				
+				fis.close();
+				
+			}catch( IOException ex ){
+				System.out.println("파일읽기실패 :" + ex.toString() );
+			}
+		}		
+```
+파일 쓰기/읽기
+```
+	파일 쓰기
+		public static void main( String args[] ) 
+		{
+			try
+			{
+				FileOutputStream fos = new FileOutputStream("b.txt");
+		
+				int 	numCount = 10;
+				int		charCount = 26;
+				int 	i = 0;
+				byte [] data = new byte[numCount + charCount];
+				
+				for( i=0; i < numCount; i++)
+				{
+					data[i] = (byte)i; // data 에 값 저장
+				}
+				
+				for( int ch = 'A'; ch <= 'Z'; ch++, i++)
+				{
+					data[i] = (byte)ch; // data 에 값 저장
+				}
+					
+				fos.write(data);
+				fos.close();
+				
+			}catch( IOException ex ){
+				System.out.println("파일전송실패 :" + ex.toString() );
+			}
+		}
+	파일 읽기
+		public static void main( String args[] ) 
+		{
+			try
+			{
+				FileInputStream fis = new FileInputStream("b.txt"); // b.txt 파일 읽어오기
+				byte[] data = new byte[1024]; // byte 배열 data 생성 크기는 1024
+				int count = fis.read(data); // fis 의 내용을 data 배열에 담음
+				
+				// data에는 file 내용 count 안에 file 크기가 있음
+				for (int i = 0; i < count; i++) {
+					System.out.println((char)data[i]);
+					
+				}
+				
+				fis.close();
+				
+			}catch( Exception ex ){
+				System.out.println("파일전송실패 :" + ex.toString() );
+			}
+		}		
+```
