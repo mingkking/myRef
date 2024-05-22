@@ -2943,21 +2943,6 @@ Exception처리 - error페이지
 			- Writer : 문자를 출력할 때 Writer로 끝남
 
 	RandomAccessFile : 자바의 입출력스트림이 통합 되어있음
-	프로세서 (processer)
-		- cpu
-	프로세스 (process)
-		- 실제 cpu 가 실행하고 있는 프로그램
-	쓰레드 (thread)
-		- 하나의 프로세스에서 독립적인 작업
-	자바의 쓰레드 동작과정
-		1. 쓰레드클래스 생성
-			- Thread 클래스 상속
-			- Runnable 인터페이스 구현
-			- run() overriding
-		2. 클래스 객체 생성
-			- 클래스 객체 생성 후 1번 객체 생성
-		3. 쓰레드의 run() 호출
-			- start() -> run() 호출
 ```
 파일 쓰기/읽기
 ```
@@ -3187,4 +3172,58 @@ Exception처리 - error페이지
 				System.out.println("열기 실패");
 			}	
 		}
+```
+쓰레드 (Thread)
+```
+	프로세서 (processer)
+		- cpu
+	프로세스 (process)
+		- 실제 cpu 가 실행하고 있는 프로그램
+	쓰레드 (thread)
+		- 하나의 프로세스에서 독립적인 작업
+	자바의 쓰레드 동작과정
+		1. 쓰레드클래스 생성
+			- Thread 클래스 상속
+			- Runnable 인터페이스 구현
+			- run() overriding
+		2. 클래스 객체 생성
+			- 클래스 객체 생성 후 1번 객체 생성
+		3. 쓰레드의 run() 호출
+			- start() -> run() 호출
+```
+쓰레드 프로그램
+```
+	package thread.basic;
+
+	public class Ex1_ThreadTest {
+		public static void main(String[] args) {
+			MakeCar1 car1 = new MakeCar1("람보르기니");
+			car1.start();
+			
+			MakeCar1 car2 = new MakeCar1("아우디");
+			car2.start();
+			
+			System.out.println("주행 종료");
+		}
+	}
+	
+	class MakeCar1 extends Thread{
+		String work;
+		
+		public MakeCar1(String work) {
+			this.work = work;
+		}
+		
+		public void run() {
+			for (int i = 0; i < 5; i++) {
+				System.out.println(work + " 작업 중");
+				
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 ```
