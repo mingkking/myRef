@@ -3112,3 +3112,64 @@ Exception처리 - error페이지
 		
 		ois.close();
 ```
+파일 파일 선택저장/파일 선택열기
+```
+	파일 선택저장
+		// 파일 선택 저장
+		JFileChooser fd = new JFileChooser();
+		int returnValue = fd.showSaveDialog( null );
+		if( returnValue == JFileChooser.APPROVE_OPTION )
+		{
+			File f = fd.getSelectedFile();
+			try{
+				/** 
+				 * @@@@@@@@@@@@@@@@@@@@@@@@@
+				 * */
+				try{
+					/** 
+					 * @@@@@@@@@@@@@@@@@@@@@@@@@
+					 * */
+					FileWriter out = new FileWriter(f);
+					
+					out.write(ta.getText());
+					
+					out.close();
+					
+				}catch(Exception ex){
+					System.out.println("열기 실패");
+				}	
+				
+			}catch(Exception ex){
+				System.out.println("저장 실패");
+			}	
+		}
+	파일 선택열기
+		// 파일 선택 열기
+		JFileChooser fd = new JFileChooser();
+		int returnValue = fd.showOpenDialog( null );
+		if( returnValue == JFileChooser.APPROVE_OPTION )
+		{
+			File f = fd.getSelectedFile();
+			try{
+				/** 
+				 * @@@@@@@@@@@@@@@@@@@@@@@@@
+				 * */
+				FileReader out = new FileReader(f);
+				char[] data = new char[1024*5];
+				
+				while(true) {
+					int result = out.read(data);
+					if(result == -1) {
+						break;
+					}
+				}
+				
+				ta.setText(String.valueOf(data));
+				
+				out.close();
+				
+			}catch(Exception ex){
+				System.out.println("열기 실패");
+			}	
+		}
+```
