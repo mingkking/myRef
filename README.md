@@ -2953,6 +2953,7 @@ Exception처리 - error페이지
 		1. 쓰레드클래스 생성
 			- Thread 클래스 상속
 			- Runnable 인터페이스 구현
+			- run() overriding
 		2. 클래스 객체 생성
 			- 클래스 객체 생성 후 1번 객체 생성
 		3. 쓰레드의 run() 호출
