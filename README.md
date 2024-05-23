@@ -3777,4 +3777,21 @@ Exception처리 - error페이지
 	2. 가상경로
 		https://www.vmware.com/
 		https://www.techspot.com/
+
+	vmware 세팅
+		키보드
+			영어, 한국어
+		소프트웨어
+			개발 및 창
+		설치대상
+			/boot 만 남겨놓기
+			swap 5g로 생성
+			root 생성 용량 선택 x
+		네트워크호스트
+			이더넷 켜주기
+		설치시작
+		root암호
+			admin1234
+		사용자생성
+			centos
 ```
