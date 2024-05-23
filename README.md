@@ -3190,6 +3190,10 @@ Exception처리 - error페이지
 			- 클래스 객체 생성 후 1번 객체 생성
 		3. 쓰레드의 run() 호출
 			- start() -> run() 호출
+		4. 메소드
+			- join() 해당 쓰레드가 끝날때까지 기다림
+			- wait() 해당 쓰레드를 잠시 대기시킴
+			- 
 ```
 쓰레드 프로그램 - extends Thread
 ```
@@ -3308,6 +3312,90 @@ Exception처리 - error페이지
 				i++;
 			}
 		}
+```
+### 쓰레드 빵 예문
+```
+	package thread.basic;
+
+	class Bread 
+	{
+		String bread;
+	
+		//##
+		boolean isCheck = false;
+	
+		public void setBread( String bread )
+		{
+			this.bread = bread;
+			//## 		
+			isCheck = true;
+			synchronized (this) {
+				notifyAll(); // 다시 작업 실행
+			}
+		}	
+	
+		public String getBread()
+		{
+			//## 		
+			if(isCheck == false) {
+				try {
+					synchronized (this) {
+						wait(); // 작업 대기
+					}
+				} catch (Exception e) {
+					
+				}
+			}
+			return bread;
+		}
+	}
+	
+	class Baker extends Thread
+	{
+		Bread bbang;
+	
+		Baker( Bread bbang )
+		{
+			this.bbang = bbang;
+		}
+		public void run()
+		{
+			bbang.setBread("진열된 완성된 맛있는 빵");
+		}
+	}
+	
+	class Customer extends Thread
+	{
+		Bread bbang;
+	
+		Customer( Bread bbang )
+		{
+			this.bbang = bbang;
+		}
+		public void run()
+		{
+			System.out.println("빵을 사감 : " + bbang.getBread());
+		}
+	}
+	
+	class Ex8_BreadTest
+	{
+		public static void main(String[] args) 
+		{
+			Bread  bread = new Bread();
+	
+			Baker  baker = new Baker( bread );
+			Customer customer = new Customer( bread );
+			customer.start();
+			baker.start();
+	
+			try{
+				customer.join();
+				baker.join();			
+			}catch( Exception ex ){}
+	
+		}
+	}
 ```
 ### 파이썬
 ```
