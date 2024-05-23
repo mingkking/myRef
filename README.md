@@ -3298,6 +3298,17 @@ Exception처리 - error페이지
 		
 	}
 ```
+### 동기화
+```
+	synchronized : 동기화 작업 (동시 다발적인 실행으로 값이 정확하지 않을 때)
+		// 멀티 쓰레드가 구동할 때 값이 정확하지 않을때 synchronized 를 써야한다
+		// 또는 여러명이서 예매를 하는 경우?
+		void increment() {
+			synchronized(this) {
+				i++;
+			}
+		}
+```
 ### 파이썬
 ```
 	1. 파이썬 설치
