@@ -3397,6 +3397,365 @@ Exception처리 - error페이지
 		}
 	}
 ```
+### 통신
+```
+	용어
+		- Protocol : 통신의 규칙
+			[ex] HTTP / SMTP / FTP....
+		- 네트워크 기본 이론 : OSI 7 계층
+			IP(3단계)
+			TCP / UDP(4단계)
+				Transfer Control Protocol
+				User Datagram Protocol
+	네트워크의 기본 요소
+		(*) 알고 있어야 되는 정보
+		PORT 번호 0 ~ 65535(2의16승)
+			0 : x
+			1 ~ 1023 : 시스템 포트번호
+			1024 ~ :
+										
+				- 클라이언트
+					TCP / UDP
+					본인 IP
+					본인 PORT
+					서버 IP(*)
+					서버 PORT(*)
+				- 서버
+					TCP / UDP
+					서버 IP
+					서버 PORT(*)
+					사용자 IP
+					사용자 PORT
+	
+						
+```
+### 채팅
+```
+	서버
+		package network3.chat;
+
+		import java.io.ObjectInputStream;
+		import java.io.ObjectOutputStream;
+		import java.net.ServerSocket;
+		import java.net.Socket;
+		import java.util.ArrayList;
+		import java.util.StringTokenizer;
+		
+		
+		public class ChatServer implements Runnable {
+			ArrayList vc = new ArrayList();
+		
+			public void run() {
+				ServerSocket ss = null;
+				try{
+					ss = new ServerSocket(1234);
+				}catch( Exception e ) {
+					System.out.println(e);
+				}
+		
+				while(true) {
+					try{
+						Socket s = ss.accept();
+						System.out.println("Client 가 접속시도 :" + s );
+						ChatService cs = new ChatService(s);
+						cs.start();
+						vc.add(cs);
+		
+					} catch( Exception e ) { }
+				}
+			}  // run ends
+		
+			public static void main( String [] arg ) {
+				ChatServer cs = new ChatServer();
+				new Thread(cs).start();
+			}
+		
+		
+		
+			class ChatService extends Thread {
+				String myname = "quest";
+				ObjectInputStream in;
+				ObjectOutputStream out;
+				ChatService( Socket s ) {
+					try{
+						out = new ObjectOutputStream(s.getOutputStream());
+						in = new ObjectInputStream(s.getInputStream());
+						
+					}catch( Exception e ) {
+						System.out.println("소켓스트림 실패");
+						e.printStackTrace();
+					}
+				}// 생성자 종료
+		
+		
+		
+				public void run() {
+					while(true) {
+						try{
+							DataToServer dts = (DataToServer)in.readObject();
+							String msg = (String)dts.getData();
+							int state = dts.getState();
+							System.out.println("상태:" + state);
+		
+							switch(state)
+							{	
+							case DataToServer.SEND_MESSAGE : 
+								putMessageAll( myname + ">" + msg );
+								break;
+							case DataToServer.CHANGE_NAME :
+								putMessageAll( myname + "님이 대화명을 " + msg +"으로 변경하였습니다" );
+								this.myname = msg;						
+								break;
+							}
+		
+		
+						}catch( Exception ex ) { return; }
+		
+					}
+				}// run ends
+		
+		
+				void putMessageAll( String msg ) {
+					for( int i =0 ; i<vc.size() ; i++ ) {
+						ChatService cs = ( ChatService ) vc.get(i);
+		
+						try {
+							cs.putMessage(msg);
+						}catch( Exception e ) {
+							vc.remove(i--);
+						}
+					}
+				} // putMessageAll ends
+		
+				void putMessageTo( String towhom, String msg ) {
+					for( int i=0; i<vc.size() ; i++ ) {
+						ChatService cs = ( ChatService ) vc.get(i);
+						if( towhom.equalsIgnoreCase( cs.myname )) {
+							try{
+								cs.putMessage( towhom +">"+ msg);
+								break;
+							}catch( Exception ex ) { }
+						}
+					}
+				} // putMessageTo ends
+		
+				void putMessage( String msg )
+						throws Exception {
+					DataToClient dtc = new DataToClient();
+					dtc.setData(msg);
+					dtc.setState(DataToClient.SEND_MESSAGE);
+					out.writeObject( dtc);
+				}
+		
+			} // ChatService class ends
+		
+		
+		}// ChatServer class ends
+	클라이언트
+		package network3.chat;
+
+		import java.awt.BorderLayout;
+		import java.awt.GridLayout;
+		import java.awt.event.ActionEvent;
+		import java.awt.event.ActionListener;
+		import java.awt.event.WindowAdapter;
+		import java.awt.event.WindowEvent;
+		import java.io.IOException;
+		import java.io.ObjectInputStream;
+		import java.io.ObjectOutputStream;
+		import java.net.Socket;
+		import java.util.StringTokenizer;
+		import java.util.Vector;
+		
+		import javax.swing.JButton;
+		import javax.swing.JFrame;
+		import javax.swing.JLabel;
+		import javax.swing.JList;
+		import javax.swing.JPanel;
+		import javax.swing.JScrollPane;
+		import javax.swing.JTextArea;
+		import javax.swing.JTextField;
+		
+		class ChatClient implements ActionListener, Runnable {
+			JFrame f;
+		
+			JTextField connTF, sendTF;
+			JButton connB, sendB;
+			JTextArea ta;
+			
+			Socket s;
+			ObjectInputStream in;
+			ObjectOutputStream out;
+		
+			// 추가2 : 대화명을 바꾸기
+			JTextField changeNameTF;
+			JButton    changeNameB;
+		
+			
+			// 추가 : 방인원의 대명 보여주기
+			JList  memberList;
+			Vector list;
+			
+			
+		
+		
+			public ChatClient() {
+				f = new JFrame("Chat Client");
+				
+		
+				connTF = new JTextField("127.0.0.1");
+				sendTF = new JTextField();
+				connB = new JButton("접 속");
+				sendB = new JButton("확 인");
+				ta = new JTextArea(15,40);
+				
+				// 추가0: 대화명 바꾸기
+				changeNameTF	= new JTextField("guest", 10);
+				changeNameB		= new JButton("바꾸기");
+				JPanel p_changeName = new JPanel();
+				p_changeName.add( new JLabel("대화명 : "),"West" );
+				p_changeName.add(changeNameTF, "Center");
+				p_changeName.add(changeNameB, "East");
+				
+				JPanel p_serverName = new JPanel();
+				p_serverName.setLayout( new BorderLayout() );
+				p_serverName.add( new JLabel("서버입력 : "),"West" );
+				p_serverName.add(connTF, "Center");
+				p_serverName.add(connB, "East");
+		
+				JPanel p_north = new JPanel();
+				p_north.setLayout( new GridLayout(1, 2));
+				p_north.add( p_changeName );
+				p_north.add( p_serverName );
+		
+				JPanel p2 = new JPanel();
+				p2.setLayout( new BorderLayout() );
+				p2.add( new JLabel("메세지입력 : "),"West" );
+				p2.add(sendTF,"Center");
+				p2.add(sendB, "East");
+				
+				// 추가2 : 방인원의 대명 보여주기
+				memberList = new JList();
+				list		= new Vector();
+				JPanel  p_east = new JPanel();
+				p_east.setLayout( new BorderLayout());
+				p_east.add("North", new JLabel("   우 리 방 멤 버   "));
+				p_east.add("Center", memberList );
+				
+		
+		
+				f.getContentPane().add("North", p_north);
+				f.getContentPane().add("Center", new JScrollPane(ta));
+				f.getContentPane().add("South", p2);
+				f.getContentPane().add("East", p_east);
+				
+				//f.setSize(500, 300);
+				f.pack();
+				f.setVisible(true);
+				
+				connTF.addActionListener(this);
+				connB.addActionListener(this);
+				sendTF.addActionListener(this);
+				sendB.addActionListener(this);
+		
+				//  추가0: 대화명 바꾸기
+				changeNameTF.addActionListener(this);
+				changeNameB.addActionListener(this);
+			}// 생성자 종료
+			
+			public void actionPerformed( ActionEvent e ) {
+				Object o = e.getSource();
+		
+				if( o == connTF || o == connB ) {
+					connProc();
+				}
+				
+				else if( o == sendTF || o == sendB ) {
+					sendProc();
+				}
+		
+				//  추가0: 대화명 바꾸기
+				else if( o == changeNameTF || o == changeNameB ) {
+					changeNameProc();
+				}
+			} // actionPerformed ends
+			
+			// [4] 입력한 대화명을 서버로 변경
+			void changeNameProc(){
+				try{
+					DataToServer dts = new DataToServer(); 
+					dts.setData(changeNameTF.getText());
+					dts.setState(DataToServer.CHANGE_NAME);
+					
+					out.writeObject(dts); // 서버에게 메세지와 상태 값을 보내기
+					
+				} catch( Exception ex ) {
+					ta.append(ex + "\n" );
+				}
+				
+			}
+		
+			// [1] 서버에 접속
+			void connProc() {						
+				try{
+					s = new Socket(connTF.getText(), 1234);
+					out = new ObjectOutputStream(s.getOutputStream()); // 채팅 보내기
+					in = new ObjectInputStream(s.getInputStream()); // 채팅 받기
+					// [2] 쓰레드 구동
+					//	2-1. Thread/Runnable 
+					//	2-2. run() overriding
+					//	2-3. start() 호출
+					new Thread(this).start();
+				} catch(Exception ex) {
+					ta.append( ex.toString() );
+				}
+			} // connProc ends
+			
+			@Override
+			public void run() {
+				while (s.isConnected()) { // 소켓이 연결되어 있는 동안 반복
+					try {
+						DataToClient dtc = (DataToClient)in.readObject(); // 서버가 보내주는 객체 받기
+						String msg = (String)dtc.getData();
+						int state = dtc.getState();
+						
+						switch(state) {
+						case DataToClient.SEND_MESSAGE:
+							ta.append(msg + "\n"); // ta에 메세지 출력
+							break;
+						}
+						
+					} catch (Exception e) {
+						return;
+					} 
+					
+				}
+				
+			}
+		
+			// [3] 입력한 메세지를 서버로 전송
+			void sendProc() {
+				try{
+					DataToServer dts = new DataToServer(); 
+					dts.setData(sendTF.getText());
+					dts.setState(DataToServer.SEND_MESSAGE);
+					
+					out.writeObject(dts); // 서버에게 메세지와 상태 값을 보내기
+					sendTF.setText(""); // 보낸 메세지는 비워주기
+				} catch( Exception ex ) {
+					ta.append(ex + "\n" );
+				}
+			}// sendProc ends
+			
+			
+			public static void main(String [] args ) {
+				new ChatClient();
+			}
+		
+			
+			
+		}// ChatClient ends
+```
 ### 파이썬
 ```
 	1. 파이썬 설치
