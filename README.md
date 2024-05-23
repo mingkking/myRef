@@ -3769,3 +3769,12 @@ Exception처리 - error페이지
 	- 이메일주소(oracle site 등록되지 않은 이메일)
 	- 주소 (네이버 영어주소 검색)
 ```
+### 리눅스
+```
+	1. 리눅스 설치
+		https://centos.org/
+		http://mirror.anigil.com/CentOS/7.9.2009/isos/x86_64/
+	2. 가상경로
+		https://www.vmware.com/
+		https://www.techspot.com/
+```
