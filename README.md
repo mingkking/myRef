@@ -3845,12 +3845,17 @@ Exception처리 - error페이지
 
 			msg = "{name}님 오늘도 행복하세요 - {group}로부터"
 			print(msg.format(name="홍길동",group="ICT"))
-	함수들
-		print() 콘솔 출력
-		int() 정수형으로
-		float() 소수
-		str() 문자열로
-		type() 타입을 볼수 있음
+		소수
+			print("내가 좋아하는 숫자는 {0:.2f}입니다".format(su))
+			print("내가 좋아하는 숫자는 %.2f입니다"%su)
+			print("%s 님은 %d살이고 신장은 %f cm입니다" %(name,age,height))
+
+			print() 콘솔 출력
+			int() 정수형으로
+			float() 소수
+			str() 문자열로
+			type() 타입을 볼수 있음
+		
 ```
 ### 리눅스
 ```
