@@ -3849,12 +3849,24 @@ Exception처리 - error페이지
 			print("내가 좋아하는 숫자는 {0:.2f}입니다".format(su))
 			print("내가 좋아하는 숫자는 %.2f입니다"%su)
 			print("%s 님은 %d살이고 신장은 %f cm입니다" %(name,age,height))
-
+		boolean
+			
 			print() 콘솔 출력
 			int() 정수형으로
 			float() 소수
 			str() 문자열로
 			type() 타입을 볼수 있음
+		리스트 관련 함수들
+			append()    : 요소 추가
+			sort()      : 리스트 정렬
+			reverse()   : 역순으로 뒤집기
+			index()     : 위치 반환
+			insert()    : 리스트에 요소 삽입
+			remove()    : 요소 제거
+			pop()       : 맨 마지막 요소를 꺼내기
+			count()     : 요소 개수 세기
+			extend()    : 리스트에 리스트를 더하기\
+			clear()     : 모든 요소를 제거
 		
 		
 ```
