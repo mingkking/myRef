@@ -3814,7 +3814,7 @@ Exception처리 - error페이지
 			msg[0] == msg[-0] 같은 값을 추출
 		        msg[:] 전체 추출
 		        msg[i:-j] i번째부터 뒤에서 j-1 까지 추출
-	문자열 관련 함수
+		문자열 관련 함수
 			s.count('글') : s 문자열에서 '글'이라는 문자 개수 세기
 		        s.index('글') : s 문자열에서 문자 '글' 위치 알려주기
 		        s.find('글') : s 문자열에서 문자 '글' 위치 알려주기
@@ -3829,6 +3829,22 @@ Exception처리 - error페이지
 			s.split() : s 문자열을 공백으로 나누기
 			s.split('z') : s 문자열을 z 기호로 나누기
 			d.join(s) : d 단어를 s 문자열에 삽입
+			msg = "{}님 오늘도 행복하세요"
+
+			print(msg.format("홍길자"))
+			print(msg.format("홍길국"))
+		브레이스
+			msg = "{}님 오늘도 행복하세요 - {}로부터"
+			print(msg.format("홍길동","ICT"))
+			
+			msg = "{0}님 오늘도 행복하세요 - {1}로부터"
+			print(msg.format("홍길동","ICT"))
+			
+			msg = "{1}님 오늘도 행복하세요 - {0}로부터"
+			print(msg.format("홍길동","ICT"))
+
+			msg = "{name}님 오늘도 행복하세요 - {group}로부터"
+			print(msg.format(name="홍길동",group="ICT"))
 	함수들
 		print() 콘솔 출력
 		int() 정수형으로
