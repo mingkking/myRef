@@ -3820,6 +3820,15 @@ Exception처리 - error페이지
 		        s.find('글') : s 문자열에서 문자 '글' 위치 알려주기
 		        s.rfind('글') : s 문자열에서 문자 '글' 오른쪽에서 왼쪽으로 찾아서 위치 알려주기
 		        len(s) : s 문자열 길이
+			s.upper() : 소문자를 대문자로
+			s.lower() : 대문자를 소문자로
+			s.lstrip() : 왼쪽 공백 지우기
+			s.rstrip() : 오른쪽 공백 지우기
+			s.strip() : 양쪽 공백 지우기
+			s.replace("a","b")  :  s 문자열에서 단어 a를 단어 b로 바꾸기
+			s.split() : s 문자열을 공백으로 나누기
+			s.split('z') : s 문자열을 z 기호로 나누기
+			d.join(s) : d 단어를 s 문자열에 삽입
 	함수들
 		print() 콘솔 출력
 		int() 정수형으로
