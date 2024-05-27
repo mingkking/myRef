@@ -3870,7 +3870,16 @@ Exception처리 - error페이지
 		Set 관련 함수들
 			print(s.union(p)) # 중복없는 합집합
 			print(s.intersection(p)) # 교집합
-		
+		dictionary 관련 함수들
+			dt = {1:'one', 2:'two', '3':'three'}
+
+			사전.keys() : key만 추출 (임의의 순서)
+			사전.values() : value만 추출 (임의의 순서)
+			사전.items() : key와 value를 튜플로 추출 (임의의 순서)
+			사전['korea'] = 'seoul' # 추가
+			사전['korea'] = 'seoul2' # 수정
+			사전.update({5:'five',6:'six',7:'seven'}) # 여러개 추가
+			사전.update({5:'five2',6:'six2',7:'seven2'}) # 여러개 수정
 ```
 ### 리눅스
 ```
