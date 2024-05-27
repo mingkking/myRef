@@ -3949,7 +3949,34 @@ Exception처리 - error페이지
 			print(blist) # [2, 4, 6, 8, 10, 12]
 			
 			blist = [n for n in range(1,7) if n%2 == 0]
-			print(blist) # [2, 4, 6]		
+			print(blist) # [2, 4, 6]
+		# 딕셔너리 컨프리핸션
+			data = (1,2,3,3,2,4,5)
+			aList = [n for n in data]
+			print(aList) # list [1, 2, 3, 3, 2, 4, 5]
+			
+			aset = {n for n in data}
+			print(aset) # set {1, 2, 3, 4, 5}
+			
+			atuple = {n:n**2 for n in data}
+			print(atuple) # dictionary {1: 1, 2: 4, 3: 9, 4: 16, 5: 25}
+			
+			word = "LOVE LOL"
+			wcnt = {letter:word.count(letter) for letter in word}
+			print(wcnt) # {'L': 3, 'O': 2, 'V': 1, 'E': 1, ' ': 1}
+			
+			
+			print("*"*50)
+			clist = []
+			for r in range(1,4):
+			    for c in range(1,3):
+			        clist.append((r,c))
+			print(clist) # [(1, 1), (1, 2), (2, 1), (2, 2), (3, 1), (3, 2)]
+			
+			print("*"*50)
+			dlist = [(r,c)for r in range(1,4) for c in range(1,3)]
+			print(dlist) # [(1, 1), (1, 2), (2, 1), (2, 2), (3, 1), (3, 2)]
+			print("*"*50)		
 ```
 ### 리눅스
 ```
