@@ -3856,6 +3856,11 @@ Exception처리 - error페이지
 			float() 소수
 			str() 문자열로
 			type() 타입을 볼수 있음
+	리스트, 셋, 튜플
+		t = [1,2,3] # list
+		t = {1,2,3} # set
+		t = (1,2,3) # tuple
+
 		리스트 관련 함수들
 			append()    : 요소 추가
 			sort()      : 리스트 정렬
@@ -3880,6 +3885,11 @@ Exception처리 - error페이지
 			사전['korea'] = 'seoul2' # 수정
 			사전.update({5:'five',6:'six',7:'seven'}) # 여러개 추가
 			사전.update({5:'five2',6:'six2',7:'seven2'}) # 여러개 수정
+			print(dt2.get(6,"키값없음")) # 있으면 value 값 없으면 "키값없음"
+		튜플
+			리스트와 유사하지만 값 변경 불가
+			튜플 객체 전체는 삭제 가능
+			
 ```
 ### 리눅스
 ```
