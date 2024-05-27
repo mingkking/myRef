@@ -3867,7 +3867,9 @@ Exception처리 - error페이지
 			count()     : 요소 개수 세기
 			extend()    : 리스트에 리스트를 더하기\
 			clear()     : 모든 요소를 제거
-		
+		Set 관련 함수들
+			print(s.union(p)) # 중복없는 합집합
+			print(s.intersection(p)) # 교집합
 		
 ```
 ### 리눅스
