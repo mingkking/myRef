@@ -3937,7 +3937,19 @@ Exception처리 - error페이지
 				{ 키_표현식: 값_표현식 for 표현식 in 순회가능객체 }
 			
 			* 셋 컨프리핸션
-				{ 표현식 for 표현식 in 순회가능객체 }		
+				{ 표현식 for 표현식 in 순회가능객체 }
+		# 리스트 컨프리핸션
+			blist = [n for n in range(1,7)]
+			print(blist) # [1, 2, 3, 4, 5, 6]
+			
+			blist = [n-1 for n in range(1,7)]
+			print(blist) # [0, 1, 2, 3, 4, 5]
+			
+			blist = [n*2 for n in range(1,7)]
+			print(blist) # [2, 4, 6, 8, 10, 12]
+			
+			blist = [n for n in range(1,7) if n%2 == 0]
+			print(blist) # [2, 4, 6]		
 ```
 ### 리눅스
 ```
