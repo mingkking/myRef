@@ -3980,6 +3980,7 @@ Exception처리 - error페이지
 	함수
 		함수생성
 			def func():
+			f= lambda x,y : x*y - 인자 : 리턴
 		특수한기능 - 리턴 값이 여러 개가 가능하다 	
 			def func(arg):
     				return arg+5, arg-6
