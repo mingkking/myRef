@@ -3976,7 +3976,10 @@ Exception처리 - error페이지
 			print("*"*50)
 			dlist = [(r,c)for r in range(1,4) for c in range(1,3)]
 			print(dlist) # [(1, 1), (1, 2), (2, 1), (2, 2), (3, 1), (3, 2)]
-			print("*"*50)		
+			print("*"*50)
+	함수
+		함수생성
+			def func(): 		
 ```
 ### 리눅스
 ```
