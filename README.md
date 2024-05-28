@@ -4006,6 +4006,12 @@ Exception처리 - error페이지
 			print(func(1,2,3,4,5,6))
 			print(func(1,2,3,java=40,kor=20,eng=20))
 			print(func(1,2,3,4,kor=100,math=200))
+	맵리듀스
+		def calc(x):
+		    return x*2
+		data = [1,2,3,4,5]
+		result = list(map(calc, data))
+		print(result) # [2,4,6,8,10]
 				
 ```
 ### 리눅스
