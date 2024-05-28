@@ -3979,7 +3979,14 @@ Exception처리 - error페이지
 			print("*"*50)
 	함수
 		함수생성
-			def func(): 		
+			def func():
+		특수한기능 - 리턴 값이 여러 개가 가능하다 	
+			def func(arg):
+    				return arg+5, arg-6
+			x,y = func(10) # 언팩킹 도 가능
+			print(x,y)
+		# 키워드인자(keyword argument)
+			func(name="김기동",greeting="헬로우")
 ```
 ### 리눅스
 ```
