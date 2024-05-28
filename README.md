@@ -4035,7 +4035,7 @@ Exception처리 - error페이지
 		
 		print('오늘의 날씨는 ',get_weather())
 		print('오늘은 ', get_date(),'입니다')
-	# 시작점 지정
+	# 시작점 지정 - 실행 파일에는 __name__ 변수에 __main__ 문자열이 들어가 있음
 		if __name__ == '__main__':
 	
 				
