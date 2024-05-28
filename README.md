@@ -4035,6 +4035,8 @@ Exception처리 - error페이지
 		
 		print('오늘의 날씨는 ',get_weather())
 		print('오늘은 ', get_date(),'입니다')
+	# 시작점 지정
+		if __name__ == '__main__':
 	
 				
 ```
