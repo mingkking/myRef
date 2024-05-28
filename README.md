@@ -3987,6 +3987,21 @@ Exception처리 - error페이지
 			print(x,y)
 		# 키워드인자(keyword argument)
 			func(name="김기동",greeting="헬로우")
+		인자 기본값 설정이 가능
+			def func(greeting, name="홍길동"):
+		# 인자 1개에 여러개 값 받기
+			def func(one, two, three=0, *four):
+			    sum = one + two + three
+			    print("four= ",four)
+			    for i in four:
+			        sum += i
+			    return sum
+			
+			print(func(4, 5))
+			print(func(4, 5, 6))
+			print(func(4, 5, 6, 7))
+			print(func(4, 5, 6, 7, 8, 9))
+				
 ```
 ### 리눅스
 ```
