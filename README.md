@@ -4051,7 +4051,35 @@ Exception처리 - error페이지
 		s = Sample("홍길동") # 객체 생성
 		print(s.name,s.data) # 멤버변수
 		print(dir(s))
-		del s			
+		del s
+	클래스 static
+		class Book:
+		    cnt = 0
+		
+		    def __init__(self,title): # 생성자
+		        self.title = title # 책 제목
+		        self.cnt += 1 # 책 권수
+		    def output(self):
+		        print("제목:",self.title)
+		        print("책 권수:",self.cnt)
+		    @classmethod # static 같은 느낌?
+		    def output2(cls):
+		        cls.cnt += 1
+		        print("책 권수:",cls.cnt) # 이렇게 해야 cnt 개수가 알맞게 올라감
+		
+		
+		b1 = Book("혜경나쁜") # 객체생성
+		b2 = Book("정말나쁜") # 객체생성
+		
+		b1.output() # 메소드 실행
+		b2.output() # 메소드 실행
+		print("1>", "-"*30)
+		
+		b1.output2() # static 메소드 실행
+		b2.output2() # static 메소드 실행
+		print("2>", "-"*30)
+		
+		Book.output2() # 클래스 명으로 접근 가능			
 ```
 ### 리눅스
 ```
