@@ -4037,8 +4037,21 @@ Exception처리 - error페이지
 		print('오늘은 ', get_date(),'입니다')
 	# 시작점 지정 - 실행 파일에는 __name__ 변수에 __main__ 문자열이 들어가 있음
 		if __name__ == '__main__':
-	
-				
+	클래스
+		__init__ 함수 : 객체 초기화 함수( 생성자 역할 )
+     		self : 객체 자신을 가리킨다.
+		class Sample:
+		    data = "데이타"
+		    def __init__(self, name): # 생성자 함수
+		        self.name = name
+		        print("__init__ 호출")
+		    def __del__(self): # 소멸자 함수
+		        print(self.data)
+		
+		s = Sample("홍길동") # 객체 생성
+		print(s.name,s.data) # 멤버변수
+		print(dir(s))
+		del s			
 ```
 ### 리눅스
 ```
