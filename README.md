@@ -4304,5 +4304,8 @@ Exception처리 - error페이지
 					N
 				줄 복사
 					:7,11y
+				단어 바꾸기
+					%s/October/May/g - October를 May 로 바
+
 				
 ```
