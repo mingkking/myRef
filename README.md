@@ -4037,6 +4037,10 @@ Exception처리 - error페이지
 		print('오늘은 ', get_date(),'입니다')
 	# 시작점 지정 - 실행 파일에는 __name__ 변수에 __main__ 문자열이 들어가 있음
 		if __name__ == '__main__':
+				
+```
+### 파이썬 클래스
+```
 	클래스
 		__init__ 함수 : 객체 초기화 함수( 생성자 역할 )
      		self : 객체 자신을 가리킨다.
@@ -4079,7 +4083,30 @@ Exception처리 - error페이지
 		b2.output2() # static 메소드 실행
 		print("2>", "-"*30)
 		
-		Book.output2() # 클래스 명으로 접근 가능			
+		Book.output2() # 클래스 명으로 접근 가능
+```
+### 파이썬 상속
+```
+	# 상속
+		class Animal:
+		    def move(self):
+		        print("동물은 움직인다")
+		
+		class Wolf(Animal): # Animal 상속
+		    def move(self): # override
+		        print("늑대는 4발로 달린다")
+		
+		class Human(Animal): # Animal 상속
+		    def move(self): # override
+		        print("인간은 2발로 달린다")
+		
+		class WolfHuman(Human,Wolf): # Wolf, Animal 상속
+		    def move(self): # override
+		        super().move() # 부모의 메소드를 실행하는데 먼저 상속 받은 메소드가 실행된다.
+		        print("늑대인간은 2발로 달린다")
+		
+		w = WolfHuman()
+		w.move()
 ```
 ### 리눅스
 ```
