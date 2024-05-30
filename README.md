@@ -4502,6 +4502,9 @@ Exception처리 - error페이지
 	
 	p5 = Path('imsi')
 	p5.rmdir() # 비어있는 폴더만 지울 수 있음
+
+	import shutil
+	shutil.rmtree('imsi2') # 하위 폴더까지
 ```
 ### 리눅스
 ```
