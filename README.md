@@ -4272,6 +4272,21 @@ Exception처리 - error페이지
 	            break # 정지
 	        print(line, end='') # 한 줄 읽어온 내용을 출력
 ```
+### 파이썬 파일 읽기
+```
+	filename = './data/data.txt' # 파일 경로
+	try:
+	    with open(filename,'rt',encoding='utf-8') as f: # 파일 읽기 자동 close
+	        content = f.read()  # 파일 내용을 고대로 가져옴
+	        # print(content)
+	        words = content.split()  # 파일 내용을 띄어쓰기로 쪼개서 리스트로 담음
+	        print(words)
+	        num = len(words)  # 리스트의 길이
+	except Exception as e: # 예외 발생
+	    print("파일 읽기 예외",e)
+	else: # 정상 작동
+	    print('파일명:', filename, '총 단어수:', num)
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
