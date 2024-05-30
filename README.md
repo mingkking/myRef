@@ -4313,6 +4313,26 @@ Exception처리 - error페이지
 	for filename in filenames:
 	    count_words(filename)
 ```
+### 파이썬 엑셀
+```
+	# csv : common string value
+	# csv -> excel에서 파일을 읽을 수 있기 때문에
+	
+	import csv
+	'''
+	# 1. 리스트의 데이타를 csv파일로 저장하기
+	data = [[1,'김','과장'],[2,'박','선임'],[3,'주','연구원1']] # 임시 데이타
+	with open('./data/imsi.csv','at',encoding='utf-8') as f:
+	    cout = csv.writer(f) # 파일 쓰기 객체 생성?
+	    cout.writerows(data) # csv 파일 쓰기
+	'''
+	# 2. csv파일에서 읽어서 리스트에 저장
+	result = []
+	with open('./data/imsi.csv','rt',encoding='utf-8') as file:
+	    cin = csv.reader(file)
+	    result = [row for row in cin if row] # 쓰레기값 처리????
+	print(result)
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
