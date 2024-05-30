@@ -4353,6 +4353,37 @@ Exception처리 - error페이지
 	
 	f.close()
 ```
+### 파이썬 json
+```
+	with open('./data/sample.json','r',encoding='utf-8') as jsonf:
+	    file = jsonf.read()
+	    jsonresult = json.loads(file)
+	    print(jsonresult)
+	
+	appletotal = 0;
+	mongototal = 0;
+	strawtotal = 0;
+	gwajatotal = 0;
+	coffeetotal = 0;
+	for key,item in jsonresult.items():
+	    print(key)
+	    print(item)
+	    if key == '사과':
+	        appletotal += item['price']*item['count']
+	    if key == '망고':
+	        mongototal += item['price']*item['count']
+	    if key == '딸기':
+	        strawtotal += item['price'] * item['count']
+	    if key == '과자':
+	        gwajatotal += item['price'] * item['count']
+	    if key == '커피':
+	        coffeetotal += item['price']*item['count']
+	print('사과 총합   ',appletotal)
+	print('망고 총합   ',mongototal)
+	print('딸기 총합   ',strawtotal)
+	print('과자 총합   ',gwajatotal)
+	print('커피 총합   ',coffeetotal)
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
