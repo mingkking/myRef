@@ -4333,6 +4333,26 @@ Exception처리 - error페이지
 	    result = [row for row in cin if row] # 쓰레기값 처리????
 	print(result)
 ```
+### 파이썬 json
+```
+	# 파이썬 json
+	import json
+	
+	f = open('./data/temp.json','r',encoding='utf-8')
+	data = f.read()
+	print(data)
+	print(type(data))
+	print('-'*50)
+	
+	result = json.loads(data) # 문자열로 되어 있는 data 를 json으로 변환
+	print(result)
+	for key,item in result.items():
+	    print(key,item)
+	    print(item['No'])
+	    print(item['Job'])
+	
+	f.close()
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
