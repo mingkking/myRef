@@ -4506,6 +4506,25 @@ Exception처리 - error페이지
 	import shutil
 	shutil.rmtree('imsi2') # 하위 폴더까지
 ```
+### 파이썬 경로이동
+```
+	경로 이동은  Path 모듈로 안되어 os 모듈이 필요하다
+	"""
+	
+	from pathlib import Path
+	import os
+	
+	print(Path.cwd())
+	#os.chdir('../../..') # 부모디렉토리의 부모디렉토리까지 올라가기
+	print(Path.cwd())
+	
+	print(os.environ['JAVA_HOME']) # 환경변수 값 추출
+	print(os.environ['TOMCAT_HOME']) # 환경변수 값 추출
+	
+	import shutil
+	#shutil.copytree('imsi','../copytemp') # imsi 폴더를
+	shutil.copy('Ex00.txt', Path('../copytemp')) # Ex00.txt 파일을 위에 복사한 copytemp 폴더에 복사
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
