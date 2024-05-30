@@ -4525,6 +4525,73 @@ Exception처리 - error페이지
 	#shutil.copytree('imsi','../copytemp') # imsi 폴더를
 	shutil.copy('Ex00.txt', Path('../copytemp')) # Ex00.txt 파일을 위에 복사한 copytemp 폴더에 복사
 ```
+### 파이썬 DB 연동 
+1. file - setting - project:abasic - Python Interpreter - 검색 pym - pymysql 클릭 - install Package
+```
+	DB 검색
+
+		'''
+		    파이썬에서 mysql(mariadb) 연동시 필요한 패키지
+			mysqlclient
+			pymysql
+		'''
+		
+		import pymysql
+		
+		conn = pymysql.connect(host='127.0.0.1',
+				       port=3306,
+				       user='scott',
+				       password='tiger',
+				       db='basic',
+				       charset='utf8') # DB 연결
+		print('연결성공') # 연결 성공 판단
+		
+		cursor = conn.cursor() # 커서를 얻어온다?
+		sql = "SELECT * FROM emp" # 쿼리문
+		cursor.execute(sql) # 쿼리문 보내기 pstmt?
+		rows = cursor.fetchall() # 전체를 가져오기? Resultset
+		
+		print(cursor.rowcount) # 로우 개수
+		print(cursor.rownumber)
+		
+		# 가져온 디비 값을 파일로 생성
+		import csv
+		output_file = 'files/emp_write.csv'
+		with open(output_file,'w',encoding='utf-8') as f:
+		    cout = csv.writer(f)
+		
+		    resultlist = list(row for row in rows if row) # 가져온 DB 값 출력
+		    for i in resultlist:
+			#print(row)
+			cout.writerow(i)
+		
+		conn.close() # 연결 닫기
+	DB 등록
+		'''
+		    파이썬에서 mysql(mariadb) 연동시 필요한 패키지
+		        mysqlclient
+		        pymysql
+		'''
+		
+		import pymysql
+		
+		conn = pymysql.connect(host='127.0.0.1',
+		                       port=3306,
+		                       user='scott',
+		                       password='tiger',
+		                       db='basic',
+		                       charset='utf8') # DB 연결
+		print('연결성공') # 연결 성공 판단
+		
+		cursor = conn.cursor()
+		
+		sql = ("INSERT INTO emp(empno,ename,job,hiredate,sal,comm,deptno)"
+		       "VALUES(9811,'KIM','IT',now(),10000,2000,10)")
+		
+		cursor.execute(sql)
+		conn.commit()
+		conn.close() # 연결 닫기
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
