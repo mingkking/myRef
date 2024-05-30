@@ -4455,6 +4455,54 @@ Exception처리 - error페이지
 	print(j1.parents[1])
 	print(j1.parents[2])
 ```
+### 파이썬 경로상태, 경로(파일) 생성시간, 디렉토리 생성, 파일 생성, 경로제거, 폴더제거
+```
+	from  pathlib import Path
+
+	# ------------------------------------------------
+	# 1. 경로의 상태보기
+	print(Path.cwd()) # 현재 작업 경로
+	print(Path.home()) # 홈 디렉토리
+	
+	# ----------------------------------------------------
+	# 2. 경로(파일) 생성시간 알아보기
+	p1 = Path('Ex03_createPath.py')
+	print(p1.stat()) # Ex03_createPath.py 파일의 상태 값
+	ctime = p1.stat().st_ctime # Ex03_createPath.py 파일의 상태 값 중 생성 시간
+	print(ctime) # 생성 시간이 숫자로만 나오는데
+	
+	from datetime import datetime # datetime 추출
+	result = datetime.fromtimestamp(ctime) # 위의 ctime 을 날짜 와 시간으로 보기
+	print(result) # 날짜와 시간으로 나옴
+	
+	# ------------------------------------------------
+	# 3. 디렉토리 생성
+	p1 = Path('imsi')
+	p1.mkdir(exist_ok=True) # 폴더를 만드는데 존재하면 생성 안함
+	
+	p2 = Path('imsi2/test/temp')
+	p2.mkdir(parents=True, exist_ok=True) # 폴더를 만드는데 한번에 부모와 자식들까지 생성 가능, 존재하면 생성 안함
+	
+	# ------------------------------------------------
+	# 4. 파일 생성
+	with open('imsi/1.txt','w',encoding='utf-8') as f:
+	    f.write('홍길동') # 홍길동이라는 내용이 들어간 1.txt 파일 생성
+	
+	p = Path('imsi/2.txt')
+	with open(p,'w',encoding='utf-8') as f2:
+	    f2.write('홍길동2') # 홍길동2이라는 내용이 들어간 2.txt 파일 생성
+	
+	p3 = Path('imsi/3.txt')
+	p3.write_text('홍길동3',encoding='utf-8') # 위의 내용을 간편하게 쓸 수 있음
+	
+	# ------------------------------------------------
+	#  5. 경로 제거
+	p4 = Path('imsi/3.txt')
+	p4.unlink() # 파일 삭제
+	
+	p5 = Path('imsi')
+	p5.rmdir() # 비어있는 폴더만 지울 수 있음
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
