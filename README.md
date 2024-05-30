@@ -4262,6 +4262,16 @@ Exception처리 - error페이지
 		finally:
 		    print('\n\n종료')
 ```
+### 파이썬 파일 읽기 자동 close
+```
+	# 자동으로 close - with 이용
+	with open('./data/data.txt','r',encoding='utf-8') as f: # 파일 읽기
+	    while True:
+	        line = f.readline() # 파일 한 줄 씩
+	        if not line: # 파일 내용이 없으면
+	            break # 정지
+	        print(line, end='') # 한 줄 읽어온 내용을 출력
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
