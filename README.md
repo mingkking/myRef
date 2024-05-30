@@ -4384,6 +4384,37 @@ Exception처리 - error페이지
 	print('과자 총합   ',gwajatotal)
 	print('커피 총합   ',coffeetotal)
 ```
+### 파이썬 경로
+```
+	- import pathlib 만 선언하면
+        Path클래스 사용시 pathlib.Path라고 명시해야 한다. 
+	"""
+	from pathlib import Path
+	
+	# (1) 해당 경로와 하위 목록들 확인
+	#p = Path('C:\Windows')
+	p = Path('C:\Windows')
+	print(p)
+	print(p.resolve()) # resolve() 절대경로로 만들어준다
+	
+	childDirs = [] # 리스트 생성
+	for x in p.iterdir(): # iterator 요소만 추출
+	    print(x)
+	    if x.is_dir(): # 폴더만
+	        childDirs.append(x)
+	print(childDirs)
+	print('-'*100)
+	
+	childDirs = [x for x in p.iterdir() if x.is_dir()]
+	print(childDirs)
+	print('-'*100)
+	
+	#p = Path('..')
+	p = Path('.')
+	print(p.resolve())
+	j = list(p.glob('../a_datatype_class/*.py'))
+	print(j)
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
