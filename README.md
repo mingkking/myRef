@@ -4198,6 +4198,36 @@ Exception처리 - error페이지
 		else:
 		    print("홍길동 본인이 아닙니다")
 ```
+### 파이썬 예외처리
+```
+	[에러와 예외]
+	    1. 에러
+	        문법적 오류
+	    2. 예외
+	        실행시 발생하는 오류로 예외가 발생하면 프로그램이 비정상 종료된다
+	
+	    [예외처리]
+	    try:
+	        예외 발생 가능 문장들
+	    except Exception:
+	        예외가 발생한 후에 실행할 문장들
+	    else:
+	        예외가 발생하지 않았을 때 실행되는 문장들
+	    finally:
+	        예외 발생 여부와 상관없이 무조건 실행되는 문장들
+	
+	    [참고] 파이썬 내장 예외
+	        https://docs.python.org/3/library/exceptions.html
+
+		try: # 예외가 발생할 거 같은 부분
+		     10/0
+		except Exception as e: # 예외가 발생했을 때 실행 되는 부분 (catch)
+		    print("예외",e)
+		else: # 예외가 없을 때 실행
+		    print("예외 없음")
+		finally: # 무조건 실행
+		    print("무조건 실행")
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
