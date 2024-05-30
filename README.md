@@ -4287,6 +4287,32 @@ Exception처리 - error페이지
 	else: # 정상 작동
 	    print('파일명:', filename, '총 단어수:', num)
 ```
+### 파이썬 파일 읽기 연습
+```
+	"""
+	[연습]
+	    함수 정의 : count_words
+	    인자 : filename
+	
+	    인자로 받은 파일명을 open 하여 파일을 읽어서 단어를 수를 출력한다.
+	    존재하지 않는 파일명으로 예외가 발생해도 아무런 일을 하지 않는다
+	"""
+
+	def count_words(filename):
+	    fname = './data/' + filename
+	    try:
+	        with open(fname,'r',encoding='utf-8') as f:
+	            content = f.read()
+	    except Exception as e:
+	        print("파일 읽기 예외", e)
+	    else:
+	        print(content)
+	
+	# 존재하지 않는 파일명도 있음
+	filenames = ['sample.xml', 'xxxx.xxx', 'temp.json']
+	for filename in filenames:
+	    count_words(filename)
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
