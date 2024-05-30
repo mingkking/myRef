@@ -4617,12 +4617,32 @@ Exception처리 - error페이지
 			admin1234
 		사용자생성
 			centos
-	리눅스
-		.으로 시작하는 파일들은 숨김파일이다.
-		맨 앞쪽에 - 로 시작하면 그건 파일이다.
-		맨 앞쪽에 d 로 시작하면 그건 폴더이다.
-		/
-			최상위 위치
+	읽는방법
+		/ 루트 위치
+		~ 홈 위치
+		r 읽기
+		w 쓰기
+		x 실
+		- 파일
+		d 디렉토리
+		. 숨김파일
+	권한
+		--- 0 아무것도 안됨
+		--x 1
+		-w- 2
+		-wx 3
+		r-- 4
+		r-x 5
+		rw- 6
+		rwx 7
+		
+		chmod 
+			권한바꾸기
+		
+		예 - rw r-- r--
+			사용자	동일그룹	  다른그룹사용자
+			읽고쓰기  읽기만  읽기만
+			
 	명령어
 		ls
 			목록보기
@@ -4634,6 +4654,8 @@ Exception처리 - error페이지
 			모든 걸 자세히 보기 (숨김 파일까지 볼 수 있음)
 		ls -R
 			자식들까지 목록들이 다보임
+		ls -li
+			인덱스까지 자세히보기기
 		man
 			메뉴얼
 		pwd
@@ -4699,7 +4721,16 @@ Exception처리 - error페이지
 				줄 복사
 					:7,11y
 				단어 바꾸기
-					%s/October/May/g - October를 May 로 바
+					%s/October/May/g - October를 May 로 바꿈
+	링크
+		하드링크
+			ln basefile hardlink
+				같은 주소를 참조하면서 파일 생성
+		심볼릭링크 - 바로가기 랑 비슷
+			ln -s basefile hardlink
+				주소가 달라졌지만 basefile을 참조
+
+			
 
 				
 ```
