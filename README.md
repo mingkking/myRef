@@ -4525,7 +4525,7 @@ Exception처리 - error페이지
 	#shutil.copytree('imsi','../copytemp') # imsi 폴더를
 	shutil.copy('Ex00.txt', Path('../copytemp')) # Ex00.txt 파일을 위에 복사한 copytemp 폴더에 복사
 ```
-### 파이썬 DB 연동 
+### 파이썬 DB 연동 - MYSQL
 1. file - setting - project:abasic - Python Interpreter - 검색 pym - pymysql 클릭 - install Package
 ```
 	DB 검색
@@ -4591,6 +4591,50 @@ Exception처리 - error페이지
 		cursor.execute(sql)
 		conn.commit()
 		conn.close() # 연결 닫기
+	DB 등록 파일 내용 읽어서
+		import pymysql
+		from pathlib import Path
+		conn = pymysql.connect(host='127.0.0.1',
+		                       port=3306,
+		                       user='scott',
+		                       password='tiger',
+		                       db='basic',
+		                       charset='utf8') # DB 연결
+		print('연결성공') # 연결 성공 판단
+		
+		from datetime import datetime
+		import csv
+		with open('files/emp.csv','r',encoding='utf-8') as empF:
+		    cout = csv.reader(empF)
+		    for i, e in enumerate(cout):
+		        print(i,e)
+		        hiredate = e[4]
+		        cursor = conn.cursor()
+		        sql = "INSERT INTO emp(empno,ename,job,mgr,hiredate,sal,comm,deptno) VALUES(" + e[0] +",'" + e[1] + "','" + e[2] +"',"+e[3]+",'"+hiredate+"',"+e[5]+","+e[6]+","+e[7]+")"
+		        cursor.execute(sql)
+		        conn.commit()
+```
+### 파이썬 DB 연동 - ORACLE
+전자지갑 - file - setting - project:abasic - Python Interpreter - 검색 cx_oracle - cx_oracle 클릭 - install Package
+```
+	전자지갑으로 연동
+		'''
+		    파이썬에서 mysql(mariadb) 연동시 필요한 패키지
+		        mysqlclient
+		        pymysql
+		'''
+		
+		import cx_Oracle
+		
+		cx_Oracle.init_oracle_client(lib_dir=r"C:\downloads\db\oracle\instantclient-basic-windows.x64-21.14.0.0.0dbru\instantclient_21_14") # 오라클 전자지갑
+		connection = cx_Oracle.connect(user='ADMIN', password='Ict0397989901', dsn='orcl_high') # 오라클 연결
+		cursor = connection.cursor()
+		print(cursor)
+		cursor.execute("SELECT * FROM emp")       # DB 명령 실행 (cursor가 임시 보관)
+		out_data = cursor.fetchall()   # cursor가 임시 보관한 내용을 out_data에 저장 (결과는 리스트)
+		# out_data 내용 출력해보기
+		for i,record in enumerate(out_data):
+			print(out_data[i])
 ```
 ### 리눅스
 ```
