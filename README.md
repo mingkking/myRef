@@ -4830,4 +4830,22 @@ Exception처리 - error페이지
 		심볼릭링크 - 바로가기 랑 비슷
 			ln -s basefile hardlink
 				주소가 달라졌지만 basefile을 참조
+	다운로드
+		rpm -qa
+			전체 설치한 목록
+		rpm -qa |grep jdk
+			전체 설치한 jdk 목록
+		yum remove java*
+			자바 전체 삭제하기
+		yum install -y wget unzip
+			물어보지 않고 wget 이랑 unzip 파일 설치
+		jdk
+			wget --no-check-certificate --no-cookies - --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.tar.gz
+		tomcat
+			wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.17/bin/apache-tomcat-9.0.17.tar.gz
+
+		
+
+			
+		
 ```
