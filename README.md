@@ -4804,7 +4804,15 @@ Exception처리 - error페이지
 			유저에 대한 안보이는 정보들 보기
 		chmod g+r,g+w user2
 			동일 그룹 사용자 읽고 쓰기 가능하게 권한 변경
-
+		userdel user1
+			user1 사용자 삭제
+		userdel -r user2
+			폴더까지 전부 지운
+		groupadd centosGroup
+			centosGroup 생성
+		useradd -g centosGroup user3
+		useradd -g centosGroup user4
+			user3 user4를 centosGroup 으로 묶어서 생성
 	링크
 		하드링크
 			ln basefile hardlink
@@ -4812,8 +4820,4 @@ Exception처리 - error페이지
 		심볼릭링크 - 바로가기 랑 비슷
 			ln -s basefile hardlink
 				주소가 달라졌지만 basefile을 참조
-
-			
-
-				
 ```
