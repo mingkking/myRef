@@ -4817,6 +4817,12 @@ Exception처리 - error페이지
 			imsi 파일의 소유주를 user3으로 바꿈
 		usermod -g professor pro_002
 			pro_002 폴더 그룹 professor 추가
+		ps
+			프로세스 보기
+		ps -ef | grep 파일명
+			실행중인 프로세스 검색해서 보기
+		kill -9 파일명
+			실행중인 프로세스를 강제로 죽이기
 	링크
 		하드링크
 			ln basefile hardlink
