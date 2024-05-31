@@ -4843,6 +4843,10 @@ Exception처리 - error페이지
 			wget --no-check-certificate --no-cookies - --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.tar.gz
 		tomcat
 			wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.17/bin/apache-tomcat-9.0.17.tar.gz
+		tar zvxf 파일명
+			압축 풀기
+		source /etc/profile
+			설정파일 설정후 실행
 
 		
 
