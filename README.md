@@ -4795,6 +4795,16 @@ Exception처리 - error페이지
 					:7,11y
 				단어 바꾸기
 					%s/October/May/g - October를 May 로 바꿈
+	유저만들기
+		useradd user1
+			home 디렉토리 user1 생성
+		passwd user1
+			user1 비밀번호 생성
+		tail /etc/shadow
+			유저에 대한 안보이는 정보들 보기
+		chmod g+r,g+w user2
+			동일 그룹 사용자 읽고 쓰기 가능하게 권한 변경
+
 	링크
 		하드링크
 			ln basefile hardlink
