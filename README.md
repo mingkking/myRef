@@ -4813,6 +4813,10 @@ Exception처리 - error페이지
 		useradd -g centosGroup user3
 		useradd -g centosGroup user4
 			user3 user4를 centosGroup 으로 묶어서 생성
+		chown user3 imsi
+			imsi 파일의 소유주를 user3으로 바꿈
+		usermod -g professor pro_002
+			pro_002 폴더 그룹 professor 추가
 	링크
 		하드링크
 			ln basefile hardlink
