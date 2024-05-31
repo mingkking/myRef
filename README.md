@@ -4847,9 +4847,22 @@ Exception처리 - error페이지
 			압축 풀기
 		source /etc/profile
 			설정파일 설정후 실행
-
-		
-
+		Putty 다운로드
 			
-		
+		yum install openssh
+			ssh 설치 (보안)
+		which sshd
+			ssh 설치 위치 확인
+		firewall-cmd --add-port=22/tcp --permanent
+			방화벽 풀기
+		firewall-cmd --reload
+			방화벽 다시 실행
+		ifconfig
+			리눅스의 ip 찾기(192.168.181.128)
+		Putty 접속
+			IP입력 후 이름 저장 후 접
+		winscp 설치
+			파일을 서버 리눅스쪽으로 옮길 수 있음
+			https://winscp.net/eng/docs/lang:ko
+			
 ```
