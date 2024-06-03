@@ -4839,7 +4839,7 @@ Exception처리 - error페이지
 	    bs4도 추가하려면 BeautifulBS4를 찾아서 패키지 인스톨 해야 한다.
 
 ```
-### 파이썬 웹 요소
+### 파이썬 웹 요소 추
 ```
 	"""
 	    bs4 라이브러리 : 웹에서 가져온 HTML코드를 파이썬에서 사용하기 편하게 파싱해주는 라이브러리
@@ -4880,6 +4880,37 @@ Exception처리 - error페이지
 	
 	for i in p:
 	    print(i.text)
+```
+### 파이썬 웹 속성 값 추출
+```
+	from bs4 import BeautifulSoup
+
+	html = """
+	    <html>
+	        <body>
+	            <ul>
+	                <li><a href='http://www.naver.com'>네이브</a></li>
+	                <li><a href='http://www.daum.net'>다아음</a></li>
+	            </ul>
+	        </body>
+	    </html>
+	"""
+	
+	''' 리스트(li)목록의 내용과 해당 경로를 추출하기
+	    속성추출 : attrs['속성명']
+	
+	    [출력결과]
+	    네이브 : http://www.naver.com
+	    다아음 : http://www.daum.net
+	'''
+	
+	soup = BeautifulSoup(html,"html.parser") # html 파씽
+	
+	a = soup.select("a") # a 태그 추출
+	
+	for i in a:
+	    print(i.get("href")) # a 태그의 속성 href 값
+	    print(i.attrs["href"]) # a 태그의 속성 href 값
 ```
 ### 리눅스
 ```
