@@ -4751,6 +4751,23 @@ Exception처리 - error페이지
 	
 	request.urlretrieve(url,imgName) # 이미지를 쉽게 퍼오기
 ```
+### 파이썬 url 웹 경로
+```
+	"""
+	 urllib.parse.urljoin() : 상대경로를 절대경로로 변화하는 함수
+	"""
+	
+	baseUrl = 'http://www.example.com/html/a.html'
+	
+	from  urllib import  parse
+	print(parse.urljoin(baseUrl, "b.html")) # http://www.example.com/html/b.html
+	print(parse.urljoin(baseUrl, "../b.html")) # http://www.example.com/b.html
+	print(parse.urljoin(baseUrl, "sub/b.html")) # http://www.example.com/html/sub/b.html
+	print(parse.urljoin(baseUrl, "/sub/b.html")) # http://www.example.com/sub/b.html
+	print(parse.urljoin(baseUrl, "/")) # http://www.example.com/
+	print(parse.urljoin(baseUrl, "/temp/test.html")) # http://www.example.com/temp/test.html
+	print(parse.urljoin(baseUrl, "../temp/test.html")) # http://www.example.com/temp/test.html
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
