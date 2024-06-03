@@ -4664,7 +4664,7 @@ Exception처리 - error페이지
 	(3) json 디코더 내장 (따로 json 모듈 사용 안해도 됨)
 	    resp.json()
 ```
-### 파이썬 requests
+### 파이썬 requests 외장모듈
 ```
 	import requests
 
@@ -4684,8 +4684,50 @@ Exception처리 - error페이지
 	for k,v in res.headers.items():
 	    print(k,">>",v)
 ```
-### 파이썬 request
+### 파이썬 request 내장모듈
 ```
+	# 내장모듈 (주의, s가 없는 request)
+
+	from  urllib import request
+	
+	url = 'http://www.google.com' # 구글 주소
+	
+	site = request.urlopen(url)
+	page = site.read()
+	print(page)
+	print("*"*1000)
+	
+	print(site.status)
+	print("*"*1000)
+	
+	for h in site.getheaders():
+	    print(h)
+```
+### 파이썬 request 이미지 퍼오기
+```
+	# urlretrieve(): 파일로 바로 저장
+	# urlopen(): 파일로 바로 저장하기 않고 메모리에 로딩을 한다.
+	
+	""" [참고] 파일저장 기본방식
+	    f = open('a.txt','w')
+	    f.write("테스트 내용")
+	    f.close()
+	
+	    위의 과정을 with 문으로 간략하게 close 필요없음
+	    with open("a.txt","w") as f:
+	        f.write("테스트 내용")
+	"""
+	
+	from  urllib import request
+	
+	url = "https://www.google.com/images/branding/googlelogo/1x/googlelogo_light_color_272x92dp.png" # google 이미지
+	imgName = "data/daum.png" # 파일로 저장할 장소
+	
+	site = request.urlopen(url) # url 요청
+	page = site.read() # 요청 url page로 담기
+	
+	with open(imgName,"wb") as f: # wb: 쓰기 바이너리 값
+	    f.write(page)
 ```
 ### 리눅스
 ```
