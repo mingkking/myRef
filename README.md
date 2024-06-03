@@ -4664,6 +4664,29 @@ Exception처리 - error페이지
 	(3) json 디코더 내장 (따로 json 모듈 사용 안해도 됨)
 	    resp.json()
 ```
+### 파이썬 requests
+```
+	import requests
+
+	url = 'http://www.google.com' # 구글 주소
+	res = requests.get(url) # 구글에 get 방식으로 요청
+	print(res) # <Response [200]>
+	print("*"*1000)
+	
+	print(res.text) # 문자열로 받음
+	print("*"*1000)
+	
+	print(res.content) # byte 객체로 받음
+	print("*"*1000)
+	
+	print(res.headers) # dictionary 구조로 받음
+	print("*"*1000)
+	for k,v in res.headers.items():
+	    print(k,">>",v)
+```
+### 파이썬 request
+```
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
