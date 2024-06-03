@@ -5203,6 +5203,17 @@ Exception처리 - error페이지
 			systemctl restart sshd
 				재시작
 			putty 로 접속
-				ip 입력 후 접속	
+				ip 입력 후 접속
+	가상장치 푸티 말고 접속
+		https://mobaxterm.mobatek.net/download-home-edition.html
+			설치
+		yum update
+			업그레이드
+		systemctl stop firewalld
+			방화벽 멈추기
+		systemctl disable firewalld
+			방화벽 연결 끊기
+		
+			
 									
 ```
