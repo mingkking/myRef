@@ -5140,5 +5140,58 @@ Exception처리 - error페이지
 		winscp 설치
 			파일을 서버 리눅스쪽으로 옮길 수 있음
 			https://winscp.net/eng/docs/lang:ko
-			
+	가상장치 만들기
+		virtualbox
+			https://www.virtualbox.org/ - 다운로드 - VirtualBox older builds - VirtualBox 6.1 - Windows hosts
+				설치
+		hashicorp
+			[https://developer.hashicorp.com/](https://developer.hashicorp.com/vagrant/install) - Version: 2.2.19
+				설치
+			CMD
+				c:\HashiCorp
+				vagrant init
+			C:\HashiCorp
+				Vagrantfile 세팅
+					VAGRANTFILE_API_VERSION = "2"
+
+					Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+					
+					     config.ssh.insert_key = false
+					     config.vm.define :nn01 do |nn01_config|
+					        nn01_config.vm.box = "centos/7"
+					        nn01_config.vm.hostname = "nn01"
+					        nn01_config.vm.network "private_network", ip: "192.168.56.101"
+					        nn01_config.vm.provider :virtualbox do |vb|
+					            vb.name = "nn01"
+					            vb.memory = "4096"
+					        end
+					
+					     end
+					
+					    config.vm.define :dn01 do |dn01_config|
+					        dn01_config.vm.box = "centos/7"
+					        dn01_config.vm.hostname = "dn01"
+					        dn01_config.vm.network "private_network", ip: "192.168.56.102"
+					        dn01_config.vm.provider :virtualbox do |vb|
+					            vb.name = "dn01"
+					            vb.memory = "4096"
+					        end
+					    end
+					
+					
+					
+					config.vm.define :dn02 do |dn02_config|
+					        dn02_config.vm.box = "centos/7"
+					        dn02_config.vm.hostname = "dn02"
+					        dn02_config.vm.network "private_network", ip: "192.168.56.103"
+					        dn02_config.vm.provider :virtualbox do |vb|
+					            vb.name = "dn02"
+					            vb.memory = "4096"
+					        end
+					    end
+					
+					
+					end
+			CMD
+				vatrant up						
 ```
