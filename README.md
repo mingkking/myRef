@@ -4640,7 +4640,7 @@ Exception처리 - error페이지
 ```
 	파이썬에서 웹을 요청할 수 있는 라이브러리
 	        1- requests 라이브러리 (s붙음 주의) - 추가
-	        2- urllib 라이브러리 - 내장모듈
+	        2- urllib 라이브러리 - 내장모듈 (request)
 	
 	    차이점
 	        1- requests는 요청 메소드(get/post)를 구분하지만 urllib는 보내는 데이타 여부에 따라 구분됨
