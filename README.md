@@ -4768,6 +4768,119 @@ Exception처리 - error페이지
 	print(parse.urljoin(baseUrl, "/temp/test.html")) # http://www.example.com/temp/test.html
 	print(parse.urljoin(baseUrl, "../temp/test.html")) # http://www.example.com/temp/test.html
 ```
+### 파이썬 API
+```
+	"""
+	전세계날씨제공 API : http://openweathermap.org
+	
+	    1. 회원가입 : 메뉴 > Sign Up > 사용용도 : Education > 대충가입 (무료는 1번에 60번 호출 가능 )
+	    2. 개발자모드 : Sign In > API Keys 에서 내가 발급받은 키 (추가 키 가능)
+	    3. 발급받고 바로 지정 안됨 (시간소요)
+	"""
+	
+	import requests
+	import json
+	
+	# API 키를 지정합니다. 자신의 키로 변경해서 사용해주세요.
+	apikey = "1db47184ebbc18af53fd996be840d270"
+	
+	# 날씨를 확인할 도시 지정하기
+	cities = ["Seoul,KR", "Tokyo,JP", "New York,US"]
+	
+	# url 지정
+	api = "http://api.openweathermap.org/data/2.5/weather?q={city}&APPID={key}"
+	
+	# 켈빈 온도를 섭씨 온도로 변환하는 함수
+	k2c = lambda k: k - 273.15
+	
+	#def k2c(k):
+	#   return k-273.15
+	
+	for cname in cities:
+	    url = api.format(city=cname,key=apikey)
+	    res = requests.get(url) # url 요청
+	    #print(res.text) # 문자열
+	    data = json.loads(res.text) # 문자열 -> json(=dict)
+	
+	    print(data) # {'coord': {'lon': 139.6917, 'lat': 35.6895}, 'weather': [{'id': 803, 'main': 'Clouds', 'description': 'broken clouds', 'icon': '04d'}], 'base': 'stations', 'main': {'temp': 295.07, 'feels_like': 295.09, 'temp_min': 292.94, 'temp_max': 296.81, 'pressure': 1005, 'humidity': 68}, 'visibility': 10000, 'wind': {'speed': 2.57, 'deg': 40}, 'clouds': {'all': 75}, 'dt': 1717380261, 'sys': {'type': 2, 'id': 2001249, 'country': 'JP', 'sunrise': 1717356378, 'sunset': 1717408367}, 'timezone': 32400, 'id': 1850144, 'name': 'Tokyo', 'cod': 200}
+	    print("도시:",data['name'])
+	    print("날씨상태:", data["weather"][0]["description"]) # 리스트 안에 set 구조로 되어있는 description 추출
+	    print("최고기온:", round(k2c(data["main"]["temp_max"])))
+	    print("최저기온:", round(k2c(data["main"]["temp_min"])))
+	    print("습도:", data["main"]["humidity"])
+	    print("기압:", data["main"]["pressure"])
+	    print("풍속:", data["wind"]["speed"])
+```
+### 파이썬 beautifulsoup
+```
+	웹서버에 접속하고, 데이터를 요청하며 서버로부터 받는 데이터를 분석해서 정보를 제공할 수 있도록
+	파이썬의 표준 라이브러리를 사용해도 되지만
+	유용한 외부 라이브러리가 있다.
+	
+	* requests : 웹요청을 보내고 받는 기능
+	* beautifulsoup4 : 서버로부터 받은 데이터를 분석하는데 사용
+	            - 스크래이핑 할 수 있는 라이브러리
+	            - 다운로드 기능은 없음 ( 다운로드는 urllib를 이용함 )
+	            - 추가 설치 필요
+	
+	(1) 외부 라이브러리 설치
+	    * pip : PyPI(Python Package Index : 파이썬 패키지 인덱스)를 관리하는 시스템
+	    ( pip 명령어 인식 : C:\ProgramData\Anaconda3\Scripts 환경변수 PATH에 지정되어 있어야 함 )
+	
+	    > pip install requests  (* 주의 : s 붙음 )
+	    > pip install beautifulsoup4
+	
+	(2) 파이참에서 설치
+	    프로젝트 선택 후 메뉴 > File > Settings
+	    왼쪽 Project > Project Interpreter 오른쪽 + 버튼
+	    검색창에서 requests를 찾아서 install package
+	    request에 s가 붙어야 한다.
+	
+	    bs4도 추가하려면 BeautifulBS4를 찾아서 패키지 인스톨 해야 한다.
+
+```
+### 파이썬 웹 요소
+```
+	"""
+	    bs4 라이브러리 : 웹에서 가져온 HTML코드를 파이썬에서 사용하기 편하게 파싱해주는 라이브러리
+	            [참고] 웹에서 가져온 HTML코드 가져오는 방법
+	                - requests 모듈
+	                - urllib 의 request 모듈
+	
+	    BeautifulSoup 모듈
+	        - find()
+	        - find_all()
+	    
+	    [참고] 파서의 종류 
+	        - lxml : c로 만들어져 속도 빠름
+	        - html5lib : 파이썬으로 만들어서 lxml보다 느림
+	        - html.parser (*): 파이썬 버전을 확인해서 사용
+	"""
+	
+	from bs4 import BeautifulSoup
+	
+	html = """
+	    <html><body>
+	        <h1>스크레이핑 연습</h1>
+	        <p>웹페이지 분석하자</p>
+	        <p>데이타 정제하기</p>
+	    </body></html>
+	"""
+	
+	# 1. 데이타 파서하기
+	soup = BeautifulSoup(html,"html.parser")
+	
+	# 2. 원하는 요소 접근하기
+	h1 = soup.html.body.h1 # body 안 h1태그
+	print(h1.text)
+	
+	# 3. 요소의 내용 추출하기
+	p = soup.findAll("p") # 모든 p 태그
+	print(p)
+	
+	for i in p:
+	    print(i.text)
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
