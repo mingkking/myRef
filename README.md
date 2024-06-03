@@ -5193,5 +5193,16 @@ Exception처리 - error페이지
 					
 					end
 			CMD
-				vatrant up						
+				vatrant up
+			nn01
+				ip addr 로 ip 확인
+			설정 파일
+				vi /etc/ssh/sshd_config
+			ESC - /Password 입력
+				(검색기능)
+			systemctl restart sshd
+				재시작
+			putty 로 접속
+				ip 입력 후 접속	
+									
 ```
