@@ -4912,7 +4912,7 @@ Exception처리 - error페이지
 	    print(i.get("href")) # a 태그의 속성 href 값
 	    print(i.attrs["href"]) # a 태그의 속성 href 값
 ```
-### 파이썬 셀레니움
+### 파이썬 셀레니움 (웹 컨트롤롤)
 ```
 	1. selenium
 	    - 주로 웹앱을 테스트하는데 이용하는 프레임워크
@@ -5004,6 +5004,11 @@ Exception처리 - error페이지
 		
 		# 2. 페이지 접근
 		driver.get("http://ictedu.atosoft.net/worknet/SLogin.asp")
+```
+### 파이썬 폴리움 (지도)
+```
+	설치
+		folium
 ```
 ### 리눅스
 ```
