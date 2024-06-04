@@ -4912,6 +4912,76 @@ Exception처리 - error페이지
 	    print(i.get("href")) # a 태그의 속성 href 값
 	    print(i.attrs["href"]) # a 태그의 속성 href 값
 ```
+### 파이썬 셀레니움
+```
+	1. selenium
+	    - 주로 웹앱을 테스트하는데 이용하는 프레임워크
+	    - 웹 브라우저를 원격으로 조작할 때 사용
+	    - 자동으로 URL을 열고 클릭, 스크롤, 문자 입력등의 동작을 조작할 수 있다.
+	    - webdriver라는 API를 통해 운영체제에 설치된 Chrome등의 브라우저를 제어하게 된다.
+	
+	    [설치]  메뉴 > File > Settings > Project Interpreter > + 버튼
+	     selenium 검색 후 인스톨
+	        > pip install selenium
+	
+	    [참고] Selenium의 버전은 자주 업데이트 되고, 브라우저의 업데이트 마다 새로운 Driver를 잡아주기 때문에
+	        항상 최신버전을 깔아 주는 것이 좋다.
+	
+	    [매뉴얼]
+	    ` https://selenium-python.readthedocs.io/index.html
+	    ` https://docs.seleniumhq.org/docs/
+	
+	
+	2. 크롬 웹드라이버 ( Chrome WebDriver )
+	
+	    [다운로드] http://chromedriver.chromium.org/downloads
+	        chromedirver_win32.zip 파일 다운로드 받고 압축풀기
+
+	* Selenium은 driver객체를 통해 여러가지 메소드를 제공한다.
+	  - HTML을 브라우저에서 파싱해주기 때문에 굳이 Python와 BeautifulSoup을 사용하지 않아도 된다.
+	
+	
+	[ URL에 접근하는 api ]
+	
+	get(‘http://url.com’)
+	
+	1. DOM 내부에 있는 여러 요소 중 첫 번째 요소(element) 찾는다.
+		find_element_by_name(‘HTML_name’)
+		find_element_by_id(‘HTML_id’)
+		find_element_by_css_selector(‘#css > div.selector’)
+		find_element_by_class_name(‘some_class_name’)
+		find_element_by_tag_name(‘h1’)
+		find_element_by_xpath(‘/html/body/some/xpath’) : xpath 지정하여 해당 요소 추출
+		find_element_by_link_text(‘text’) : 링크 텍스트로 요소 추출
+	-------------------------------------------------
+	[4버전]
+		find_element(By.ID, 'HTML_id')
+		find_element(By.NAME, 'HTML_name')
+	
+	2. DOM에서 모든 요소 추출
+		find_elemens_by_css_selector(‘#css > div.selector’)
+		find_elements_by_class_name(‘some_class_name’)
+		find_elements_by_tag_name(‘h1’)
+		
+		3. DOM 요소에 적용할 수 있는 메소드와 속성
+		clear()             : 글자를 지움
+		click()             : 클릭
+		get_attribute(name) : 요소의 속성 name에 해당하는 값을 추출
+		is_displayed()      : 요소가 화면에 출력되는지 확인
+		is_enabled()
+		is_selected()
+		execute_script()
+		save_screenshot(filename)
+		submit()
+		
+		외에도 많은 속성과 메소드가 있습니다.
+		
+		또한 각 브라우저 드라이버 객체의 속성도 있습니다.
+
+	터미널
+		pip install --upgrade selenium
+		pip install webdriver_manager
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
