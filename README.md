@@ -4981,6 +4981,29 @@ Exception처리 - error페이지
 	터미널
 		pip install --upgrade selenium
 		pip install webdriver_manager
+	웹 컨트롤
+		from selenium import webdriver
+		from selenium import webdriver
+		from selenium.webdriver.common.by import By
+		from selenium.webdriver.chrome.options import Options
+		from selenium.webdriver.chrome.service import Service
+		from webdriver_manager.chrome import ChromeDriverManager
+		import time
+		
+		# 0. 네이버 로그인 정보
+		myID = '정민기'
+		myPW = '5176'
+		
+		# 1. webdriver 객체생성
+		options = Options()
+		# 옵션에 추가
+		# [예] 브라우저 꺼짐 방지
+		options.add_experimental_option("detach",True)
+		service = Service(ChromeDriverManager().install()) # 크롬드라이버 매니저 설치
+		driver = webdriver.Chrome(options=options)
+		
+		# 2. 페이지 접근
+		driver.get("http://ictedu.atosoft.net/worknet/SLogin.asp")
 ```
 ### 리눅스
 ```
