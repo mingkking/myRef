@@ -5315,3 +5315,145 @@ Exception처리 - error페이지
 			
 									
 ```
+### 리눅스 분산 환경 구축
+```
+	모든 사용자를 위한 java를 설치할 예정이니, root 계정으로 로그인한다.
+	설치되었는지 확인하기 
+	[root@nn01 ~]$ which java
+	
+	(1)설치전 필요 툴 ( root 계정에서 )
+		$ yum install -y autoconf automake libtool curl gcc-c++ unzip
+	2. JDK 8 설치 (nn01,dn01,dn02)
+	
+	***** zeppline 0.10 버전에서 jdk 1.8.151 이상을 요구한다
+	
+	그래서 jdk 버전을 여기서 높히자!!!!!!!!
+	           a. cd /tmp
+	           b. yum install -y vim wget unzip
+	           c. wget --no-check-certificate --no-cookies - --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.tar.gz
+	                       ( Local에 이미 다운로드 한 경우 Winscp를 이용하여 업로드 )
+	           d. ls jdk*
+	           e. tar -xvzpf jdk-8u131-linux-x64.tar.gz
+	           f. mkdir -p /opt/jdk/1.8.0_131
+	           g. mv jdk1.8.0_131/* /opt/jdk/1.8.0_131/
+	           h. ln -s /opt/jdk/1.8.0_131 /opt/jdk/current
+	           i. install java with alternatives (에러)
+	alternatives명령어 : centos의 yum을 통해 java를 install하게 되면 버젼관리 대상으로 들어간다.  
+	그리고 centos는 버젼관리를 위한 명령어를 제공하는데 그것이 바로 alternatives라는 명령어이다.
+	alternatives --install /usr/bin/java java /opt/jdk/1.8.0_131/bin/java 2
+	alternatives --config java
+	There is 1 program that provides 'java'.
+	Selection Command
+	
+	-----------------------------------------------
+	
+	*+ 1 /opt/jdk1.8.0_131/bin/java
+	Enter to keep the current selection[+], or type selection number:1  (입력)
+	javac와 jar 명령어 경로도 alternatives 적용 권장
+	At this point JAVA 8 has been successfully installed on your system. 
+	We also recommend to setup javac and jar commands path using alternatives
+	alternatives --install /usr/bin/jar jar /opt/jdk/1.8.0_131/bin/jar 2
+	alternatives --install /usr/bin/javac javac /opt/jdk/1.8.0_131/bin/javac 2
+	alternatives --set jar /opt/jdk/1.8.0_131/bin/jar
+	alternatives --set javac /opt/jdk/1.8.0_131/bin/javac
+	
+	java -version
+
+	*******************************************************************************
+	--------------------------------------------------------------------------------
+	3. Hadoop 설치 (nn01 / dn01 / dn02)
+		a. cd /tmp
+		b. wget  https://archive.apache.org/dist/hadoop/common/hadoop-2.7.7/hadoop-2.7.7.tar.gz
+		c. tar -xvzf hadoop-2.7.7.tar.gz	
+		d. mkdir -p /opt/hadoop/2.7.7	
+		e. mv hadoop-2.7.7/* /opt/hadoop/2.7.7/	
+		f. ln -s /opt/hadoop/2.7.7 /opt/hadoop/current
+	4. Hadoop 사용자 추가
+		a. useradd hadoop
+		b. passwd hadoop   ( 비밀번호도 hadoop 으로 - 비밀번호 입력시는 글자표시 안됨  )
+		c. chown -R hadoop:hadoop /opt/hadoop/  ( 루트에서 만든 파일의 권한을 hadoop에게 권함)
+		d. su - hadoop
+	5. 자바 및 Hadoop 환경 변수 추가
+	 ( 설정파일 수정할 때는 MultiExe 보다 하나씩 하는 것이 나을 수도 있다 )
+	     a. vi ~/.bash_profile
+	#### HADOOP 2.7.7 start ############	
+		PATH=$PATH:$HOME/bin	
+		export HADOOP_HOME=/opt/hadoop/current	
+		export PATH=$PATH:$HADOOP_HOME/bin	
+		export PATH=$PATH:$HADOOP_HOME/sbin
+	
+	#### HADOOP 2.7.7end############
+	#### JAVA 1.8.0 start#############
+		export JAVA_HOME=/opt/jdk/current
+		export PATH=$PATH:$JAVA_HOME/bin
+	#### JAVA 1.8.0 end##############
+		b.  source ~/.bash_profile
+	9. 자바 및 hadoop 버전 확인
+	    a. java -version
+	    b. hadoop version
+	10. 비밀번호없이 각노드를 접속할 수 있도록 공개키 공유(SSH)
+	(0) 아래부분은 가상머신에서  직접해야 한다. (*****)
+	     vi 강제 종료  :q!
+	vi /etc/hosts (root 권한으로 ) - localhost 꼭 지운다 ( 모든 노드 다 )
+		192.168.56.101 nn01
+		192.168.56.102 dn01
+		192.168.56.103 dn02
+	(1) 키만들기 (Hadoop 계정에서 )
+	( MultiExec 에서 하면 다른 키값을 생성되는 것을 볼 수 있다 )
+		[hadoop@nn01 ~]$ ssh-keygen
+		[hadoop@dn01 ~]$ ssh-keygen
+		[hadoop@dn02 ~]$ ssh-keygen
+		엔터만 3번친다
+	2.키복사하기  
+	( 여기서는 MultiExec 풀고 작업 - 각 노드별로 작업)
+	( 자기 자신에게도 복사를 해야 됨 )		​	
+		[hadoop@nn01 ~]$ ssh-copy-id hadoop@dn01	
+		[hadoop@nn01 ~]$ ssh-copy-id hadoop@nn01	
+		[hadoop@nn01 ~]$ ssh-copy-id hadoop@dn02		 	
+		[hadoop@dn01 ~]$ ssh-copy-id hadoop@dn01	
+		[hadoop@dn01 ~]$ ssh-copy-id hadoop@nn01	
+		[hadoop@dn01 ~]$ ssh-copy-id hadoop@dn02		​	
+		[hadoop@dn02 ~]$ ssh-copy-id hadoop@dn01	
+		[hadoop@dn02 ~]$ ssh-copy-id hadoop@nn01	
+		[hadoop@dn02 ~]$ ssh-copy-id hadoop@dn02		​
+		yes >  비밀번호 hadoop
+
+	---------------------------------------
+	
+	****패스워드없이 이동이 가능하다.  ( 나올 때는 exit 또는 logout 으로 나온다 )
+		[hadoop@nn01 ~]$ ssh dn01
+		[hadoop@nn01 ~]$ ssh dn02
+		[hadoop@dn01 ~]$ ssh nn01
+		[hadoop@dn01 ~]$ ssh dn02
+		[hadoop@dn02 ~]$ ssh nn01
+		[hadoop@dn02 ~]$ ssh dn01
+		
+	-----------------------------------------------
+	
+	[ su 명령어로 계정변경 가능하도록 ] - 각 노드에서 모두 수정		​	
+		root->vagrant->hadoop	
+		hadoop에서   su -    가 인증실패됨
+		이을 해결하기위해
+		/etc/pam.d/su 파일의 vagrant포함되어 있는 부분 3줄삭제 또는 hadoop으로 변경
+		가상머신에서 root 계정에서 직접수정	
+		[root@nn01 ~]# vi /etc/pam.d/su	
+	​	10,11,12 라인에 vagrant 라고 보이는 3줄 주석처리
+		[root@nn01 ~]# su - hadoop  //가능해짐 
+		[hadoop@nn01 ~]​
+	
+	----------------------------------------------------
+	
+	* sudo 명령어 안될 때 
+		root 계정에서 visudo -f /etc/sudoers
+		ecs :100 라인  root  ALL=(ALL) ALL 을 yy로 복사하고 바로 p 눌려서 붙이고
+		root를 hadoop으로 변경
+		root   ALL=(ALL) ALL
+		hadoop ALL=(ALL) ALL
+		여기에 패스워드까지 묻지 않고 연결하고 싶으면 
+		hadoop ALL=(ALL) NOPASSWD: ALL  ( 계정 등록 ) 
+		%hadoop ALL=(ALL) NOPASSWD: ALL ( 그룹 등록 )
+	
+	​**************************************************	
+	*** 나갈 때 제발 > stop-all.sh  꼭	
+	**************************************************
+```
