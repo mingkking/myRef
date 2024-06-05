@@ -5197,6 +5197,8 @@ Exception처리 - error페이지
 			실행중인 프로세스 검색해서 보기
 		kill -9 파일명
 			실행중인 프로세스를 강제로 죽이기
+		chown -R hadoop:hadoop /opt/hadoop
+			소유주 바꾸기
 	링크
 		하드링크
 			ln basefile hardlink
