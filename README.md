@@ -5130,6 +5130,10 @@ Exception처리 - error페이지
 		print(type(data))
 		print(data.head())
 		print(data.tail(12))
+	막대그래프
+		pp.plot(kind="bar")
+	원형그래프
+		pp.plot(kind="pie")
 ```
 ### 리눅스
 ```
