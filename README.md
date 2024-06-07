@@ -5010,7 +5010,7 @@ Exception처리 - error페이지
 	설치
 		folium
 ```
-### 파이썬 주피터노트북
+### 파이썬 주피터노트북 넘파이
 ```
 	주피터 속성 - "워크스페이스경로"
 	# 넘파이
@@ -5019,21 +5019,101 @@ Exception처리 - error페이지
 		print(nplist*2)
 		print(nplist*0)
 		print(nplist*0.01)
-	# (2) 행렬의 곱
-		A = np.array(
-		    [[1, 2, 3],
-		    [4, 5, 6]])
-		B = np.array(
-		    [[7,8],
-		     [9,10],
-		     [11, 12]])
-		np.dot(A,B)
-	# (3) 전치행렬
-		# - 원 행렬에서 행과 열 위치를 교환한 원소로 구성한 행렬
-		A = np.array(
-		    [[1, 2, 3],
-		    [4, 5, 6]])
-		np.transpose(A)
+
+		# (2) 행렬의 곱
+			A = np.array(
+			    [[1, 2, 3],
+			    [4, 5, 6]])
+			B = np.array(
+			    [[7,8],
+			     [9,10],
+			     [11, 12]])
+			np.dot(A,B)
+		# (3) 전치행렬
+			# - 원 행렬에서 행과 열 위치를 교환한 원소로 구성한 행렬
+			A = np.array(
+			    [[1, 2, 3],
+			    [4, 5, 6]])
+			np.transpose(A)
+		# 평균
+			np.mean(ar)
+		# 총합
+			np.sum(ar)
+		# 큰값
+			np.max(ar)
+		# 각 원소의 누적곱
+			np.cumprod(ar)
+		# 총합
+			np.sum(arr)
+		#  특정 행의 합
+			np.sum(arr[1])
+		# axis=0 : 행방향 - 열단위 합
+			np.sum(arr,axis=0)
+		# axis=1 : 열방향 - 행단위 합
+			np.sum(arr,axis=1)
+		# 불린 배열에서의 배열
+			arr2 = np.array([[12, 7, 22], [20,33, 44], [4,5,6]])
+			arr2[arr2>20]
+		# unique 연산자를 이용하여 중복제거
+			region = np.array(['가산','서울','서울','판교','가산','일산','일산'])
+			np.unique(region)
+		# 정렬 (원본 X)
+			arr = np.array([9,3,6,1,7,2,4,8,5,6])
+			np.sort(arr)
+			np.sort(arr)[::-1]		
+```
+### 파이썬 주피터노트북 판다스
+```
+	Series
+		DataFrame의 한 컬럼 데이터 세트
+		Series 역시 DataFrame의 인덱스와 동일한 인덱스를 가진다
+		즉 Series는 컬럼이 하나인 데이타 구조체이고, DataFrame은 컬럼이 여러개인 데이타 구조체이다
+		DataFrame을 RDBMS의 테이블과 유사하다면, Series는 테이블의 한 컬럼과 유사다하고 볼 수 있다
+
+		# from pandas import Series
+		# age_in = Series([22,33,44,25,28])		
+		import pandas as pd
+		age_in = pd.Series([22,33,44,25,28])
+	age_in.index
+		RangeIndex(start=0, stop=5, step=1)
+	age_in.values
+		array([22, 33, 44, 25, 28], dtype=int64)
+	Series 인덱스
+		리스트, 튜플의 index와 dict 의 key 와 유사
+		같은 값의 index 가 가능 ( 즉, 중복 가능 )
+	인덱스 지정하며 시리즈 생성
+		age_in = pd.Series([22,33,44,25,28], index=['가','나','다','라','마'])
+		age_in["다"] = 100
+	# Series 인덱스 중복 확인
+		srs = pd.Series(["가","나","다"], index=["a","b","b"])
+		print(srs["b"]) # 나, 다
+	# 딕셔러리를 시리즈 형태로 변환
+		info_list = { 'kim': 25, 'park':22, 'lee':34 }
+		info_series = pd.Series({ 'kim': 25, 'park':22, 'lee':34 })
+	# 그래프
+		import pandas as pd
+		odd = [1,2,3,4,5]
+		sodd = pd.Series(odd)
+		sodd.plot()
+	DataFrame
+		열(컬럼) 추출
+			df.컬럼명
+			df['컬럼명']
+		행 추출
+			df.loc[] : 인덱스 지정하지 않으면 인덱스(순서), 인덱스 지정하면 인덱스로 추출
+			df.iloc[] : 인덱스(순서)로 추출
+		행과 열에서 추출
+			df.loc[2, 3] : 2 행의 3열 데이타
+			df.loc[1:3, 2:4] : 1부터 3행전까지의 행에서 2부터 4전까지의 열의 데이타
+
+		import pandas as pd
+		# 데이타 프레임 자료 생성
+		mydata = {
+			  'name':['홍길동','박길동','김길동'], 
+			  'age':[22,33,44], 
+			  'dept':['컴공','국어','산업']
+			 }
+		df = pd.DataFrame(mydata)
 
 ```
 ### 리눅스
