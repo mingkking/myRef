@@ -5010,6 +5010,32 @@ Exception처리 - error페이지
 	설치
 		folium
 ```
+### 파이썬 주피터노트북
+```
+	주피터 속성 - "워크스페이스경로"
+	# 넘파이
+		import numpy as np
+		nplist = np.array([1,2,3])
+		print(nplist*2)
+		print(nplist*0)
+		print(nplist*0.01)
+	# (2) 행렬의 곱
+		A = np.array(
+		    [[1, 2, 3],
+		    [4, 5, 6]])
+		B = np.array(
+		    [[7,8],
+		     [9,10],
+		     [11, 12]])
+		np.dot(A,B)
+	# (3) 전치행렬
+		# - 원 행렬에서 행과 열 위치를 교환한 원소로 구성한 행렬
+		A = np.array(
+		    [[1, 2, 3],
+		    [4, 5, 6]])
+		np.transpose(A)
+
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
