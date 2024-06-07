@@ -5124,6 +5124,12 @@ Exception처리 - error페이지
 		df.info()
 	# 기본통계량 구하기 ( 총개수, 평균, 표준편차, 최소값, 4분위수 등)
 		df.describe()
+	csv 파일 데이타 분석
+		import pandas as pd
+		data = pd.read_csv("data/president_heights.csv")
+		print(type(data))
+		print(data.head())
+		print(data.tail(12))
 ```
 ### 리눅스
 ```
