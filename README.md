@@ -5114,6 +5114,17 @@ Exception처리 - error페이지
 			  'dept':['컴공','국어','산업']
 			 }
 		df = pd.DataFrame(mydata)
+	통계함수
+		count()
+		sum()
+		mean()
+		std()
+		var()
+		min()
+		max()
+		cumsum()
+		cumprod()
+		describe() : 요약통계량
 	컬럼추가
 		df["gender"] = ["여자","여자","남자"]
 	# 행 추가
