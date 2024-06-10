@@ -5114,17 +5114,28 @@ Exception처리 - error페이지
 			  'dept':['컴공','국어','산업']
 			 }
 		df = pd.DataFrame(mydata)
-	통계함수
-		count()
-		sum()
-		mean()
-		std()
-		var()
-		min()
-		max()
-		cumsum()
-		cumprod()
-		describe() : 요약통계량
+		df.head(10)
+			앞에 10개 행 보기
+		# 판매건수에서 작은 값 순으로 10개
+			df.nsmallest(10,"판매건수")
+		# 판매건수에서 작은 값 순으로 10개 중 가격 순
+			df.nsmallest(10,["판매건수","가격"])
+		# 판매건수에서 큰 값 순으로 10개
+			df.nlargest(10,"판매건수")
+		# 앞에 행 10개
+			df.head(10)
+		통계함수
+			count()
+			sum()
+			mean()
+			std()
+			var()
+			min()
+			max()
+			cumsum()
+			cumprod()
+			describe() : 요약통계량
+		
 	컬럼추가
 		df["gender"] = ["여자","여자","남자"]
 	# 행 추가
