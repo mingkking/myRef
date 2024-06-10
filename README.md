@@ -5179,7 +5179,30 @@ Exception처리 - error페이지
 		# df["가격"] 에서 10000원 20000원 사이 상품
 			condi = (df["가격"] > 10000) & (df["가격"] < 20000)
 			df[condi]
-		
+		# 결측치 False True 로 나오게
+			print(df.isnull())
+		# 결측치 개수
+			print(df.isnull().count)
+		# 1컬럼 결측치 Unknown, 2컬럼 결측치 -100
+			df.fillna({1:"Unknown",2:-100})
+		# 임신횟수(pregnant)당 당뇨병 발생(diabetes) 확률을 구한다
+			temp = df[["pregnant","diabetes"]]
+			temp
+			
+		# 그룹별 수
+			temp2 = temp.groupby("pregnant").count()
+			print(temp2)
+			print("*"*100)
+			
+		# 그룹별 합
+			temp3 = temp.groupby("pregnant").sum()
+			print(temp3)
+			print("*"*100)
+			
+		# 그룹별 평균
+			temp4 = temp.groupby("pregnant").mean() 
+			print(temp4)
+			print("*"*100)
 	컬럼추가
 		df["gender"] = ["여자","여자","남자"]
 	# 행 추가
