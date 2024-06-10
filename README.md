@@ -5009,6 +5009,37 @@ Exception처리 - error페이지
 ```
 	설치
 		folium
+	import folium
+
+	# map_osm = folium.Map(location=[37.572807, 126.975918])
+	# map_osm.save("./map/map1.html")
+	
+	# [2] 지도 줌 설정 (16~19)
+	# map_osm = folium.Map(location=[37.572807, 126.975918],zoom_start=17)
+	# map_osm.save("./map/map1.html")
+	
+	# [3] 지도 모양 설정
+	# map_osm = folium.Map(location=[37.572807, 126.975918],
+	#                      zoom_start=17,
+	#                      tiles="Stamen Terrain") # Stamen Toner, Mapbox Bright, Mapbox Control room tiles
+	# map_osm.save("./map/map1.html")
+	
+	# [4] Marker
+	map_osm = folium.Map(location=[37.572807, 126.975918],
+	                     zoom_start=17)
+	folium.Marker(location=[37.572807, 126.975918],
+	              popup="세종문화회관",
+	              icon=folium.Icon(color="red",icon="info-sign")
+	              ).add_to(map_osm)
+	print(type(37.576099))
+	folium.CircleMarker(location=[37.576099, 126.976881],
+	                    popup="광화문",
+	                    radius=100,
+	                    color="red",
+	                    fill_color="yellow"
+	                    ).add_to(map_osm)
+	#folium.TileLayer(tiles="Stamen Toner").add_to(map_osm)
+	map_osm.save("./map/map2.html")
 ```
 ### 파이썬 주피터노트북 넘파이
 ```
@@ -5135,6 +5166,9 @@ Exception처리 - error페이지
 			cumsum()
 			cumprod()
 			describe() : 요약통계량
+		# df["가격"] 에서 10000원 20000원 사이 상품
+			condi = (df["가격"] > 10000) & (df["가격"] < 20000)
+			df[condi]
 		
 	컬럼추가
 		df["gender"] = ["여자","여자","남자"]
