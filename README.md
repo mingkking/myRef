@@ -5127,6 +5127,44 @@ Exception처리 - error페이지
 		sodd = pd.Series(odd)
 		sodd.plot()
 	DataFrame
+		# csv 파일로 저장하기
+			import pandas as pd
+			
+			mysource = {
+			    '시도':['서울','경기','인천','부산','대전'],
+			    '구분':['특별시','도','광역시','광역시','광역시'],
+			    '인구':['999만','1300만','400만','600만','300만'],
+			    '면적':[600.9, 10171, 1234.5, 747.8, 459.1]
+			}
+			df = pd.DataFrame(mysource)
+			df.to_csv("result/temp.csv")
+		# 컬럼명을 인덱스로 지정
+			df2 = pd.read_csv("result/temp.csv",index_col="Unnamed: 0")
+			df2
+		# csv 파일 가공
+			df3 = pd.read_csv("result/temp.csv", # 파일 위치
+			                  names=["번호","시도","구분","인구","면적"], # 컬럼명 지정
+			                  index_col="번호", # 인덱스 컬럼명
+			                  skiprows=[0],  # 첫번째 행 스킵
+			                  nrows=3) # 3번 째 행까지만 출력
+			df3
+		# 엑셀 파일 가공
+			df4 = pd.read_excel("data/인구주택총조사2015.xlsx",
+			                   nrows=10,
+			                   usecols="C:J")
+			df4
+		# 텍스트파일(data/TextData.txt) 읽어오기
+		# 미리 엑셀파일에서 5줄 복사해서 메모장에 넣고 (탭구분상태)로 저장한다.
+			df5 = pd.read_csv("data/TextData.txt",encoding="cp949",sep="\t")
+			df5
+		# json 파일 읽기
+			import json
+			df9 = json.load(open("data/JsonData.json"))
+			print(df9)
+			print(df9["kind1"])
+			print(df9["region"])
+			print(df9["food_name"])
+			print(df9["food_name"]["one-of-best"])
 		열(컬럼) 추출
 			df.컬럼명
 			df['컬럼명']
@@ -5188,7 +5226,6 @@ Exception처리 - error페이지
 		# 임신횟수(pregnant)당 당뇨병 발생(diabetes) 확률을 구한다
 			temp = df[["pregnant","diabetes"]]
 			temp
-			
 		# 그룹별 수
 			temp2 = temp.groupby("pregnant").count()
 			print(temp2)
@@ -5203,6 +5240,15 @@ Exception처리 - error페이지
 			temp4 = temp.groupby("pregnant").mean() 
 			print(temp4)
 			print("*"*100)
+		# 한글처리 그래프
+			from matplotlib import rc
+			rc('font', family='Malgun Gothic')
+		# (3) W로 시작하는 artist_name 추출
+			condi = df["artist_name"].str.startswith("W")
+			df[condi]
+		# (4) album_name에 'LOVE'이라는 단어가 들어있는 데이타 추출
+			condi = df["album_name"].str.contains("LOVE")
+			df[condi]
 	컬럼추가
 		df["gender"] = ["여자","여자","남자"]
 	# 행 추가
