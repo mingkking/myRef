@@ -5155,6 +5155,16 @@ Exception처리 - error페이지
 			df.nlargest(10,"판매건수")
 		# 앞에 행 10개
 			df.head(10)
+		# 가격순으로 정렬하되 판매건수와 가격만 추출
+			temp = df[["판매건수","가격"]]
+			temp.sort_values("가격",ascending=False)
+		# 가격순으로 정렬하되 판매건수와 가격만 추출
+			temp = df[["판매건수","가격"]]
+			print(temp)
+		# 가격순으로 정렬하되 판매건수와 가격만 추출하여 내림차순 10개
+			print(temp.sort_values("가격",ascending=False)[:10]["가격"])
+		# 그래프로 변환
+			temp.sort_values("가격",ascending=False)[:10]["가격"].plot(kind="bar")
 		통계함수
 			count()
 			sum()
