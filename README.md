@@ -5269,6 +5269,138 @@ Exception처리 - error페이지
 		pp.plot(kind="bar")
 	원형그래프
 		pp.plot(kind="pie")
+	시각화
+		import seaborn
+		anscombe = seaborn.load_dataset('anscombe')
+		anscombe
+	추출
+		dataset_1 = anscombe[ anscombe['dataset']=='I']
+		dataset_2 = anscombe[ anscombe['dataset']=='II']
+		dataset_3 = anscombe[ anscombe['dataset']=='III']
+		dataset_4 = anscombe[ anscombe['dataset']=='IV']
+	그래프로
+		import matplotlib.pyplot as plt
+		# [결론] 평균, 분산 등의 수치가 같아도 그래프 형태로 확인하면 다른 데이타임을 알 수 있다
+		fig = plt.figure()  #  1-전체 그래프의 기본 틀
+		axes1 = fig.add_subplot(2,2,1) # 2-그래프를 넣을 그래프 격자
+		axes2 = fig.add_subplot(2,2,2)
+		axes3 = fig.add_subplot(2,2,3)
+		axes4 = fig.add_subplot(2,2,4)
+		
+		axes1.plot(dataset_1['x'], dataset_1['y'], 'o') # 3-격자에 그래프 추가
+		axes2.plot(dataset_2['x'], dataset_2['y'], 'o')
+		axes3.plot(dataset_3['x'], dataset_3['y'], 'o')
+		axes4.plot(dataset_4['x'], dataset_4['y'], 'o')
+	그래프
+		from pandas import Series
+		s=Series([1.5, 2.3, 0.9], index=['no1','no2','no3'])
+		splot = s.plot(kind="hist") # 그래프 그리기
+		splot.set_xlabel("data2") # x축 제목
+		splot.set_ylabel("value2") # y축 제목
+		splot.set_title("Sample") # 그래프 제목
+
+		df.plot(kind="barh",title="DATA CHART", xlabel="하하",ylabel="하하")
+	""" 0. 플롯 스타일 """
+		plt.style.use("classic") # 그래프 꾸미기
+	""" 1. 색상지정 """
+		plt.plot(np.sin(x-0), color="red") 
+		plt.plot(np.sin(x-1), color="g")
+		plt.plot(np.sin(x-2), color="#FF9933")
+		plt.plot(np.sin(x-3), color="chartreuse")
+		plt.plot(np.sin(x-4), color=(0.5,0.2,1.0))
+	""" 2. 선스타일 """
+		plt.plot(np.sin(x-0), color="red", linestyle="solid") 
+		plt.plot(np.sin(x-1), color="g", linestyle="dotted")
+		plt.plot(np.sin(x-2), color="#FF9933", linestyle="dashed")
+		plt.plot(np.sin(x-3), color="chartreuse", linestyle="dashdot")
+	''' 4. 범례 '''
+		plt.plot(np.sin(x-0),"-g",label="first") # solid + green
+		plt.plot(np.sin(x-1),"--c",label="second") # dashed + cyan
+		plt.plot(np.sin(x-2),"-.k",label="third") # dashed + black
+		plt.plot(np.sin(x-3),":r",label="fourth") # dotted + red
+		
+		plt.legend(loc=1)
+	그래프 위치 지정
+		plt.figure(figsize=(12,8))
+	
+		plt.subplot(223) # 2행 2열 세 번째
+		plt.subplot(224) # 2행 2열 네 번째
+		plt.subplot(211) # 2행 1열 첫 번째
+		
+		plt.show()
+
+		plt.figure(figsize=(12,8))
+
+		plt.subplot(2,3,(1,2)) # 2행 1열 첫 번째 두 번째
+		plt.subplot(2,3,3) # 2행 1열 세 번째
+		plt.subplot(2,1,2) # 2행 2열 전체
+		
+		plt.show()plt.figure(figsize=(12,8))
+		
+		plt.subplot(2,3,(1,2)) # 2행 1열 첫 번째 두 번째
+		plt.subplot(2,3,3) # 2행 1열 세 번째
+		plt.subplot(2,1,2) # 2행 2열 전체
+		
+		plt.show()
+	그래프 영역 지정 그리기
+		# 1- 그래프 틀(영역)을 만들기
+		fig, ax = plt.subplots(1,2)
+		
+		# 2- 그래프 그리기
+		ax[0].plot(np.random.randn(100))
+		ax[1].plot(np.random.randn(200).cumsum())
+	그래프 마커 추가
+		plt.plot(step,data,linestyle="dashed",color="blue",marker="o",markersize=12,markerfacecolor="cyan")
+	# 그래프 주석
+		ax.annotate("My comment", xy=(6.2,1),xytext=(3,2),arrowprops=dict(facecolor="red",shrink=0.05))
+	히스토그램 (수치 를 나타낼 때)
+		tips["total_bill"]
+		plt.hist(tips["total_bill"],bins=100,color="green")
+		plt.title("전체지불금액");
+		plt.xlabel("빈도수")
+		plt.ylabel("지불금액")
+	# 이변량 그래프 - 변수 2개를 이용한 그래프
+	# 지불금액에 따른 팁 금액을 나타내는 그래프
+		plt.scatter(tips["total_bill"],tips["tip"]);
+	# 이산형 변수와 연속형 변수 - 박스플롯
+	# 성별에 따른 팁을 나타내는 그래프
+		female = tips[tips["sex"] == 'Female']["tip"] 
+		male = tips[tips["sex"] == 'Male']["tip"] 
+		print(female)
+		print(male)
+		
+		plt.boxplot([female,male],labels=("여자","남자"));
+		plt.title("성별에 따른 팁금액")
+	# 다변량 그래프 - 3개 이상의 변수로 그래프
+	# (1) 성별을 0과 1로 변환하는 함수 선언
+	# 식사지불과 팁의 정도를 성별에 따라 그래프를 그린다면
+		def gender(sex):
+		    if sex == "Female":
+		        return 0
+		    else:
+		        return 1
+		
+		# (2) 변경한 성별값의 변수(컬럼 sex_col) 추가
+		tips["sex_col"] = tips["sex"].apply(gender)
+		tips.head(20)
+		
+		# (3) 그래프 : x와 y 축, c=점의 색상, alpha=점의 투명도, s=점의 크기
+		#    테이블당의 인원수를 점의 크기로 표현한다면 s=tips['size']*10 추가
+		plt.scatter(x=tips["total_bill"],
+		            y=tips["tip"],
+		            c=tips["sex_col"],
+		            s=tips["size"]*20,
+		            alpha=0.5
+		           )
+	한글 처리
+		from matplotlib import font_manager, rc
+		import matplotlib.pyplot as plt
+		
+		plt.rcParams['axes.unicode_minus']=False  # 추가설정 : 폰트를 변경하면 -표시가 ㅁ으로 변경되기에 '-'를 변경하지 않도록 지정
+		rc('font', family='Malgun Gothic')
+	폰트 종류
+		font_manager.fontManager.ttflist
+	
 ```
 ### 리눅스
 ```
