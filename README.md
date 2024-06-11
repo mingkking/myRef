@@ -5400,7 +5400,48 @@ Exception처리 - error페이지
 		rc('font', family='Malgun Gothic')
 	폰트 종류
 		font_manager.fontManager.ttflist
-	
+	# csv 데이터 합치기
+		df = pd.concat([df01,df02])
+		df
+	# 두 데이타프레임에 동일한 컬럼명이면 하나의 컬럼명으로
+	# 다른 컬럼명이면 두 개의 컬럼명이 중복
+		merge_data = pd.merge(site,visited,left_on="name", right_on="site")
+		merge_data
+	# 값들 중 NaN 이 포함 되어 있을 때
+		df["좋아요"].fillna(0).mean()
+	# 결측치를 그림으로 볼 수 있음
+		#!pip install missingno
+		import missingno as msno
+		
+		msno.matrix(df)
+	 누락값 비교 방법 : pandas 메소드 이용
+		import pandas as pd
+		
+		print(pd.isnull(NaN)) # isnull 로는 비교 가능
+	# 누락값 개념
+		from numpy import NaN, NAN, nan
+		print(NaN == False) # NaN != False
+		print(NaN == 0) # NaN != 0
+		print(NaN == NaN) # 비교 자체가 안됨
+	""" 누락값 확인 """
+		ebola = pd.read_csv('./data/ebola_timeseries.csv')
+		ebola	
+	# 제일 먼저 데이타 확인
+		ebola.shape
+	# 누락값이 아닌 값의 개수 확인
+		ebola.count()
+	# 누락값의 수 구하기
+		ebola.shape[0] - ebola.count()
+	# 전체적인 누락값의 수를 얻으려면 - numpy 라이브러리의 count_nonzero() 이용
+		import numpy as np
+		np.count_nonzero(ebola.isnull())
+	""" (1) 누락값 삭제하기 """
+		ebola_dropna = ebola.dropna()
+		ebola_dropna
+	""" (2) 누락값 대치하기 """
+		re_ebola = ebola.fillna(0) # 원래는 평균값이나 중앙값 등등 지정하기
+		re_ebola
+
 ```
 ### 리눅스
 ```
