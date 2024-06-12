@@ -5829,6 +5829,46 @@ Exception처리 - error페이지
 	sns.pairplot(iris, hue='species')
 
 ```
+### 파이썬 머신러닝 SVC
+```
+	# 머신러닝 SVM
+	import pandas as pd
+	from sklearn import datasets
+	from sklearn import svm, metrics
+	from sklearn.model_selection import train_test_split
+	import numpy as np
+	
+	#  1. 데이타로딩
+	iris = datasets.load_iris()
+	
+	# 2. 데이터와 레이블 분리 변수 선언
+	X= iris.data
+	y= iris.target
+	
+	# 3. 데이터셋 분리 ( 학습데이타:검증데이타 = 7:3 )
+	X_train,X_test,y_train,y_test = train_test_split(X,y,random_state=0, test_size=0.3)
+	
+	# 4. 알고리즘 데이터를 학습시키고 예측하기 ( 테스트 데이타로 예측 )
+	model = svm.SVC()
+	model.fit(X_train,y_train)
+	
+	# 5. 예측하기
+	y_predict = model.predict(X_test) # 예측
+	print(y_predict)
+	print("*"*100)
+	print(iris["target_names"][y_predict])
+	print("*"*100)
+	
+	# 6. 정확도 ( 예측값과 테스트라벨의 차이 )
+	y_predict = model.predict(X_test)
+	print("정확도\n",metrics.accuracy_score(y_test,y_predict))
+	print("*"*100)
+	
+	# 검증
+	print("훈련데이타 검증: {:.2f}".format(model.score(X_train,y_train)))
+	print("테스트데이타 검증: {:.2f}".format(model.score(X_test,y_test)))
+	print("*"*100)
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
