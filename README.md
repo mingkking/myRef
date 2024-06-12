@@ -6136,6 +6136,52 @@ Exception처리 - error페이지
 			
 									
 ```
+### 파이썬 머신러닝 붓꽃
+```
+	# (1) 데이타 읽어오기
+	import numpy as np
+	from sklearn import datasets
+	iris = datasets.load_iris()
+	
+	# (2) 데이터와 레이블 분리 변수 선언 ( 이미 데이터와 레이블이 정해짐 )
+	X = iris["data"]
+	print(X[:10])
+	print("*"*100)
+	
+	y = iris["target"]
+	print(y[:10])
+	print("*"*100)
+	
+	# (3) 훈련데이터와 테스트 데이터로 분리하기
+	from sklearn.model_selection import train_test_split
+	X_train,X_test,y_train,y_test = train_test_split(X,y,random_state=0)
+	
+	# (4) 모델에 데이터를 학습하기
+	# 훈련데이타와 훈련레이블를 인자로 넣어 학습한 결과 knn 객체를 리턴한다
+	# n_neighbors : 이웃갯수 지정
+	from sklearn.neighbors import KNeighborsClassifier
+	knn = KNeighborsClassifier(n_neighbors=3)
+	knn.fit(X_train,y_train) # 학습
+	
+	# (5) 새로운 샘플 데이타가 들어왔을 때 label 예측하기
+	# 너무 동떨어진 데이타 입력하면 결과 예측 성능이 낮기에 기존 샘플과 유사하게 만듬
+	newData = np.array([[5.1, 2.9, 1., 0.3]])
+	y_predict = knn.predict(newData) # 예측
+	print(y_predict)
+	print("*"*100)
+	print(iris["target_names"][y_predict])
+	print("*"*100)
+	
+	# 검증
+	print("훈련데이타 검증: {:.2f}".format(knn.score(X_train,y_train)))
+	print("테스트데이타 검증: {:.2f}".format(knn.score(X_test,y_test)))
+	print("*"*100)
+	
+	# 정확도 측정
+	y_predict = knn.predict(X_test)
+	print(np.mean(y_test == y_predict))
+	print("*"*100)
+```
 ### 리눅스 분산 환경 구축
 ```
 	모든 사용자를 위한 java를 설치할 예정이니, root 계정으로 로그인한다.
