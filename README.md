@@ -5441,7 +5441,39 @@ Exception처리 - error페이지
 	""" (2) 누락값 대치하기 """
 		re_ebola = ebola.fillna(0) # 원래는 평균값이나 중앙값 등등 지정하기
 		re_ebola
-
+	datetime 파이썬 날짜
+		""" datetime 라이브러리 : date / time / datetime 오브젝트 """
+		from datetime import datetime
+		
+		# 현재 시간 출력
+		print(datetime.now()) # 년월일시분초
+		print(datetime.today())
+		print("*"*100)
+		
+		# 시간 계산
+		t1 = datetime.now()
+		t2 = datetime(2023,12,25)
+		print(t1 - t2)
+		print("*"*100)
+		
+		# 형식으로 지정
+		t1 = datetime.now()
+		print(t1)
+		print(t1.strftime("%Y-%m-%d"))
+		print(t1.strftime("%y-%m-%d"))
+		print("*"*100)
+		
+		# 시:분:초 형식으로 출력
+		print(t1.strftime("%Y-%m-%d %H:%M:%S"))
+		print("*"*100)
+		
+		# 년,월,일 추출
+		print(t1.year) # 년 추출
+		print(t1.month) # 월 추출
+		print(t1.day) # 일 추출
+		print(t2.hour) # 시 추출
+		print(t1.minute) # 분 추출
+		print(t1.second) # 초 추출
 ```
 ### 리눅스
 ```
