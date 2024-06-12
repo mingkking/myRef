@@ -5733,6 +5733,62 @@ Exception처리 - error페이지
 	sample_y = lr.predict(sample_x) # 예측
 	print("sample_y\n",sample_y)
 ```
+### 파이썬 머신러닝 machine learning
+```
+	from sklearn.linear_model import LinearRegression # 머신러닝
+	import pandas as pd # 데이타
+	import numpy as np # 숫자
+	import matplotlib.pyplot as plt # 그래프
+	
+	# 기온 데이터 읽어 들이기
+	df = pd.read_csv('../data/weather/data.csv', encoding="utf-8")
+	
+	# 데이터를 학습 전용과 테스트 전용으로 분리하기
+	train_year = (df["연"] <= 2015) # 2006년~2015년 데이타는 학습데이타로
+	test_year = (df["연"] >= 2016) # 2016년 데이타는 테스트데이타로 
+	interval = 6
+	
+	# 과거 6일의 데이터를 기반으로 학습할 데이터 만들기 
+	def make_data(data):
+	    x = [] # 학습 데이터
+	    y = [] # 결과
+	    temps = list(data["기온"])
+	
+	    # 어렵게 구현했네
+	    for i in range(len(temps)):
+	        if i < interval:  continue
+	        y.append(temps[i])
+	        xa = []
+	        for p in range(interval):
+	            d = i + p - interval
+	            xa.append(temps[d])
+	        x.append(xa)
+	    return (x, y)
+	
+	train_x, train_y = make_data(df[train_year])
+	test_x, test_y = make_data(df[test_year])
+	
+	# 훈련데이타 확인
+	print("train_x[:5]\n",train_x[:5])
+	print("*"*100)
+	print("train_y[:5]\n",train_y[:5])
+	print("*"*100)
+	
+	# 머신러닝 학습시키기
+	lr = LinearRegression() # 선형 회귀 분석
+	lr.fit(train_x, train_y) # 학습
+	
+	# 검증하기
+	print('훈련 세트점수 : {:.2f}'.format( lr.score(train_x, train_y)))
+	print("*"*100)
+	print('테스트 세트점수 : {:.2f}'.format( lr.score(test_x, test_y)))
+	print("*"*100)
+	
+	# 예측하기
+	sample_x = np.array([[27.,28.2,25.1,30.1,31.2,27.9]]) # 2 차원 배열 데이타
+	sample_y = lr.predict(sample_x) # 예측
+	print("sample_y\n",sample_y) # 예측 답
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
