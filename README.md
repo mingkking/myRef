@@ -5765,6 +5765,8 @@ Exception처리 - error페이지
 	        x.append(xa)
 	    return (x, y)
 	
+	# test_x : 테스트 데이타
+	# test_y : 테스트 답(레이블)
 	train_x, train_y = make_data(df[train_year])
 	test_x, test_y = make_data(df[test_year])
 	
@@ -5788,6 +5790,30 @@ Exception처리 - error페이지
 	sample_x = np.array([[27.,28.2,25.1,30.1,31.2,27.9]]) # 2 차원 배열 데이타
 	sample_y = lr.predict(sample_x) # 예측
 	print("sample_y\n",sample_y) # 예측 답
+	print("*"*100)
+	
+	# 그래프 그리기
+	pre_y = lr.predict(test_x) # 테스트 데이타로 예측
+	print("test_y[:10]\n",test_y[:10]) # 테스트 예측 값
+	print("*"*100)
+	print("pre_y[:10]\n",pre_y[:10]) # 실 예측한 값
+	
+	plt.figure(figsize=(12,6))
+	plt.plot(test_y,c="r") # 테스트 예측 값
+	plt.plot(pre_y,c="b") # 실 예측 값
+	print("*"*100)
+	
+	# 결과
+	diff_y = abs(pre_y-test_y)
+	print("실제값과 예측값의 차이(평균)\n",diff_y.mean())
+	print("*"*100)
+	print("실제값과 예측값의 가장 큰 차이 값\n",diff_y.max())
+	print("*"*100)
+	
+	# 이번주 날씨를 입력하여 다음 7일차 날씨 온도 예측
+	newdata = np.array([[4,8,9,11,11,8]])
+	newdata_y = lr.predict(newdata)
+	print("newdata_y\n",newdata_y) # 실 예측한 값
 ```
 ### 리눅스
 ```
