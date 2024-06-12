@@ -5732,6 +5732,8 @@ Exception처리 - error페이지
 	
 	sample_y = lr석
 ```
+### 파이썬 머신러닝 machine learning
+```
 	import pandas as pd # 데이타
 	import numpy as np # 숫자
 	
