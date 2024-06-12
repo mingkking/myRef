@@ -5474,6 +5474,15 @@ Exception처리 - error페이지
 		print(t2.hour) # 시 추출
 		print(t1.minute) # 분 추출
 		print(t1.second) # 초 추출
+	# datetime 오브젝트로 변경하여 필요한 데이타 추출 및 계산
+		ebola["date_dt"] = pd.to_datetime(ebola["Date"])
+		
+		# 파일을 읽을 때부터 datetime 변경 가능
+		ebola_temp = pd.read_csv('./data/ebola_timeseries.csv',parse_dates=["Date"]) # 컬럼명# datetime 오브젝트로 변경하여 필요한 데이타 추출 및 계산
+		ebola["date_dt"] = pd.to_datetime(ebola["Date"])
+		
+		# 파일을 읽을 때부터 datetime 변경 가능
+		ebola_temp = pd.read_csv('./data/ebola_timeseries.csv',parse_dates=["Date"]) # 컬럼명
 ```
 ### 리눅스
 ```
