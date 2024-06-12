@@ -5789,6 +5789,44 @@ Exception처리 - error페이지
 	print("*"*100)
 	print(lr.coef_) # 각 데이터 컬럼들로 정답 분석 가능
 ```
+### 파이썬 머신러닝 붓꽃
+```
+	'''
+	붓꽃 데이타
+	iris(붓꽃) 데이타셋 : 빅데이타, 머신러닝, 통계 등에서 많이 사용하는 데이타
+	     Sepal Length 꽃받침의 길이 정보이다.  
+	     Sepal Width 꽃받침의 너비 정보이다.  
+	     Petal Length 꽃잎의 길이 정보이다.  
+	     Petal Width 꽃잎의 너비 정보이다.    
+	     Species 꽃의 종류 정보이다. ( setosa / versicolor / virginica)
+	'''
+	import numpy as np
+	from sklearn import datasets
+	
+	iris = datasets.load_iris()
+	
+	# ------------ iris 데이타셋 살펴보기
+	# 위의 참고문헌을 보면 iris는 Bunch클래스 객체인데 이는 Dictionary와 비슷한 구조
+	# Dictionary는 기본적으로 key와 value로 구성된다
+	
+	display(iris.keys())
+	display(iris['data'][:10])		# 붓꽃의 4가지 정보
+	display(iris['target'])			# 붓꽃의 종류를 0,1,2로 표현
+	display(iris['target_names'][:10]) # 붓꽃의 종류
+	
+	display(type(iris['data'])) # 'numpy.ndarray'
+	display(iris['data'].shape)
+	display(iris['target'].shape)
+	
+	# [참고] 간단하게 seaborn에 데이타셋으로 가져와서 그래프로 보면 꽃의 데이타로 species 를 알 수 있다
+	#  그래프 ] 산점도 그래프
+	import seaborn as sns
+	
+	sns.set(style='ticks')
+	iris = sns.load_dataset('iris')
+	sns.pairplot(iris, hue='species')
+
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
