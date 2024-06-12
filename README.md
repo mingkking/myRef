@@ -5661,6 +5661,78 @@ Exception처리 - error페이지
 	
 	table[table.index.isin(top10_index)]
 ```
+### 파이썬 머신러닝 machine learning
+```
+	# 보스턴 주택가격 데이터셋
+	from sklearn.datasets import fetch_california_housing
+	
+	# 회귀분석을 위한 패키기
+	from sklearn.linear_model import LinearRegression
+	
+	# 학습용, 검증용 데이터를 나누기 위한 패키기
+	from sklearn.model_selection import train_test_split
+	
+	boston = fetch_california_housing()
+	
+	print("boston.data.shape\n",boston.data.shape)
+	print("*"*100)
+	print("boston\n",boston)
+	print("*"*100)
+	
+	print(boston.DESCR) # boston 데이타 설명 보기
+	print("*"*100)
+	print("type(boston.data)\n",type(boston.data)) # boston 데이타 타입 확인
+	print("*"*100)
+	
+	import pandas as pd # 판다스 임포트
+	df = pd.DataFrame(boston.data)
+	df.columns = boston.feature_names # df 의 컬럼들을 boston 컬럼명으로 변경
+	
+	# data
+	X = df
+	print(X)
+	print("*"*100)
+	
+	# rable
+	y = boston.target # 주택가격
+	print(y)
+	print("*"*100)
+	
+	## 데이타셋에서 훈련데이타와 검증(테스트) 데이타로 나누기 (7:3)
+	# X_train : 훈련데이타
+	# X_test : 테스트데이타
+	# y_train : 훈련데이타 의 답
+	# y_test : 테스트데이타 의 답
+	X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=0.2, random_state=0) # X data y rable 7:3 검증
+	print("X_train\n",X_train.head())
+	print("*"*100)
+	print("y_train\n",y_train[:5])
+	print("*"*100)
+	
+	# 훈련데이타 학습하기
+	lr = LinearRegression()
+	lr.fit(X_train, y_train) # 학습
+	
+	# 검증하기
+	print("훈련 데이타셋 점수:{:.2f}".format(lr.score(X_train, y_train))) # 훈련데이타셋 점수
+	print("*"*100)
+	print("테스트 데이타셋 점수:{:.2f}".format(lr.score(X_test, y_test))) # 테스트 데이타셋 점수
+	print("*"*100)
+	
+	# 예측하기
+	print("X.head(1)\n",X.head(1)) # 훈련데이타에서 1번 데이타를 가지고 예측해보기
+	print("*"*100)
+	print("y[1]\n",y[1]) # 훈련데이타에서 1번 데이타 의 정답
+	print("*"*100)
+	
+	import numpy as np
+	sample_x = np.array([[8.3252,41.0,6.984127,1.02381,322.0,2.555556,37.88,-122.23]])
+	print("sample_x\n",sample_x)
+	print("*"*100)
+	
+	sample_y = lr.predict(sample_x) # 예측
+	print("sample_y\n",sample_y)
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
