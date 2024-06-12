@@ -5730,90 +5730,64 @@ Exception처리 - error페이지
 	print("sample_x\n",sample_x)
 	print("*"*100)
 	
-	sample_y = lr.predict(sample_x) # 예측
-	print("sample_y\n",sample_y)
+	sample_y = lr석
 ```
-### 파이썬 머신러닝 machine learning
-```
-	from sklearn.linear_model import LinearRegression # 머신러닝
 	import pandas as pd # 데이타
 	import numpy as np # 숫자
-	import matplotlib.pyplot as plt # 그래프
 	
-	# 기온 데이터 읽어 들이기
-	df = pd.read_csv('../data/weather/data.csv', encoding="utf-8")
-	
-	# 데이터를 학습 전용과 테스트 전용으로 분리하기
-	train_year = (df["연"] <= 2015) # 2006년~2015년 데이타는 학습데이타로
-	test_year = (df["연"] >= 2016) # 2016년 데이타는 테스트데이타로 
-	interval = 6
-	
-	# 과거 6일의 데이터를 기반으로 학습할 데이터 만들기 
-	def make_data(data):
-	    x = [] # 학습 데이터
-	    y = [] # 결과
-	    temps = list(data["기온"])
-	
-	    # 어렵게 구현했네
-	    for i in range(len(temps)):
-	        if i < interval:  continue
-	        y.append(temps[i])
-	        xa = []
-	        for p in range(interval):
-	            d = i + p - interval
-	            xa.append(temps[d])
-	        x.append(xa)
-	    return (x, y)
-	
-	# test_x : 테스트 데이타
-	# test_y : 테스트 답(레이블)
-	train_x, train_y = make_data(df[train_year])
-	test_x, test_y = make_data(df[test_year])
-	
-	# 훈련데이타 확인
-	print("train_x[:5]\n",train_x[:5])
-	print("*"*100)
-	print("train_y[:5]\n",train_y[:5])
+	# 데이타 로딩
+	df = pd.read_csv('../data/titanic/temp/train.csv')
+	print("df.head()\n",df.head())
 	print("*"*100)
 	
-	# 머신러닝 학습시키기
-	lr = LinearRegression() # 선형 회귀 분석
-	lr.fit(train_x, train_y) # 학습
+	# 컬럼명 미리 만들기
+	cols_to_keep = ["Survived","Age","Fare"] # 생존, 나이, 요금
 	
-	# 검증하기
-	print('훈련 세트점수 : {:.2f}'.format( lr.score(train_x, train_y)))
-	print("*"*100)
-	print('테스트 세트점수 : {:.2f}'.format( lr.score(test_x, test_y)))
+	# one hot incoding 방식
+	dummy_Pclass = pd.get_dummies(df["Pclass"], prefix="Pclass")
+	print("dummy_Pclass\n",dummy_Pclass)
 	print("*"*100)
 	
-	# 예측하기
-	sample_x = np.array([[27.,28.2,25.1,30.1,31.2,27.9]]) # 2 차원 배열 데이타
-	sample_y = lr.predict(sample_x) # 예측
-	print("sample_y\n",sample_y) # 예측 답
+	dummy_Sex = pd.get_dummies(df["Sex"], prefix="Sex")
+	print("dummy_Sex\n",dummy_Sex)
 	print("*"*100)
 	
-	# 그래프 그리기
-	pre_y = lr.predict(test_x) # 테스트 데이타로 예측
-	print("test_y[:10]\n",test_y[:10]) # 테스트 예측 값
-	print("*"*100)
-	print("pre_y[:10]\n",pre_y[:10]) # 실 예측한 값
-	
-	plt.figure(figsize=(12,6))
-	plt.plot(test_y,c="r") # 테스트 예측 값
-	plt.plot(pre_y,c="b") # 실 예측 값
+	# 데이타 생성
+	data = df[cols_to_keep] # 이차원 리스트 데이타프레임 만들기
+	data = data.join(dummy_Sex)
+	print("data\n",data)
 	print("*"*100)
 	
-	# 결과
-	diff_y = abs(pre_y-test_y)
-	print("실제값과 예측값의 차이(평균)\n",diff_y.mean())
-	print("*"*100)
-	print("실제값과 예측값의 가장 큰 차이 값\n",diff_y.max())
+	data = data.join(dummy_Pclass)
+	print("data\n",data)
 	print("*"*100)
 	
-	# 이번주 날씨를 입력하여 다음 7일차 날씨 온도 예측
-	newdata = np.array([[4,8,9,11,11,8]])
-	newdata_y = lr.predict(newdata)
-	print("newdata_y\n",newdata_y) # 실 예측한 값
+	## 데이타셋과 레이블(답)
+	train_lable = data["Survived"] # 생존 여부
+	train_data = data[data.columns[1:]] # 그 외 데이타
+	print("train_data\n",train_data)
+	print("*"*100)
+	print("train_lable\n",train_lable)
+	print("*"*100)
+	
+	# 머신러닝 로지스틱 회귀 분석
+	from sklearn.linear_model import LogisticRegression
+	lr = LogisticRegression() # 객체 생성
+	lr.fit(train_data,train_lable) # 데이터, 정답 학습 시키기
+	
+	# 학습 검증하기
+	print("훈련 점수 : {:.2f}\n".format(lr.score(train_data,train_lable))) # 데이터, 정답
+	print("*"*100)
+	
+	# 예측
+	data["predict"] = lr.predict(train_data) # 생존여부 예측해보기
+	print("data.head(20)\n",data.head(20))
+	print("*"*100)
+	
+	# 분석
+	print("Age     Fare  Sex_female  Sex_male  Pclass_1  Pclass_2  Pclass_3") # 각 데이터 컬럼들로 정답 분석 가능
+	print("*"*100)
+	print(lr.coef_) # 각 데이터 컬럼들로 정답 분석 가능
 ```
 ### 리눅스
 ```
