@@ -5953,6 +5953,134 @@ Exception처리 - error페이지
 	# 그래프를 이미지로 변환
 	Image(graph.create_png())
 ```
+### 파이썬 머신러닝 최적의 알고리즘 찾기 all_estimators
+```
+	### 최적의 알고리즘 찾기
+	### all_estimators() 메소드 이용하여 모든 알고리즘 추출
+	import pandas as pd
+	from sklearn.model_selection import train_test_split
+	from sklearn.metrics import accuracy_score
+	from sklearn.utils import all_estimators
+	
+	import warnings
+	warnings.filterwarnings('ignore')
+	
+	# 붓꽃 데이터 읽어 들이기
+	iris_data = pd.read_csv("../data/iris/iris.csv", encoding="utf-8")
+	
+	# 붓꽃 데이터를 레이블과 입력 데이터로 분리하기 
+	y = iris_data.loc[:,"variety"]
+	x = iris_data.loc[:,["sepal.length","sepal.width","petal.length","petal.width"]]
+	
+	# (0) 학습 전용과 테스트 전용 분리하기 
+	x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.2, train_size = 0.8, shuffle = True)
+	
+	# (1) classifier 알고리즘 모두 추출하기
+	allAlgorithms = all_estimators(type_filter="classifier")
+	
+	for(name, algorithm) in allAlgorithms:
+	    # (1) 알고리즘 종류 확인
+	    # print(name)
+	    
+	    # 현재 자료형이 안 맞아서 학습되지 않는 알고리즘들이기에 제외해야 한다 -> 추가로 코딩을 예쁘게 
+	    if name=='CheckingClassifier' or name=='ClassifierChain' \
+	        or name=='MultiOutputClassifier' or name=='OneVsOneClassifier' \
+	        or name=='OneVsRestClassifier' or name=='OutputCodeClassifier' \
+	        or name=='VotingClassifier' or name=='StackingClassifier':
+	        continue
+	        
+	    #-----------------------------------------    
+	    # 에러가 발생하면 위에 print(name)으로 알고리즘을 확인 후 에러난 알고리즘이름을 위에 추가한다
+	    
+	    # (2) 각 알고리즘 객체 생성하기 
+	    clf = algorithm()
+	
+	    # (3) 학습하고 평가하기 
+	    clf.fit(x_train, y_train)
+	    y_pred = clf.predict(x_test)
+	    print(name,"의 정답률 = " , accuracy_score(y_test, y_pred))
+	
+	import pandas as pd
+	from sklearn.utils import all_estimators
+	from sklearn.model_selection import KFold
+	import warnings
+	from sklearn.model_selection import cross_val_score
+	
+	# 붓꽃 데이터 읽어 들이기
+	iris_data = pd.read_csv("../data/iris/iris.csv", encoding="utf-8")
+	
+	# 붓꽃 데이터를 레이블과 입력 데이터로 분리하기 
+	y = iris_data.loc[:,"variety"]
+	x = iris_data.loc[:,["sepal.length","sepal.width","petal.length","petal.width"]]
+	
+	# classifier 알고리즘 모두 추출하기
+	warnings.filterwarnings('ignore')
+	allAlgorithms = all_estimators(type_filter="classifier")
+	
+	# (1)
+	# K-분할 크로스 밸리데이션 전용 객체 
+	# 데이타를 5그룹으로 분할하고 분할할 때 랜덤하게 섞는다
+	kfold_cv = KFold(n_splits=5, shuffle=True)
+	
+	for(name, algorithm) in allAlgorithms:
+	    
+	    # 현재 자료형이 안 맞아서 학습되지 않는 알고리즘들이기에 제외해야 한다 -> 추가로 코딩을 예쁘게 
+	    if name=='CheckingClassifier' or name=='ClassifierChain' \
+	        or name=='MultiOutputClassifier' or name=='OneVsOneClassifier' \
+	        or name=='OneVsRestClassifier' or name=='OutputCodeClassifier' \
+	        or name=='VotingClassifier' or name=='StackingClassifier':
+	        continue
+	        
+	    # (2) 각 알고리즘 객체 생성하기
+	    clf = algorithm()
+	
+	    # (3)
+	    # score 메서드를 가진 클래스를 대상으로 하기
+	    if hasattr(clf,"score"):
+	
+	        # (4) 크로스 밸리데이션
+	        # cross_val_score (clf:알고리즘 객체, x:입력데이터, y:레이블데이터, cv:교차검증 적용 객체)
+	        scores = cross_val_score(clf, x, y, cv=kfold_cv)
+	        print(name,"의 정답률=")
+	        print(scores)
+	
+	import pandas as pd
+	from sklearn.utils import all_estimators
+	from sklearn.model_selection import KFold
+	import warnings
+	from sklearn.model_selection import cross_val_score
+	
+	# 붓꽃 데이터 읽어 들이기
+	iris_data = pd.read_csv("../data/iris/iris.csv", encoding="utf-8")
+	
+	# 붓꽃 데이터를 레이블과 입력 데이터로 분리하기 
+	y = iris_data.loc[:,"variety"]
+	x = iris_data.loc[:,["sepal.length","sepal.width","petal.length","petal.width"]]
+	
+	# 학습 전용과 테스트 전용 분리하기 
+	x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.2, train_size = 0.8, shuffle = True)
+	
+	# 그리드 서치에서 사용할 매개 변수 --- (*1)
+	parameters = [
+	    {"C": [1, 10, 100, 1000], "kernel":["linear"]},
+	    {"C": [1, 10, 100, 1000], "kernel":["rbf"], "gamma":[0.001, 0.0001]},
+	    {"C": [1, 10, 100, 1000], "kernel":["sigmoid"], "gamma": [0.001, 0.0001]}
+	]
+	
+	# 그리드 서치 --- (*2)
+	from sklearn.svm import SVC
+	from sklearn.model_selection import GridSearchCV
+	
+	
+	kfold_cv = KFold(n_splits=5, shuffle=True)
+	clf = GridSearchCV( SVC(), parameters, cv=kfold_cv)
+	clf.fit(x_train, y_train)
+	print("최적의 매개 변수 = ", clf.best_estimator_)
+	
+	# 최적의 매개 변수로 평가하기 --- (*3)
+	y_pred = clf.predict(x_test)
+	print("최종 정답률 = " , accuracy_score(y_test, y_pred))
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
