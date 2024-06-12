@@ -5483,6 +5483,33 @@ Exception처리 - error페이지
 		
 		# 파일을 읽을 때부터 datetime 변경 가능
 		ebola_temp = pd.read_csv('./data/ebola_timeseries.csv',parse_dates=["Date"]) # 컬럼명
+	# 년, 월, 일 추출
+		ebola["Date"].str[:]
+		ebola["year"] = ebola["date_dt"].dt.year # datetime형은 dt 객체를 이요해서 추출
+	# 에볼라 최초 발병일 구하기
+		ebola["date_dt"].min() # date_dt 중 제일 작은 날짜
+		ebola["date_dt"].max() # date_dt 중 제일 큰 날짜
+	# 파일 가져오기
+		import pandas as pd # 판다스 임포트
+		from datetime import datetime # 데이트타임 임포트
+		banks = pd.read_csv('./data/banklist.csv')
+		banks.head() # 자료 5개까지 보기
+		
+		# info 로 구조 파악
+		banks.info()
+		
+		# datetime 으로 변경
+		banks["Closing Date_dt"] = pd.to_datetime(banks["Closing Date"])
+		banks["Closing_year"] = banks["Closing Date_dt"].dt.year # 년
+		banks["Closing_quarter"] = banks["Closing Date_dt"].dt.quarter # 분기
+		print(banks.head(10)) # 변경 후 자료 확인
+		
+		# 연도별 파산은행 구하기
+		closing_year_group = banks.groupby("Closing_year").count()
+		
+		# 시각화
+		import matplotlib.pyplot as plt
+		plt.plot(closing_year_group) # 연도별 파산은행 그래프 그리기
 ```
 ### 리눅스
 ```
