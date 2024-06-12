@@ -5511,6 +5511,156 @@ Exception처리 - error페이지
 		import matplotlib.pyplot as plt
 		plt.plot(closing_year_group) # 연도별 파산은행 그래프 그리기
 ```
+### 파이썬 쇼핑몰 데이타 분석
+```
+	# 데이터를 다루는 library인 padas를 import합니다.
+	import pandas as pd
+	
+	# 화면에 출력하는 데이터 프레임의 최대 row 수를 500으로 설정합니다.
+	pd.set_option('display.max_rows', 500)
+	
+	# 화면에 출력하는 데이터 프레임의 최대 column 수를 500으로 설정합니다.
+	pd.set_option('display.max_columns', 500)
+	
+	# csv 파일 읽기
+	order = pd.read_csv('./data/shoppingmall/order_info.csv')
+	order.head()
+	
+	# 테이블 생성
+	table = pd.pivot_table(order,
+	                       values = 'price',
+	                       index = 'shop_id',
+	                       aggfunc = 'sum')
+	table.sort_values(( 'price'), ascending=False).head(10)
+	
+	# 시각화
+	import seaborn as sns
+	import matplotlib.pyplot as plt
+	%matplotlib inline
+	%config InlineBackend.figure_format = 'retina'
+	
+	# 테이블 생성
+	table = pd.pivot_table(order,
+	                       values = 'price',
+	                       index = 'shop_id',
+	                       aggfunc = ['sum', 'count'])
+	table.columns = ['sum', 'count']
+	table = table.sort_values('sum', ascending=False).head(10)
+	table
+	
+	# head(10)를 구해서 그래프 출력
+	table_top10 = table.head(10)
+	sns.barplot(data=table_top10, x=table_top10.index, y='sum', order=table_top10.index)
+	
+	# 다른 방식으로 출력
+	top10_index = table_top10.index
+	sns.barplot(data=order, x='shop_id', y='price',estimator=sum, order=table_top10.index, errwidth=0)
+	
+	# 시각화
+	import matplotlib as mpl
+	sns.set_style('whitegrid') #스타일은 원하는 것을 사용하세요.
+	
+	mpl.rc('font', family='Malgun Gothic') # Mac의 경우는 AppleGothic, 윈도우의 경우는 Malgun Gothic을 사용하면 됩니다 :) 
+	mpl.rc('axes', unicode_minus=False)
+	
+	# from IPython.display import set_matplotlib_formats
+	# set_matplotlib_formats('retina')
+	
+	order['timestamp'] = pd.to_datetime(order['timestamp'])
+	order.dtypes
+	
+	plt.figure(figsize=[15,3.5])
+	sns.lineplot(x='timestamp', y='price', data=order)
+	
+	order['hour'] = order['timestamp'].dt.hour
+	table = order.pivot_table(values='price',
+	                          index='hour',
+	                          aggfunc='sum')
+	
+	table.head()
+	
+	plt.figure(figsize=[15,4])
+	sns.lineplot(data=table, x=table.index, y='price')
+	
+	plt.figure(figsize=[15,4])
+	sns.pointplot(data=table, x=table.index, y='price')
+	
+	user = pd.read_csv('./data/shoppingmall/user_info.csv')
+	print(user.shape)
+	user.head()
+	
+	merged = order.merge(user, on='user_id')
+	merged.head()
+	
+	# 위의 병합된 테이블을 이용하여, 당일 매출 Top 10 쇼핑몰에서 구매를 한 고객들의 연령대 분포를 확인하고자 하는데
+	# 나이 정보가 없는 경우는 -1이 입력되어 있기 때문에 이를 처리한다
+	
+	print(top10_index) # 비교하기 위해 출력
+	
+	merged_top10 = merged[(merged['shop_id'].isin(top10_index)) & (merged['age'] != -1)]
+	merged_top10.head(20)
+	
+	fig, (ax1, ax2) = plt.subplots(ncols=2, nrows=1)
+	fig.set_size_inches([15,4])
+	
+	sns.boxplot(data = merged_top10, x='shop_id', y='age', ax=ax1)
+	sns.violinplot(data = merged_top10, x='shop_id', y='age', ax=ax2)
+	
+	fig.savefig('figure.png', dpi=400)
+	
+	def make_generation(age):
+	    if age == -1:
+	        return '미입력'
+	    elif age // 10 >= 4:
+	        return "30대 후반"
+	    elif age // 10 == 1:
+	        return "10대"
+	    elif age % 10 < 3:
+	        return str(age // 10 * 10) + f"대 초반"
+	    elif age % 10 <= 6:
+	        return str(age // 10 * 10) + f"대 중반"
+	    else:
+	        return str(age // 10 * 10) + f"대 후반"
+	
+	    
+	print(make_generation(10))
+	print(make_generation(23))
+	print(make_generation(29))
+	print(make_generation(32))
+	print(make_generation(35))
+	print(make_generation(40))
+	
+	age_list = ['10대', '20대 초반', '20대 중반', '20대 후반', '30대 초반', '30대 중반', '30대 후반']
+	for i in age_list:
+	    user["연령대"] = user['age'].map(make_generation)
+	user.head()
+	
+	# shop = pd.read_csv('./data/shoppingmall/shop_info.csv')
+	shop = pd.read_csv('./data/shoppingmall/shop_info.csv', index_col='shop_id')
+	print(shop.shape)
+	shop.head()
+	
+	merged_table = order.merge(user, on='user_id').merge(shop, on='shop_id')
+	
+	merged_table.head()
+	
+	def check_generation(row):
+	    if row['category'] == '의류' and row['연령대'] == '미입력':
+	        return True
+	    else:
+	        return row['연령대'] in str(row['age_y'])
+	        
+	merged_table['거래연령 일치여부'] = merged_table.apply(check_generation, axis=1)
+	merged_table.head(2)
+	
+	table = merged_table.pivot_table(values='거래연령 일치여부',
+	                                                    index='shop_id',
+	                                                    aggfunc=['mean', 'count'])
+	
+	table.head()
+	
+	table[table.index.isin(top10_index)]
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
