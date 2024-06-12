@@ -5916,6 +5916,43 @@ Exception처리 - error페이지
 	print(iris["target_names"][y_predict])
 	print("*"*100)
 ```
+### 파이썬 머신러닝 graphviz
+```
+	'''
+	[ 참고 ] graphviz 설치
+	- Graphviz 프로그램 연결하는 라이브러리(??)
+	    > pip install graphviz
+	    
+	- 직접설치 필요
+	  :  https://graphviz.gitlab.io/_pages/Download/Download_windows.html
+	  
+	  (1) 다운받아 직접 설치
+	       > Windows > Stable 2.38 Windows install packages > 10 > release >  graphviz-2.38.msi 다운로드 받아 실행
+	'''
+	#!pip install graphviz
+	# pydotplus 설치
+	#!pip install pydotplus
+	
+	from sklearn.tree import export_graphviz
+	import pydotplus
+	import graphviz
+	from IPython.display import Image
+	
+	# graphviz의 경로를 환경변수 PATH에 등록
+	import os
+	os.environ['PATH'] += os.pathsep + 'C:/Program Files/Graphviz/bin'
+	
+	dot_data = export_graphviz(dtc, out_file=None, feature_names=iris.feature_names,
+	                          class_names=iris.target_names, filled=True, rounded=True, special_characters=True)
+	
+	        #dot_data = export_graphviz(iris_tree, out_file=None, feature_names=['petal length', 'petal width'],
+	        #                          class_names=iris.target_names, filled=True, rounded=True, special_characters=True)
+	
+	# 그래프 생성
+	graph = pydotplus.graph_from_dot_data(dot_data)
+	# 그래프를 이미지로 변환
+	Image(graph.create_png())
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
