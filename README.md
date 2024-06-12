@@ -5869,6 +5869,53 @@ Exception처리 - error페이지
 	print("테스트데이타 검증: {:.2f}".format(model.score(X_test,y_test)))
 	print("*"*100)
 ```
+### 파이썬 머신러닝 DecisionTreeClassifier dtc
+```
+	from sklearn import datasets, metrics
+	from sklearn.model_selection import train_test_split
+	from sklearn.preprocessing import StandardScaler
+	import numpy as np
+	
+	# 1. 데이타 로딩
+	
+	iris = datasets.load_iris()
+	# 데이터 key 확인
+	print("iris.keys()\n",iris.keys())
+	print("*"*100)
+	
+	# 2. 데이터와 레이블 분리 변수 선언
+	X= iris.data
+	y= iris.target
+	print("X\n",X)
+	print("*"*100)
+	print("y\n",y)
+	print("*"*100)
+	
+	# 3. 데이타셋을 분리 ( 학습용:검증용 = 7:3 )
+	X_train,X_test,y_train,y_test = train_test_split(X,y,random_state=0, test_size=0.3)
+	
+	# 5. 트리 모델 생성하고 학습하기
+	from sklearn.tree import DecisionTreeClassifier
+	dtc = DecisionTreeClassifier()
+	dtc.fit(X_train,y_train) # 학습
+	
+	# 6. 검증
+	print("훈련데이타 검증: {:.2f}".format(dtc.score(X_train,y_train)))
+	print("테스트데이타 검증: {:.2f}".format(dtc.score(X_test,y_test)))
+	print("*"*100)
+	
+	# 7. 정확도 ( 예측값과 테스트라벨의 차이 )
+	y_predict = dtc.predict(X_test)
+	print("정확도\n",metrics.accuracy_score(y_test,y_predict))
+	print("*"*100)
+	
+	# 8. 예측
+	y_predict = dtc.predict(X_test) # 예측
+	print(y_predict)
+	print("*"*100)
+	print(iris["target_names"][y_predict])
+	print("*"*100)
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
