@@ -6137,6 +6137,111 @@ Exception처리 - error페이지
 	words = okt.pos("독도는 대한민국의 아름다운 섬이다", norm=True, stem=True)
 	print(words)
 ```
+### 파이썬 네이버 영화 평점 텍스트 분석
+```
+	# 데이타 확인
+	import pandas as pd
+	
+	train_df = pd.read_csv('nsmc-master/ratings_train.txt', sep='\t')
+	train_df.head(5)
+	
+	# label 값이 1이면 긍정, 0이면 부정
+	
+	# 0과 1 (부정과 긍정)의 비율이 균등한 분포임을 확인
+	train_df['label'].value_counts()
+		
+	# null 값 확인
+	train_df.isnull().sum()
+	
+	# 'document' 컬럼에 Null 값이 있는데 이는 공백으로 변환
+	train_df = train_df.fillna(' ')
+	
+	# 숫자를 공백으로 변경
+	import re
+	train_df['document'] = train_df['document'].apply(lambda x: re.sub(r"\d+",' ', x))
+	
+	# 테스트 데이타로 위와 동일한 작업
+	test_df = pd.read_csv('nsmc-master/ratings_test.txt', sep='\t')
+	test_df = test_df.fillna(' ')
+	test_df['document'] = test_df['document'].apply(lambda x: re.sub(r"\d+",' ', x))
+	
+	#!pip install konlpy	
+	#!pip install sklearn
+	
+	# 형태소 분석
+	# Twitter 객체의 morphs() 는 입력 인자로 들어온 문장을 형태소 단어 형태로 토큰화해 리스트 객체로 반환	
+	from konlpy.tag import Twitter
+	
+	twitter = Twitter()
+	
+	# 입력 인자로 들어온 텍스트를 형태소 단어로 토큰화하여 리스트 형태로 변환
+	def tw_tokenizer(text):
+	    tokens_ko = twitter.morphs(text)
+	    return tokens_ko
+	
+	# 시간소요 ( 노트북 16G : 30 분이상)
+	# TF-IDF 방식으로 
+	from sklearn.feature_extraction.text import TfidfVectorizer
+	from sklearn.linear_model import LogisticRegression
+	from sklearn.model_selection import GridSearchCV
+	
+	tfidf_vect = TfidfVectorizer(tokenizer=tw_tokenizer, ngram_range=(1,2), min_df=3, max_df=0.9)
+	# 상위 90%로 제한
+	tfidf_vect.fit(train_df['document'])
+	tfidf_matrix_train = tfidf_vect.transform(train_df['document'])
+		
+	# 학습 데이타에 적용한 TfidfVectorizer를 테스트 데이터에도 사용 ( 시간소요 : 10분)
+	tfidf_matrix_test = tfidf_vect.transform(test_df['document'])
+	
+	lg_clf = LogisticRegression(random_state=0)
+	
+	# -------------- 모델에 학습
+	lg_clf.fit(tfidf_matrix_train, train_df['label'])
+	
+	# -------------- 테스트를 예측
+	preds = lg_clf.predict(tfidf_matrix_test)
+	
+	# --------------- 정확도
+	from sklearn.metrics import accuracy_score
+	print('TF-IDF LogisticRegression의 예측 정확도 : ', accuracy_score(test_df['label'], preds))
+		
+	# 파라미터 C 최적화를 위해 GridSearchCV를 이용
+	params = {'C':[1, 3.5, 4.5, 5.5, 10]}
+	grid_cv = GridSearchCV(lg_clf, param_grid=params, cv=3, scoring='accuracy', verbose=1)
+	grid_cv.fit(tfidf_matrix_train, train_df['label'])
+	print(grid_cv.best_params_, round(grid_cv.best_score_,4))
+	
+	# [결과] {'C': 3.5} 0.8592
+	# C가 3.5일 때 0.8592 정확도임
+	
+	# classifier는 GridSearchCV에서 최적 파라미터로 학습된 classifier를 그대로 이용
+	best_estimator = grid_cv.best_estimator_
+	preds = best_estimator.predict(tfidf_matrix_test)
+	
+	from sklearn.metrics import accuracy_score
+	print('LogisticRegression 정확도: ', accuracy_score(test_df['label'], preds))
+	
+	# type(test_df['document']) -> Series
+	comment = pd.Series(['안보면 후회'])
+	tfidf_matrix_test = tfidf_vect.transform(comment)
+	preds = best_estimator.predict(tfidf_matrix_test)
+	preds
+	
+	comment = pd.Series(['감독 꼬라지하고는'])
+	tfidf_matrix_test = tfidf_vect.transform(comment)
+	preds = best_estimator.predict(tfidf_matrix_test)
+	preds
+	
+	comment = pd.Series(['이 훌륭한 배우들을 데려다가'])
+	tfidf_matrix_test = tfidf_vect.transform(comment)
+	preds = best_estimator.predict(tfidf_matrix_test)
+	preds
+	
+	comment = pd.Series(['이 훌륭한 배우들을 데려다가 이렇게 만들었어'])
+	tfidf_matrix_test = tfidf_vect.transform(comment)
+	preds = best_estimator.predict(tfidf_matrix_test)
+	preds
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
