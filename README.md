@@ -6396,6 +6396,82 @@ Exception처리 - error페이지
 	# 예측
 	clf.classify(test_sent_features)
 ```
+### 파이썬 NaiveBayesClassifier 나이브베이즈 분류 한글
+```
+	from nltk.tokenize import word_tokenize
+	import nltk
+	
+	# 2020.07 실행시 에러 발생하여 추가
+	#nltk.download('punkt')
+	
+	from konlpy.tag import Okt
+	okt = Okt()
+	
+	""" 훈련데이타 """
+	
+	train = [('메리가 좋아', 'pos'), 
+	         ('고양이도 좋아', 'pos'),
+	         ('난 수업이 지루해', 'neg'),
+	         ('메리는 이쁜 고양이야', 'pos'),
+	         ('난 마치고 메리랑 놀거야', 'pos')]
+	
+	all_words = set(word.lower() for sentence in train 
+	                    for word in word_tokenize(sentence[0]))
+	print("all_words\n",all_words)
+	print("*"*100)
+	
+	t = [({word: (word in word_tokenize(x[0])) for word in all_words}, x[1])
+	                                                        for x in train]
+	print("t\n",t)
+	print("*"*100)
+	
+	# 나이브베이즈 분류기 훈련
+	clf = nltk.NaiveBayesClassifier.train(t)
+	
+	# 테스트데이타
+	test_sent = "난 수업을 마치고 메리랑 놀거야"
+	test_sent_features = {word.lower() : (word in word_tokenize(test_sent.lower())) for word in all_words}
+	print("test_sent_features\n",test_sent_features)
+	print("*"*100)
+	
+	# 예측
+	print("예측\n",clf.classify(test_sent_features))
+	print("*"*100)
+	
+	# github의 Lucy Park 님의 코드에 따르면 태그를 붙여주는 것이 좋다고 권장함
+	def tokenize(doc):
+	    return ['/'.join(t) for t in okt.pos(doc, norm=True, stem=True)]
+	
+	train_docs = [(tokenize(row[0]),row[1]) for row in train]
+	print("train_docs\n",train_docs)
+	print("*"*100)
+	
+	# 사용되는 전체 단어(말뭉치) 찾기
+	tokens = [t for d in train_docs for t in d[0]]
+	print("tokens\n",tokens)
+	print("*"*100)
+	
+	# 훈련문장의 단어들이 전체 단어(말뭉치)에 있는 단어인지 확인
+	# 명사와 조사를 구분하여 판독이 용이
+	def term_exists(doc):
+	    return {word: (word in set(doc)) for word in tokens}
+	
+	train_xy = [(term_exists(d),c) for d,c in train_docs]
+	print("train_xy\n",train_xy)
+	print("*"*100)
+	
+	test_sentence = "난 수업을 마치면 메리랑 놀거야"
+	test_docs = okt.pos(test_sentence)
+	print("test_docs\n",test_docs)
+	print("*"*100)
+	
+	test_sent_features = {word:(word in tokens) for word in test_docs}
+	print("test_sent_features\n",test_sent_features)
+	print("*"*100)
+	
+	print("예측\n",clf.classify(test_sent_features))
+	print("*"*100)
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
