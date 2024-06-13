@@ -6472,6 +6472,48 @@ Exception처리 - error페이지
 	print("예측\n",clf.classify(test_sent_features))
 	print("*"*100)
 ```
+### 파이썬 텐서플로우 제일 많이 쓰는 머신러닝
+```
+	#!pip install tensorflow
+	# (1) tf.keras 를 이용한 XOR 네트워크 계산
+	import tensorflow as tf
+	import numpy as np
+	
+	# 1. 데이타 확인
+	x = np.array([[1,1], [1,0], [0,1], [0,0]])
+	#y = np.array([[0], [1], [1], [0]]) # XOR
+	y = np.array([[1], [1], [1], [0]]) # OR
+	
+	# 2. 모델을 설정
+	    # 1. 리스트형
+	# model = tf.keras.Sequential([
+	#     tf.keras.layers.Dense(units=2, activation="sigmoid", input_shape=(2,)), # 뉴런2개, 활성함수, 들어오는내용2개
+	#     tf.keras.layers.Dense(units=1, activation="sigmoid") # 뉴런1개, 활성함수
+	# ])
+	
+	    # 2. add() 함수 추가
+	model = tf.keras.Sequential()
+	model.add(tf.keras.layers.Dense(units=2, activation="sigmoid", input_shape=(2,))) # 뉴런2개, 활성함수, 들어오는내용2개
+	model.add(tf.keras.layers.Dense(units=1, activation="sigmoid")) # 뉴런1개, 활성함수
+	    
+	# 3. 모델 실행
+	model.compile(optimizer="sgd", loss="mse") # 경사 하강법
+	
+	# 4. 모델 요약
+	model.summary()
+	
+	# 4. 모델에 학습
+	history = model.fit(x, y, epochs=100, batch_size=1) # 100번 반복, 1개씩
+	print("학습내역\n",history)
+	print("*"*100)
+	
+	# 4.5  검증하기
+	print("검증\n",model.evaluate(x,y))
+	print("*"*100)
+	
+	# 5. 예측하기
+	print("예측결과\n",model.predict(x))
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
