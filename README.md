@@ -6081,6 +6081,62 @@ Exception처리 - error페이지
 	y_pred = clf.predict(x_test)
 	print("최종 정답률 = " , accuracy_score(y_test, y_pred))
 ```
+### 파이썬 형태소 분석
+```
+	# 설치
+	#!pip install konlpy
+	
+	# KoNLPy의 kkma 형태소 분석기 확인 꼬꼬마
+	from konlpy.tag import Kkma
+	from konlpy.utils import pprint
+	
+	kkma = Kkma() # 꼬꼬마 객체
+	
+	# 문장분석
+	print("꼬꼬마 문장분석\n",kkma.sentences("한국어 분석을 시작합니다 재미있어요~")) # ['한국어 분석을 시작합니다', '재미있어요~']
+	
+	# 명사분석
+	print("꼬꼬마 명사분석\n",kkma.nouns("한국어 분석을 시작합니다 재미있어요~")) # ['한국어', '분석']
+	
+	# 품사분석
+	print("꼬꼬마 품사분석\n",kkma.pos("한국어 분석을 시작합니다 재미있어요~"))
+	
+	print("*"*100)
+	# 한나눔 분석
+	from konlpy.tag import Hannanum
+	hannanum = Hannanum()
+	
+	# 형태소분석
+	print("한나눔 형태소분석\n",hannanum.morphs("한국어 분석을 시작합니다 재미있어요~")) # ['한국어 분석을 시작합니다', '재미있어요~']
+	
+	# 명사분석
+	print("한나눔 명사분석\n",hannanum.nouns("한국어 분석을 시작합니다 재미있어요~")) # ['한국어', '분석', '시작']
+	
+	# 품사분석
+	print("한나눔 품사분석\n",hannanum.pos("한국어 분석을 시작합니다 재미있어요~"))
+	print("*"*100)
+	
+	# Okt 분석
+	from konlpy.tag import Okt
+	okt = Okt()
+	
+	# 명사분석
+	print("Okt 명사분석\n",okt.nouns("한국어 분석을 시작합니다 재미있어요~")) # ['한국어', '분석', '시작']
+	
+	# 형태소분석
+	print("Okt 형태소분석\n",okt.morphs("한국어 분석을 시작합니다 재미있어요~")) # ['한국어 분석을 시작합니다', '재미있어요~']
+	
+	# 품사분석
+	print("Okt 품사분석\n",okt.pos("한국어 분석을 시작합니다 재미있어요~"))
+	print("*"*100)
+	
+	# [연습] 독도는 대한민국의 아름다운 섬이다
+	words = okt.pos("독도는 대한민국의 아름다운 섬이다")
+	print(words)
+	print("*"*100)
+	words = okt.pos("독도는 대한민국의 아름다운 섬이다", norm=True, stem=True)
+	print(words)
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
