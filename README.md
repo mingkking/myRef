@@ -6242,6 +6242,126 @@ Exception처리 - error페이지
 	preds = best_estimator.predict(tfidf_matrix_test)
 	preds
 ```
+### 파이썬 WordCloud naver 검색 분석
+```
+	import pandas as pd
+	import numpy as np
+	import platform
+	import matplotlib.pyplot as plt
+	from bs4 import BeautifulSoup 
+	from urllib.request import urlopen
+	import urllib
+	import time
+	
+	%matplotlib inline
+	
+	# 간단한 한글 폰드 등록
+	from matplotlib import rc
+	plt.rcParams['axes.unicode_minus']=False
+	rc('font', family='Malgun Gothic')
+	
+	# 주소를 약간 수정함
+	html = 'https://kin.naver.com/search/list.nhn?query={key_word}&page={num}'
+	response = urlopen(html.format(num=1, key_word=urllib.parse.quote('여자친구 선물')))
+	soup = BeautifulSoup(response, "html.parser")
+	tmp = soup.find_all('dl')
+	
+	# 테스트로 첫번째 페이지의 텍스트만 가져온다
+	tmp_list = []
+	for line in tmp:
+	    tmp_list.append(line.text)
+	tmp_list
+	#1000 만개 정도의 검색 결과를 읽어온다.
+	# 첫번째 페이지 start=1, 두번째 페이지인 경우 start=11인거 확인한다.
+	# 웹 페이지 직접 접근 할 땐느 간단이 time.sleep()으로 요청을 간격적으로 한다.
+	# 시간이 10분 정도 소요되기에 상태바를 보여준다. ( tqdm.tqdm_notebook 이용)
+	
+	from urllib.request import urlopen
+	from tqdm import tqdm_notebook
+	
+	present_candi_text = []
+	
+	# 1부터 99까지 지식인 검색 내용을 가져온다
+	for n in range(1,100):
+	    response = urlopen(html.format(num=n, key_word=urllib.parse.quote('여자친구 선물')))
+	    soup = BeautifulSoup(response, "html.parser")
+	    tmp = soup.find_all('dl')
+	
+	    for line in tmp:
+	        present_candi_text.append(line.text)
+	    time.sleep(0.5)
+	    
+	print("present_candi_text\n",present_candi_text[:5])
+	print("*"*100)
+	
+	present_text = ""
+	for each_line in present_candi_text:
+	    present_text = present_text + each_line + "\n"
+	
+	# 형태소 분석
+	import nltk
+	from konlpy.tag import Okt
+	okt = Okt()
+	
+	tokens_ok = okt.morphs(present_text)
+	#print(tokens_ok)
+	ok = nltk.Text(tokens_ok)
+	print(len(set(ok.tokens))) # set 을 한다면 중복되는 단어들을 없애준다
+	print("*"*100)
+	
+	print(tokens_ok)
+	print("*"*100)
+	
+	# 많이 사용되는 단어 100개 추출
+	print(ok.vocab().most_common(100))
+	print("*"*100)
+	
+	# 의미없는 단어들을 수동으로 제거해준다.
+	stop_words = ['.','가','요','답변','...','을','수','에','질문','제','를','이','도',
+	                      '좋','1','는','로','으로','2','것','은','다',',','니다','대','들',
+	                      '2017','들','데','..','의','때','겠','고','게','네요','한','일','할',
+	                      '10','?','하는','06','주','려고','인데','거','좀','는데','~','ㅎㅎ',
+	                      '하나','이상','20','뭐','까','있는','잘','습니다','다면','했','주려',
+	                      '지','있','못','후','중','줄','6','과','어떤','기본','!!',
+	                      '단어','선물해','라고','중요한','합','가요','....','보이','네','무지',
+	              "\n","ㅠㅠ","??","\n\n","\n\n\n","\n\n\n\n","|","&","Q","A","****)"]
+	
+	tokens_ok = [each_word for each_word in tokens_ok 
+	                          if each_word not in stop_words]
+	
+	# 많이 사용되는 단어 100개 추출
+	ok = nltk.Text(tokens_ok)
+	print(ok.vocab().most_common(100))
+	print("*"*100)
+	
+	#!pip install WordCloud
+	# """ 워드 크라우드 그리기 """
+	from wordcloud import WordCloud, STOPWORDS
+	from PIL import Image
+	
+	# 많이 사용되는 단어 300개
+	data = ok.vocab().most_common(300)
+	
+	# 단어 추출을 위한 리스트
+	data_list = []
+	for txt, cnt in data:
+	    data_list.append(txt) # 단어만 추출
+	print("data_list\n",data_list) # 확인
+	print("*"*100)
+	
+	data_str = ' '.join(data_list) # 단어 사이사이 마다 공백을 끼워 넣겠다
+	
+	wordcloud = WordCloud(font_path="malgun",
+	                     background_color="white",
+	                     width=400,
+	                     height=400,
+	                     scale=2.0,
+	                     max_font_size=200)
+	wordcloud.generate(data_str)
+	plt.imshow(wordcloud, interpolation="bilinear")
+	plt.axis("off")
+	plt.show()
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
