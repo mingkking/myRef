@@ -6514,6 +6514,68 @@ Exception처리 - error페이지
 	# 5. 예측하기
 	print("예측결과\n",model.predict(x))
 ```
+###
+```
+	import numpy as np
+	import tensorflow as tf
+	
+	np.random.seed(3)
+	tf.random.set_seed(3)
+	  
+	# 준비된 수술 환자 데이터를 불러옴
+	data_set = np.loadtxt("./dataset/ThoraricSurgery.csv", delimiter=",")
+	  
+	# 환자의 기록과 수술 결과를 X와 Y로 구분하여 저장
+	X = data_set[:,0:17]
+	Y = data_set[:,17]
+	
+	print("17 개 항목\n",X[0])   # 17 개 항목
+	print("*"*100)
+	print("결과\n",Y[0])   # 결과
+	print("*"*100)
+	
+	# [1]  모델 생성 - 리스트형
+	model = tf.keras.Sequential([
+	    tf.keras.layers.Dense(units=30, activation="relu", input_dim=17), # 
+	    tf.keras.layers.Dense(units=1, activation="sigmoid") # 
+	])
+	
+	# [2]  모델 생성 - add 함수
+	# model = tf.keras.Sequential()
+	# model.add()
+	
+	# [참고] 모델 요약
+	model.summary()
+	
+	# 모델 컴파일
+	model.compile(loss="mean_squared_error", optimizer="adam", metrics=["accuracy"])
+	
+	# 모델 학습
+	model.fit(X, Y, epochs=100, batch_size=10) # 100번 반복 학습 10개씩
+	
+	# 모델 정확도
+	test_loss, test_accuracy = model.evaluate(X,Y)
+	print("정확도\n",test_accuracy)
+	print("*"*100)
+	
+	# 예측
+	pre_x = [[447,8,5.2,4.1,0,0,0,0,0,0,12,0,0,0,0,0,49]] # 환자 정보
+	pre_x = np.array(pre_x)
+	print("예측\n",model.predict(pre_x))
+	print("*"*100)
+	
+	# 예측
+	pre_x = [[14.,2.,3.98,3.06,2.,0.,0.,0.,1.,1.,14.,0.,0.,0.,1.,0.,80.]] # 환자 정보
+	pre_x = np.array(pre_x)
+	print("예측\n",model.predict(pre_x))
+	print("*"*100)
+	
+	# 예측
+	pre_x = [[42.,2.,3.24,2.52,1.,0.,0.,0.,1.,0.,12.,0.,0.,0.,1.,0.,63.]] # 환자 정보
+	pre_x = np.array(pre_x)
+	print("예측\n",model.predict(pre_x))
+	print("*"*100)
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
