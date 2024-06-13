@@ -6362,6 +6362,40 @@ Exception처리 - error페이지
 	plt.axis("off")
 	plt.show()
 ```
+### 파이썬 NaiveBayesClassifier 나이브베이즈 분류
+```
+	from nltk.tokenize import word_tokenize
+	import nltk
+	#nltk.download('punkt')
+	""" 훈련데이타 """ 
+	train = [('i like you', 'pos'), 
+	         ('i hate you', 'neg'), 
+	         ('you dislike me', 'neg'),
+	         ('i like her', 'pos')]
+	
+	# 훈련문장에서 사용된 단어들 모두 찾기
+	all_words = set(word.lower() for sentence in train 
+	                             for word in word_tokenize(sentence[0]))
+	print("all_words\n",all_words)
+	
+	# 위 모든 단어들이 각각 훈련문장에 속한 단어인지 아닌지 확인
+	t = [({word: (word in word_tokenize(x[0])) for word in all_words}, x[1])
+	                                                        for x in train]
+	print("t\n",t)
+	print("*"*100)
+	
+	# 나이브베이즈분류 NaiveBayes 분류
+	clf = nltk.NaiveBayesClassifier.train(t)
+	
+	# 테스트데이타
+	test_sent = "i seoul you"
+	test_sent_features = {word.lower() : (word in word_tokenize(test_sent.lower())) for word in all_words}
+	print("test_sent_features\n",test_sent_features)
+	print("*"*100)
+	
+	# 예측
+	clf.classify(test_sent_features)
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
