@@ -6806,6 +6806,32 @@ Exception처리 - error페이지
 		    </div>
 		{% endblock %}
 ```
+### node.js 노드
+```
+	설치
+		nodejs.org - node.js 서버
+		https://code.visualstudio.com/ - 비주얼스튜디오코드
+	실행
+		Terminal
+			node hello.js - hello.js 파일 실
+```
+### node.js 웹 작성 실행
+```
+	// [1] 실행구동 확인
+	console.log("hello");
+	
+	// [2] 웹구동 확인
+	let http = require("http");
+	
+	function onRequest(request,response){
+	    response.writeHead(200,{ "Content-Type": "text/plain" }); // 글자 타입 설정
+	    response.write("Hello~~ World~~~~!!!!") // 글씨 작성
+	    response.end() // 응답 끝
+	}
+	
+	// 8888 포트로 접속했을 경우 onRequest 함수 실행하면서 웹 서버를 띄운다
+	http.createServer(onRequest).listen(8888); 
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
