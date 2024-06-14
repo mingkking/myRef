@@ -6709,6 +6709,35 @@ Exception처리 - error페이지
 		def users():
 		    return "여기는 v2/users 입니다."
 ```
+### 파이썬 db mysql 연결
+```
+	환경변수
+		.env 파일 생성
+			FLASK_APP=apps.app:create_app
+			FLASK_ENV=development
+	설치
+		pip install python-dotenv
+	# apps/app.py
+		from flask import Flask
+		from apps.crud import views as crud_views
+		
+		def create_app():
+		    app = Flask(__name__)
+		    app.register_blueprint(crud_views.crud, url_prefix="/crud")
+		
+		    return app
+	# apps/crud/views.py
+		from flask import Blueprint, render_template
+		
+		crud = Blueprint("crud",
+		                 __name__,
+		                 static_folder="static", # css 파일, image 파일
+		                 template_folder="templates") # 화면 파일
+		
+		@crud.route("/")
+		def index():
+		    return render_template("crud/index.html")
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
