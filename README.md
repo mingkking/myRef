@@ -6852,6 +6852,31 @@ Exception처리 - error페이지
 	
 	console.log("다른 작업 진행")
 ```
+### node.js 비동기 방식이라 데이타를 받을 때 기다려 줘야 함
+```
+	then 방식 기다리고나서 실행
+		// 사이트에서 데이타를 받아오고
+		// then 그러고나서 () 함수를 실행
+		fetch("http://jsonplaceholder.typicode.com/users")
+		.then( response => response.json() )
+		.then( users=> console.log(users) ); 
+		
+		console.log("다른 작업");
+	async
+	await 방식 기다리고나서 실행
+		// Ex05_async_await.js
+	
+		async function init(){
+		    // 사이트안에 데이타를 가져옴
+		    const response = await fetch("http://jsonplaceholder.typicode.com/users");
+		
+		    // 가져온 데이타를 json으로 변환후 users 에 담기
+		    const users = await response.json();  
+		    console.log(users)
+		}
+		
+		init();
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
