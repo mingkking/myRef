@@ -319,6 +319,8 @@ interface B{
 	6. ON DELETE CASCADE(fk 뒤쪽에 쓰면 됨) - 외래키 삭제시 연쇄삭제
 	7. ON DELETE SET NULL(fk 뒤쪽에 쓰면 됨) - 외래키 삭제시 연결되어 있는 곳 NULL 값 지정
 7. auto_increment - sequence
+8. mysql 계정 암호화 해제하기
+	ALTER USER 'scott'@'%' IDENTIFIED WITH mysql_native_password BY 'tiger';
 ```
 ### 17. MySQL - 함수
 ```
@@ -6728,6 +6730,7 @@ Exception처리 - error페이지
 		    return app
 	# apps/crud/views.py
 		from flask import Blueprint, render_template
+		from apps.crud import dbconn
 		
 		crud = Blueprint("crud",
 		                 __name__,
@@ -6737,6 +6740,71 @@ Exception처리 - error페이지
 		@crud.route("/")
 		def index():
 		    return render_template("crud/index.html")
+		
+		@crud.route("/dbtest")
+		def dbtest():
+		    db_class = dbconn.Database()
+		    print("DB연결성공")
+		    print("*"*100)
+		
+		    query = "SELECT empno, ename FROM emp"
+		    rows = db_class.executeAll(query)
+		    print(rows)
+		    return render_template("crud/dbtest.html", resultData=rows) # 변수명 resultDate로 행 1줄을 넘긴다
+	# apps/crud/dbconn.py
+		import pymysql # mysql 임포트
+		
+		# DB 클래스 생성
+		class Database():
+		
+		    # 생성자
+		    def __init__(self):
+		        # 멤버변수 지정
+		        self.db = pymysql.connect(
+		            host="localhost", # IP
+		            user="scott", # USER
+		            password="tiger", # PASS
+		            db="basic", # DATABASE
+		            charset="utf8"
+		        )
+		        self.cursor = self.db.cursor(pymysql.cursors.DictCursor)
+		
+		    # 메소드
+		    def executeOne(self, query, args={}):
+		        self.cursor.execute(query,args)
+		        row = self.cursor.execute().fetchone()
+		        return row
+		
+		    # 메소드
+		    def executeAll(self,query,args={}):
+		        self.cursor.execute(query,args)
+		        rows = self.cursor.fetchall()
+		        return rows
+		
+		    # 메소드
+		    def execute(self, query, args={}):
+		        self.cursor.execute(query,args)
+		
+		    # 커밋 메소드
+		    def commit(self):
+		        self.db.commit()
+	dbtest.html
+		{% extends "crud/base.html" %}
+		
+		{% block title %} 우리의 앱 {% endblock %}
+		
+		{% block content %}
+		    <div class="jumbo">
+		        <h2> 플라스크 + 마이에스큐엘 </h2>
+		        <hr/>
+		        {# 추후에 레코드를 전부 받아서 출력(반복문은???) #}
+		        {% for i in resultData %}
+		            <h5> 아이디 {{i.empno}}</h5>
+		            <h5> 사원명 {{i.ename}}</h5>
+		            <hr/>
+		        {% endfor %}
+		    </div>
+		{% endblock %}
 ```
 ### 리눅스
 ```
