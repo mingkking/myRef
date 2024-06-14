@@ -6832,6 +6832,26 @@ Exception처리 - error페이지
 	// 8888 포트로 접속했을 경우 onRequest 함수 실행하면서 웹 서버를 띄운다
 	http.createServer(onRequest).listen(8888); 
 ```
+### node.js 비동기 방식
+```
+	// Ex02_async_callback.js
+	function order(coffee, callback){
+	    console.log(`${coffee} 주문`)
+	    console.log(coffee + "주문")
+	
+	    setTimeout(()=>{
+	        callback(coffee);
+	    }, 2000); // 2초 타이머
+	}
+	
+	function pickup(result){
+	    console.log(`${result} 준비 완료`);
+	}
+	
+	order("카페라떼", pickup)
+	
+	console.log("다른 작업 진행")
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
