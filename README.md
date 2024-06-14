@@ -6586,6 +6586,128 @@ Exception처리 - error페이지
 		마이크로 앱 프레임워크
 		핵심기능을 유지하면서 확장성을 가진다
 		간단한 웹 서버 역할만
+	설치
+		pip install flask
+	웹 예제
+		from flask import Flask
+		app = Flask(__name__)
+		
+		@app.route("/")
+		def hello_word():
+		    return "hello world"
+	실행
+		flask run
+		flask --app app0_route run
+```
+### 파이썬 루트
+```
+	# app0_route.py
+	from flask import Flask
+	app = Flask(__name__)
+	
+	@app.route("/") # 127.0.0.1
+	@app.route("/index") # 127.0.0.1:5000/index
+	def hello_word():
+	    return "hello world2222222"
+	
+	
+	@app.route("/users/<username>") # 127.0.0.1:5000/users/홍길동
+	def get_user(username):
+	    return username+"님이 입장하셨습니다."
+	
+	@app.route("/posts/<int:post_id>") # 127.0.0.1:5000/posts/111
+	def get_post(post_id):
+	    return str(post_id) + "번 글을 확인"
+```
+### 파이썬 렌더
+```
+	# app1_render.py
+	from flask import Flask, render_template
+	
+	# 파일명, static폴더, 템플릿폴더
+	app = Flask(__name__, static_folder="static", template_folder="templates")
+
+	# 렌더 테스트
+	@app.route("/hello")
+	def hello():
+	    return render_template("hello.html") # import 필요 - 화면 넘기기
+	# http://127.0.0.1:5000/hello
+
+	# 진자 테스트
+	@app.route("/hello_jinja/<nickname>")
+	def hello_jinja(nickname):
+	    return render_template("hello_jinja.html", name=nickname) # import 필요 - 화면 넘기기
+```
+### 파이썬 진자 jinja
+```
+	base.html
+		<!DOCTYPE html>
+		<html>
+		<head>
+		    <link type='text/css' rel='stylesheet' href="/static/css/hello.css">
+		    {% block head %}
+		    {% endblock %}
+		</head>
+		<body>
+		    {% block body %}
+		    {% endblock %}
+		</body>
+		</html>
+	hello_jinja.html
+		{% extends "layout/base.html" %}
+
+		{% block head %}
+		    <title>진자란 무엇인가</title> <!-- base.html 파일에서 title이 된다 -->
+		{% endblock %}
+		
+		{% block body %} <!-- base.html 파일에서 body 내용이 된다 -->
+		    {% if name == "홍길동" %}
+		        <h1>{{name}}님 반갑습니다.</h1>
+		    {% else %}
+		        <img src="/static/image/hello_world.png">
+		    {% endif %}
+		{% endblock %}
+```
+### 파이썬 Blueprint 블루프린트
+```
+	# app2_Blueprint
+		'''
+		    Blueprint
+		        - 앱의 규모가 클 때 앱을 분할하여 관리
+		        - 공통 url을 묶어 관리
+		'''
+		
+		from flask import Flask
+		from app3_v1 import app as v1_app
+		from app3_v2 import app as v2_app
+		
+		app = Flask(__name__)
+		app.register_blueprint(v1_app) # 블루프린트 등록
+		app.register_blueprint(v2_app) # 블루프린트 등록
+		
+		# [서버 실행] flask --app app2_Blueprint run
+		# [브라우저 확인] http://127.0.0.1:5000/v1/users
+		#               http://127.0.0.1:5000/v2/users
+	# app3_v1.py
+		from flask import Blueprint
+
+		# app = Blueprint(블루프린트앱의 이름, 보통 __name__ 지정, url 구별하기 위한 경로)
+		app = Blueprint("v1",__name__,url_prefix="/v1") # localhost:5000/v1
+		
+		# localhost:5000/v1/users
+		@app.route("/users")
+		def users():
+		    return "여기는 v1/users 입니다."
+	# app3_v2.py
+		from flask import Blueprint
+
+		# app = Blueprint(블루프린트앱의 이름, 보통 __name__ 지정, url 구별하기 위한 경로)
+		app = Blueprint("v2",__name__,url_prefix="/v2") # localhost:5000/v2
+		
+		# localhost:5000/v2/users
+		@app.route("/users")
+		def users():
+		    return "여기는 v2/users 입니다."
 ```
 ### 리눅스
 ```
