@@ -6877,6 +6877,61 @@ Exception처리 - error페이지
 		
 		init();
 ```
+### node.js exepress
+```
+	프로젝트 설정
+		npm init
+			entry point - 시작 화면
+			git repository - 깃 연결
+	express 설치
+		npm install express
+	코드
+		// App1.js
+		// 서버
+		const express = require("express");
+		const app = express();
+		const port = 3000;
+		
+		// 대기하다가 3000포트번호로 접속했을 경우 함수 실행
+		app.listen(port,()=>{
+		    console.log("서버실행")
+		});
+		
+		// 요청(request)가 들어오면 지정된 함수를 호출(콜백함수)
+		app.get("/", (req,res)=>{
+		    res.send("노드 헬로우 성공");
+		});
+		
+		// 요청(/func1)
+		app.get("/func1", (req,res)=>{
+		    res.send("헬로우 -1");
+		});
+		
+		// 요청(/func2)
+		app.get("/func2", (req,res)=>{
+		    res.send("헬로우 -2");
+		});
+		
+		// 콜백함수 다음 불러지는 함수는 미들웨어함수
+		app.get("/func3", (req,res,next)=>{
+		    console.log(" 첫번째 호출 ");
+		    next();    
+		}, function(req,res){
+		    res.send(" 두번째 호출");
+		});
+		
+		// 콜백함수 다음 불러지는 함수는 미들웨어함수 배열로
+		const method1 = function(req, res, next){
+		    console.log("첫번째 호출 1");
+		    next();
+		};
+		
+		const mehotd2 = function(req, res){
+		    res.send("두번째 호출2");
+		};
+		
+		app.get("/func4", [method1, mehotd2]);
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
