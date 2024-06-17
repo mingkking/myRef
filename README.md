@@ -6972,6 +6972,109 @@ Exception처리 - error페이지
 		// 설정 라우터들을 외부에서 사용 가능하도록
 		module.exports = router;
 ```
+### node.js mysql
+```
+	설치
+		npm install mysql
+	sql.js 파일
+		// 2_db/mysql/sql.js
+		module.exports = {
+		    // 1 검색
+		    employeeList : `SELECT * FROM emp`,
+		    
+		    // 2 입력
+		    // 실제 입력 - > INSERT INTO emp set empno=9912, ename='홍씨', job='아이티'
+		    employeeInsert : `INSERT INTO emp SET ?`,
+		
+		    // 3 수정
+		    // 실제 수정 - > UPDATE emp SET ename='김씨', job='개발' WHERE empno=9912
+		    employeeUpdate : `UPDATE emp SET ? WHERE empno=?`,
+		
+		    // 4 삭제
+		    employeeDelete : `DELETE FROM emp WHERE empno=?`
+		}
+	index.js 파일
+		// 2_db/mysql/index.js
+		const mysql = require("mysql");
+		const sql = require("./sql.js");
+		
+		// ConnectionPool 생성
+		const pool = mysql.createPool({
+		    host : "127.0.0.1",
+		    port : 3306,
+		    user : "scott",
+		    password : "tiger",
+		    database : "basic",
+		    connectionLimit : 10
+		});
+		
+		// 쿼리를 실행하고 결과를 반영하는 함수
+		const query = async (alias, value)=>{
+		    return new Promise((resolve, reject)=>{
+		        pool.query(sql[alias], value, (error, results)=>{
+		            if(error){
+		                console.log("에러 발생");
+		                reject(error);
+		            }else{
+		                resolve(results);
+		            }
+		        });
+		    });
+		};
+		
+		module.exports = {query};
+	App_mysql.js 파일
+		// 2_db/App_mysql.js
+		const express = require("express");
+		const app = express();
+		const port = 3000;
+		
+		app.listen(port, ()=>{
+		    console.log("서버실행");
+		});
+		
+		const mysql = require("./mysql"); // index.js 실행
+		
+		// 데이타 검색
+		app.get("/api/employee", async (req, res)=>{
+		    const employees = await mysql.query("employeeList");
+		    console.log(employees);
+		    res.send(employees);
+		});
+		
+		// 데이타 입력
+		app.use(
+		    express.json({
+		        limit : "50mb"
+		    })
+		);
+		app.post("/api/employee/insert", async (req, res)=>{
+		    console.log("입력");
+		    console.log(req.body);
+		
+		    const result = await mysql.query("employeeInsert", req.body.param);
+		    res.send(result);
+		});
+		
+		// 데이타 수정
+		app.put("/api/employee/update", async (req, res)=>{
+		    console.log("수정");
+		    console.log(req.body);
+		
+		    const result = await mysql.query("employeeUpdate", req.body.param);
+		    res.send(result);
+		});
+		
+		// 데이타 삭제
+		app.delete("/api/employee/delete/:id", async (req, res)=>{
+		    console.log("삭제");
+		    // :id 값을 읽어서 id에다가 담기
+		    const {id} = req.params;
+		
+		    const result = await mysql.query("employeeDelete", id);
+		    res.send(result);
+		});
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
