@@ -7148,7 +7148,6 @@ Exception처리 - error페이지
 		module.exports = Emp;
 	App_mongodb.js
 		const express = require("express");
-
 		const app = express();
 		
 		app.listen(3000, ()=>{
@@ -7221,6 +7220,34 @@ Exception처리 - error페이지
 		
 		    console.log(employees);
 		    res.send(employees);
+		});
+		
+		// 수정
+		app.get("/empUpdate1", async (req, res)=>{
+		    const empUpdate1 = await Emp.updateOne({empno : 1113}, {job : "개발"});
+		    console.log(empUpdate1);
+		});
+		
+		// 수정 여러개
+		app.get("/empUpdate2", async (req, res)=>{
+		    const empUpdate2 = await Emp.updateMany({sal : {$gte : 5000}}, {job : "디자인"});
+		    console.log(empUpdate2);
+		});
+		
+		// 삭제
+		app.get("/empDelete", async (req, res)=>{
+		    const empDelete = await Emp.deleteOne({empno : 1113});
+		    console.log(empDelete);
+		});
+		
+		// 여러개 삭제
+		app.get("/empDelete2", async (req, res)=>{
+		    const empDelete2 = await Emp.deleteMany(
+		        {$or:[
+		            {empno:1234},
+		            {empno:1114}
+		        ]});
+		    console.log(empDelete2);
 		});
 ```
 ### 리눅스
