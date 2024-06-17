@@ -7075,6 +7075,154 @@ Exception처리 - error페이지
 		    res.send(result);
 		});
 ```
+### node.js mongodb
+```
+	설치
+		https://www.mongodb.com/try/download/community
+	환경변수
+		Path 를 bin 경로로 설정
+	접속
+		cmd - mongo
+	유저생성
+		db.createUser({
+			user: "root",
+			pwd: "admin1234",
+			roles: [
+				{ role: "userAdminAnyDatabase", db: "admin" },
+				{ role: "dbAdminAnyDatabase", db: "admin" },
+				{ role: "readWriteAnyDatabase", db: "admin" }
+			]
+		});
+	VisualStudioCode 터미널
+		npm install mongoose@6.10
+	index.js
+		const mongoose = require("mongoose");
+
+		const connect = ()=>{
+		    // root계정:비번admin1234@IP:port
+		    mongoose.connect("mongodb://root:admin1234@127.0.0.1:27017", {dbName : "test"}, (error)=>{
+		        if(error){
+		            console.log("Mongodb 연결 실패 :", error);
+		        }else{
+		            console.log("MongoDB 연결 성공 : 127.0.0.1:27017/test")
+		        }
+		    });
+		};
+		
+		module.exports = {connect}
+	emp.js
+		// schemas/emp.js
+
+		const mongoose = require("mongoose");
+		const { type } = require("os");
+		const {Schema} = mongoose;
+		
+		/*
+		    스키마 타입
+		        Number / String / Date / Boolean
+		        ObjectId : 객체 아이디
+		        Buffer : 파일을 담을 수 있는 버퍼
+		        Array : 여러개
+		*/
+		const empSchema = new Schema({
+		    empno : {
+		        type : Number,
+		        required : true,
+		        unique : true
+		    },
+		    ename : {
+		        type : String,
+		        required : true
+		    },
+		    job : {
+		        type : String 
+		    },
+		    sal : {
+		        type : Number
+		    }
+		});
+		
+		const Emp = mongoose.model("emp", empSchema);
+		
+		// module.exports = {Emp} 차이는? 
+		module.exports = Emp;
+	App_mongodb.js
+		const express = require("express");
+
+		const app = express();
+		
+		app.listen(3000, ()=>{
+		    console.log("웹 서버 구동중");
+		});
+		
+		const mongodb = require("./0_async/4_mongodb");
+		mongodb.connect();
+		
+		const Emp = require("./0_async/4_mongodb/schemas/emp");
+		
+		// 전체 검색
+		app.get("/emp", async (req, res)=>{
+		    const employees = await Emp.find();
+		    console.log(employees);
+		    res.send(employees);
+		});
+		
+		// 입력
+		app.get("/empInsert", async (req, res)=>{
+		    const empInsert = await Emp.create({
+		        empno : 1112,
+		        ename : "박길동",
+		        job : "개발",
+		        sal : 5000
+		    });
+		    console.log(empInsert);
+		});
+		
+		// 입력 여러개
+		app.get("/empInsert2", async (req, res)=>{
+		    const empInsert2 = await Emp.create([
+		        {
+		            empno : 1113,
+		            ename : "최길동",
+		            job : "IT",
+		            sal : 4000
+		        },
+		        {
+		            empno : 1114,
+		            ename : "김길동",
+		            job : "개발",
+		            sal : 6000
+		        }
+		    ]);
+		    console.log(empInsert2);
+		});
+		
+		// 검색
+		app.get("/empTest", async (req, res)=>{
+		    // 전체검색
+		    // const employees = await Emp.find({});
+		
+		    // 월급이 5000이상 검색
+		    // const employees = await Emp.find({ 
+		    //     sal : { $gte:5000 }
+		    // });
+		
+		    // 월급이 5000이상 이름이 김길동
+		    // const employees = await Emp.find({
+		    //     sal : { $gte:6000 },
+		    //     ename : "김길동"
+		    // });
+		
+		    // 이름이 "길동"이 포함 
+		    // 결과값 ename, sal
+		    const employees = await Emp.find({
+		        ename: /김/
+		    },"ename sal");
+		
+		    console.log(employees);
+		    res.send(employees);
+		});
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
