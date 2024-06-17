@@ -6932,6 +6932,46 @@ Exception처리 - error페이지
 		
 		app.get("/func4", [method1, mehotd2]);
 ```
+### node.js 라우터 router
+```
+	App.js
+		const express = require("express");
+		const app = express();
+		const port = 3000;
+		
+		app.listen(port, ()=>{
+		    console.log("서버실행");
+		});
+
+		// 외부 js 파일 가져오기
+		const customerRoute = require("./router/customer");
+		
+		app.use("/customer", customerRoute);
+	customer.js
+ 		// router/customer.js
+		const express = require("express");
+		const router = express.Router();
+		
+		router.get("/",(req, res)=>{
+		    res.send("고객정보 조회 /customer 라우터");
+		});
+		
+		router.post("/insert",(req, res)=>{
+		    res.send("고객정보 입력 /customer/insert 라우터");
+		});
+		
+		
+		router.put("/update",(req, res)=>{
+		    res.send("고객정보 수정 /customer/update 라우터");
+		});
+		
+		router.delete("/delete",(req, res)=>{
+		    res.send("고객정보 삭제 /customer/delete 라우터");
+		});
+		
+		// 설정 라우터들을 외부에서 사용 가능하도록
+		module.exports = router;
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
