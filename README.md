@@ -7426,7 +7426,9 @@ Exception처리 - error페이지
 		npm install -g create-react-app
 	visualStudioCode shell 을 cmd로 바꾸고
 		create-react-app .
-					
+	react 실행
+		npm start
+		npm run start
 ```
 ### 리눅스
 ```
