@@ -7429,6 +7429,8 @@ Exception처리 - error페이지
 	react 실행
 		npm start
 		npm run start
+	chrom 접속
+		확장프로그램 - 검색 - react - 확장 추
 ```
 ### 리눅스
 ```
