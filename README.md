@@ -7250,6 +7250,184 @@ Exception처리 - error페이지
 		    console.log(empDelete2);
 		});
 ```
+### node.js 게시판 board CRUD
+```
+	설치
+		npm init
+			초기 프로젝트 설정
+		npm install express
+			DB 연동
+		npm install mysql
+			mysql 서버
+		npm install nodemon
+			서버를 자동으로 껐다 켜주는
+		npm install ejs
+		npm install body-parser
+		npm install path
+			경로를 편하게 해주는
+```
+### node.js 게시판 board CRUD
+```
+	database.js
+		// config/database.js
+		module.exports = {
+		    host : "localhost",
+		    user : "scott",
+		    password : "tiger",
+		    database : "basic"
+		}
+	sql.js
+		module.exports = {
+		    // 1 검색
+		    boardList : `SELECT bNum, bTitle, bName, bContent, mId, bPw, date_format(insertDate, '%Y-%m-%d') as insertDate, date_format(updateDate, '%Y-%m-%d') as updateDate FROM node_board`,
+		    boardInsert : `INSERT INTO node_board(bTitle, bName, bContent, mId, bPw) VALUES(?, ?, ?, ?, ?)`,
+		    boardDetail : `SELECT bNum, bTitle, bName, bContent, mId, bPw, date_format(insertDate, '%Y-%m-%d') as insertDate, date_format(updateDate, '%Y-%m-%d') as updateDate FROM node_board WHERE bNum = ?`,
+		    boardUpdate : `UPDATE node_board SET bTitle=?, bName=?, bContent=?, mId=?, bPw=? WHERE bNum=?`,
+		    boardDelete : `DELETE FROM node_board WHERE bNum = ?`    
+		}
+	board.js
+		const express = require("express");
+		const ejs = require("ejs");
+		const path = require("path");
+		const bodyParser = require("body-parser");
+		
+		const app = express();
+		
+		// 환경변수 쪽에 포트번호가 지정되어 있는걸 쓰거나 3000번 지정
+		app.set("port", process.env.PORT || 3000);
+		
+		// ejs 파일로 화면 이동을 위해
+		app.set("view engine", "ejs");
+		
+		// public/board_write.html form태그 안 input 값 받아오기 쉽게
+		app.use(bodyParser.urlencoded({ extended : true }));
+		
+		app.listen(app.get("port"), ()=>{
+		    console.log("Express 서버 구동 >>",app.get("port"));
+		});
+		
+		// DB 연동
+		const mysql = require("mysql");
+		const dbconfig = require("./config/database");
+		const sqlQuery = require("./config/sql");
+		const conn = mysql.createConnection(dbconfig);
+		
+		// 전체 조회
+		// "SELECT bNum, bTitle, bName, bContent, mId, bPw, insertDate, updateDate FROM node_board"
+		app.get("/", async (req, res)=>{
+		    const sql = await sqlQuery.boardList;
+		    //const sql = "SELECT bNum, bTitle, bName, bContent, mId, bPw, date_format(insertDate, '%Y-%m-%d') as insertDate, date_format(updateDate, '%Y-%m-%d') as updateDate FROM node_board";
+		
+		    conn.query( sql, (err, result, fields)=>{
+		        if(err){
+		            throw err; // err 가 났을 경우
+		        }
+		        console.log(result);
+		
+		        // 뷰페이지 렌더링
+		        // res.render("파일경로",{ 데이타명 : 전송할데이타 });
+		        res.render("board_index", { users : result });
+		    } );
+		});
+		
+		// 글쓰기 입력화면 이동
+		app.get("/create", (req, res)=>{
+		    // 현재 경로에서 public/board_write.html 로 응답
+		    res.sendFile(path.join(__dirname, "public/board_write.html"));
+		});
+		
+		// 글쓰기 저장
+		app.post("/insert", (req, res)=>{
+		    // public/board_write.html form태그 안 input 값 받아오기
+		    const bTitle = req.body.bTitle;
+		    const bName = req.body.bName;
+		    const bContent = req.body.bContent;
+		    const mId = req.body.mId;
+		    const bPw = req.body.bPw;
+		    
+		    const param = [bTitle, bName, bContent, mId, bPw];
+		
+		    //console.log("사용자 입력 값", param);
+		
+		    //const sql = "INSERT INTO node_board(bTitle, bName, bContent, mId, bPw) VALUES(?,?,?,?,?)";
+		    const sql = sqlQuery.boardInsert;
+		    conn.query(sql, param, (err, result, fields)=>{
+		        if(err){
+		            throw err;
+		        }
+		        console.log("입력성공", result);
+		        res.redirect("/");
+		    });
+		});
+		
+		// 수정화면 이동
+		app.get("/edit/:bNum", (req, res)=>{
+		    const bNum = req.params.bNum;
+		    //console.log("글번호에 의한 조회", bNum);
+		
+		    const sql = sqlQuery.boardDetail;
+		    conn.query(sql, [bNum], (err, result, fields)=>{
+		        if(err){
+		            throw err;
+		        }
+		        console.log("글번호에 의한 조회", result);
+		        res.render("board_edit", { user : result });
+		    });
+		});
+		
+		// 수정 처리
+		app.post("/update/:bNum", (req, res)=>{
+		    const bNum = req.params.bNum;
+		    console.log("수정 처리", bNum);
+		
+		    const bTitle = req.body.bTitle;
+		    const bName = req.body.bName;
+		    const bContent = req.body.bContent;
+		    const mId = req.body.mId;
+		    const bPw = req.body.bPw;
+		    
+		    const param = [bTitle, bName, bContent, mId, bPw, bNum];
+		    console.log("수정 처리 입력값", param);
+		
+		    const sql = sqlQuery.boardUpdate;
+		    conn.query(sql, param, (err, result, fields)=>{
+		        if(err){
+		            throw err;
+		        }
+		        console.log("수정 처리", result);
+		        res.redirect("/");
+		    });
+		});
+		
+		// 삭제 처리
+		app.get("/delete/:bNum", (req, res)=>{
+		    const bNum = req.params.bNum;
+		    console.log("삭제 처리", bNum);
+		    
+		    const sql = sqlQuery.boardDelete;
+		    conn.query(sql, bNum, (err, result, fields)=>{
+		        if(err){
+		            throw err;
+		        }
+		        console.log("삭제 처리", result);
+		        res.redirect("/");
+		        //res.render("/");
+		    });
+		});
+```
+### React
+```
+	설치 세팅
+		Extensions
+			javascript
+			eslint
+	cmd 관리자 권한 실행
+		npm install -g yarn
+		npm install -g create-react-app
+	visualStudioCode shell 을 cmd로 바꾸고
+		create-react-app .
+					
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
