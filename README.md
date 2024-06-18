@@ -4638,6 +4638,33 @@ Exception처리 - error페이지
 		for i,record in enumerate(out_data):
 			print(out_data[i])
 ```
+### 파이썬 DB 연동 - ORACLE
+전자지갑 - file - setting - project:abasic - Python Interpreter - 검색 cx_oracle - cx_oracle 클릭 - install Package
+```
+	전자지갑으로 연동
+		'''
+		    파이썬에서 mysql(mariadb) 연동시 필요한 패키지
+		        mysqlclient
+		        pymysql
+		'''
+		import oracledb
+
+		oracledb.init_oracle_client(lib_dir=r"C:\Users\ict03_029\Oracle\instantclient_11_2")
+		con = oracledb.connect(user="scott"
+		                       ,password='tiger'
+		                       ,dsn="localhost:1521/XE")
+		cursor = con.cursor()
+		print("연동 성공", cursor)
+		# cursor.execute("SELECT * FROM dept")
+		# out_data = cursor.fetchall()
+		cursor.execute("select * from dept")
+		datas = cursor.fetchall()
+
+		print("ok", datas)
+
+		for data in datas:
+		    print(data[0])
+```
 ### 파이썬 웹 요청 라이브러리
 ```
 	파이썬에서 웹을 요청할 수 있는 라이브러리
