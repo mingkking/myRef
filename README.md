@@ -7761,6 +7761,100 @@ Exception처리 - error페이지
 	
 	export default App;
 ```
+### React 리스트 list
+```
+	CommentList.jsx
+		import React from "react";
+		import Comment from "./Comment";
+		
+		const comments = [
+		    {
+		        id : "001",
+		        name: "홍순이",
+		        comment: "안녕하세요",
+		        imgname : "imgs/img1.PNG",
+		    },
+		    {
+		        id : "002",
+		        name: "홍길동",
+		        comment: "오늘도 행복~!",
+		        imgname : "imgs/img2.PNG",
+		    },
+		    {
+		        id : "003",
+		        name: "박길동",
+		        comment: "리액트~ 화이팅!!!!!",
+		        imgname : "imgs/img3.PNG",
+		    },
+		];
+		
+		function CommentList() {
+		    return(
+		        <div>
+		            {comments.map((c)=>{
+		                return(
+		                    <Comment key={c.id} name={c.name} comment={c.comment} imgname={c.imgname}/>
+		                );    
+		            })}
+		        </div>
+		    )
+		}
+		
+		export default CommentList;
+	Comment.jsx
+		/* eslint-disable */    // 경고 안 뜨게 하려면 
+		import React from "react";
+		
+		const styles = {
+		    wrapper: {
+		        margin: 8,
+		        padding: 8,
+		        display: "flex",
+		        flexDirection: "row",
+		        border: "1px solid grey",
+		        borderRadius: 16,
+		    },
+		    imageContainer: {},
+		    image: {
+		        width: 50,
+		        height: 50,
+		        borderRadius: 25,
+		    },
+		    contentContainer: {
+		        marginLeft: 8,
+		        display: "flex",
+		        flexDirection: "column",
+		        justifyContent: "center",
+		    },
+		    nameText: {
+		        color: "black",
+		        fontSize: 16,
+		        fontWeight: "bold",
+		    },
+		    commentText: {
+		        color: "black",
+		        fontSize: 16,
+		    },
+		};
+		
+		function Comment(props) {
+		    return(
+		        <div style={styles.wrapper}>
+		            <div>
+		                {/* 이미지 출력 */}
+		                <img src={props.imgname} style={styles.image}/>
+		            </div>
+		            <div style={styles.contentContainer}>
+		                <span style={styles.nameText}>{props.name}</span><br/>
+		                <span style={styles.commentText}>{props.comment}</span><br/>
+		                <span style={styles.image}>{props.imgname}</span><br/>
+		            </div>
+		        </div>
+		    );
+		}
+		
+		export default Comment;
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
