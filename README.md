@@ -7681,6 +7681,27 @@ Exception처리 - error페이지
 	
 	export default App;
 ```
+### React Button 버튼
+```
+	import "../App.css";
+
+	function Btn(props){
+	    return (
+	        <button className={`App-${props.css}`}>{`${props.label}`}</button>
+	    )
+	}
+	
+	function Button(){
+	    return (
+	        <div className="App">
+	            <Btn css="link" label="확인"></Btn>
+	            <Btn css="logo" label="입장"></Btn>
+	        </div>
+	    )
+	}
+	
+	export default Button;
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
