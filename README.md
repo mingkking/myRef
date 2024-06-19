@@ -1481,6 +1481,10 @@ jStorage
 			
 	}
 ```
+### javaScript 복습
+```
+	
+```
 ### 22. JSP
 에러났을 때 페이지 이동 - 보통은 web.xml에 설정해놓음
 ```
@@ -7444,6 +7448,50 @@ Exception처리 - error페이지
 ```
 ### React
 ```
+	[React]
+		페이스북을 개발한 기술로 공개한 소프트웨어
+		UI를 위한 자바스크립트 라이브러리
+		화면 출력에 특화된 프레임워크(화면 출력 속도 빠름)
+	[장점]
+		리엑트 컴포넌트는 가상 DOM 을 랜더링
+			1. 화면의 일부만 수정되어도 전체를 다시 그리지 않음
+			2. 가상 DOM에서 먼저 이전의 화면과 비교해서 차이 나는 부분만 찾아서 그 부분 수정
+		컴포넌트 기반
+			엘리먼트 : 컴포넌트를 화면상에 띄운 것
+	[참고]
+		Angular.js : 화면부터 형상관리, 배포까지 포함한 완성형 프레임워크
+		React.js : UI에 특화된 프레임워크
+		Vue.js : 다른 프레임워크의 장점 흡수하고 단점 보완
+	[마운팅]
+		리엑트가 처음으로 각 컴포넌트의 render()를 콜해서 자신의 DOM 트리를 구성하는 과정
+		마운팅 과정
+			생성자 -> render() -> componentDidMount()
+	[웹팩]
+		기존 웹 문서파일로 변환
+		웹 브라우저가 해석할 수 없는 .sass, .cjs 등 .js .css 파일로 변환
+		이미지 파일등을 크기를 적절하게 자르거나 묶어주는 역할
+	[JSX]
+		리액트에서 HTML과 자바스크립트를 함께 사용하고자 확장한 문법
+		Javascript XML : A syntax extension to javascript
+		[샘플]
+			const : 자바스크립트 변수 = html 코드
+			const elem = <h1> hello </h1>;
+			===================================
+			const name = "홍길동";
+			const elem = <h1> Hello, {name}</h1>;
+	[컴포넌트와 엘리먼트 개념]
+		- 붕어빵틀 vs 엘리먼트
+		- 클래스 vs 객체
+		- 컴포넌트(빈구조) ---> Virtual DOM ---> 브라우저 DOM
+		  +
+		- 속성		    (react element)   (dom element)
+		- 리액트 엘리먼트 특징
+			생성되면 변하지 않음
+			엘리먼트가 생성 후에는 children이나 attribute 변경 안됨
+		props 개념
+			- 컴포넌트에서 전달한 데이타 객체
+	[테스트]
+		https://babeljs.io/docs/
 	설치 세팅
 		Extensions
 			javascript
@@ -7457,7 +7505,152 @@ Exception처리 - error페이지
 		npm start
 		npm run start
 	chrom 접속
-		확장프로그램 - 검색 - react - 확장 추
+		확장프로그램 - 검색 - react - 확장 추가
+```
+### React
+```
+	index.js
+		import React from 'react';
+		import ReactDOM from 'react-dom/client';
+		import './index.css';
+		import reportWebVitals from './reportWebVitals';
+		
+		//import App from './1_component/App1_class';
+		//import App from './1_component/App2_tag';
+		import App from './1_component/App3_variable';
+		
+		const root = ReactDOM.createRoot(document.getElementById('root'));
+		root.render(
+		  <React.StrictMode>
+		    <App />
+		  </React.StrictMode>
+		);
+		
+		reportWebVitals();
+	App1_class.js
+		import { Component } from "react";
+		import "../App.css";
+		
+		// 클래스형 컴포넌트
+		class App extends Component {
+		    render(){
+		        let title = "우리사이트";
+		        return(
+		            // 리턴안에 작성코드는 JSX 문법
+		            // 리턴값이 화면 출력됨
+		            // 최상위 태그가 반드시 1개
+		            <div className="App">
+		                <div className="App-logo">{title}</div>
+		            </div>
+		        );
+		    };
+		}
+		
+		export default App;
+	App1_func.js
+		import "../App.css";
+
+		// 함수형 컴포넌트
+		function App(){
+		    let title = "우리사이트22";
+		    return(
+		        // 리턴안에 작성코드는 JSX 문법
+		        // 리턴값이 화면 출력됨
+		        // 최상위 태그가 반드시 1개
+		        <div className="App">
+		            <div className="App-logo">{title}</div>
+		        </div>
+		    );
+		}
+		
+		export default App;
+```
+### React
+```
+	index에서 import만 바꿔주면 됨
+		/*
+		    리액트의 장점 -> 리액트를 사용하는 이유
+		        1. 태그 재사용
+		        2. 데이타 바인딩
+		*/
+		import { render } from "@testing-library/react";
+		import "../App.css";
+		import { Component } from "react";
+		
+		// 함수형 컴포넌트
+		function MyHeader(){
+		    return (
+		        <header>
+		            <h1 className="App-link"> 우리사이트 </h1>
+		            우리는 리액트를 한다
+		        </header>
+		    )
+		}
+		
+		// 클래스형 컴포넌트
+		class MyFooter extends Component{
+		    render(){
+		        return (
+		            <header className="App-logo">
+		                <h1> 우리사이트22 </h1>
+		                우리는 리액트를 한다22
+		            </header>
+		        )
+		    }; 
+		}
+		
+		function App(){
+		    return (
+		        <div className="App">
+		            <MyHeader></MyHeader>
+		            <MyHeader></MyHeader>
+		            <MyHeader/>
+		            <hr/>
+		            <MyFooter/>
+		            <MyFooter/>
+		        </div>
+		    )
+		}
+		
+		export default App;
+```
+### React
+```
+	index에서 import만 바꿔주면 됨
+		import "../App.css";
+	
+		let message = "감사합니다.";
+		
+		function msg(){
+		    return "오늘도 행복";
+		}
+		
+		let styleA = "App-logo";
+		let appLogo = "App-link";
+		let app_logo = "App-link";
+		//let app-logo = "App-link";
+		let styleB = { color:"blue", fontSize:"22px"};
+		function App(){
+		    return(
+		        <div className="App">
+		            <h3 className={appLogo}>우리팀화이팅1</h3>
+		            <h3 className={app_logo}>우리팀화이팅2</h3>
+		            <h3>우리팀화이팅3</h3>
+		            <hr/>
+		            <h2 className={styleA}> 안녕하세요 </h2>
+		            <h2 className={styleA}> {message} </h2>
+		            <h3 className={styleA}> { msg() } </h3>
+		            <hr/>
+		            <h3 style={styleB}>짝꿍님안녕</h3>
+		            <h3 style={{ color:"blue", fontSize:"22px"}}>짝꿍님안녕2</h3>
+		            <hr/>
+		            <img src="logo192.png"></img>
+		            <img src="logo512.png"></img>
+		        </div>
+		    )
+		}
+		
+		export default App;
 ```
 ### 리눅스
 ```
