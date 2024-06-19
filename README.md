@@ -7652,6 +7652,35 @@ Exception처리 - error페이지
 		
 		export default App;
 ```
+### React props 데이터 이동동
+```
+	import "../App.css"
+
+	function Book(props){
+	    console.log(props);
+	    return(
+	        <div>
+	            <h2>제목: {props.title}</h2>
+	            <h4>저자: {props.writer}</h4>
+	            <h5>가격: {props.price}</h5>
+	            {/* 문자열 템플릿 양식으로 */}
+	            <h5>{`가격: ${props.price}`}</h5>
+	        </div>
+	    );
+	}
+	
+	function App(){
+	    return(
+	        <div className="App">
+	            <Book title="자바" writer="김쌤" price="100"></Book>
+	            <Book title="파이썬" writer="박쌤" price="200"></Book>
+	            <Book title="리엑트" writer="최쌤" price="500"/>
+	        </div>
+	    )
+	}
+	
+	export default App;
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
