@@ -7507,7 +7507,7 @@ Exception처리 - error페이지
 	chrom 접속
 		확장프로그램 - 검색 - react - 확장 추가
 ```
-### React
+### React 컴포넌트 component
 ```
 	index.js
 		import React from 'react';
@@ -7565,7 +7565,7 @@ Exception처리 - error페이지
 		
 		export default App;
 ```
-### React
+### React 컴포넌트 component
 ```
 	index에서 import만 바꿔주면 됨
 		/*
@@ -7614,7 +7614,7 @@ Exception처리 - error페이지
 		
 		export default App;
 ```
-### React
+### React {}
 ```
 	index에서 import만 바꿔주면 됨
 		import "../App.css";
@@ -7739,6 +7739,27 @@ Exception처리 - error페이지
 	}
 	
 	export default App2;
+```
+### React 버튼 이벤트 button event
+```
+	import "../App.css";
+
+	function App(){
+	    function test(){
+	        alert("이벤트 1");
+	    }
+	
+	    return(
+	        <div className="App">
+	            <button> 이벤트 0 </button><br/>
+	            <button onClick={test}> 이벤트 1 </button><br/>
+	            <button onClick={()=>{alert("이벤트 2");}}> 이벤트 2 </button><br/>
+	            <button onClick={function(){alert("이벤트 3");}}> 이벤트 3 </button><br/>
+	        </div>
+	    );
+	}
+	
+	export default App;
 ```
 ### 리눅스
 ```
