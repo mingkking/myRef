@@ -7652,7 +7652,7 @@ Exception처리 - error페이지
 		
 		export default App;
 ```
-### React props 데이터 이동동
+### React props 데이터 이동
 ```
 	import "../App.css"
 
@@ -7701,6 +7701,44 @@ Exception처리 - error페이지
 	}
 	
 	export default Button;
+```
+### React props 데이터 이동
+```
+	/*
+	[props]
+	     컴포넌트에 전달된 데이타 객체
+	     읽기전용
+	     리엑트 컴포넌트의 props 는 바꿀 수 없음
+	
+	    1 MyHeader 컴포넌트 만들기
+	        <header>
+	            <h1>여기는 제목</h1>
+	            <p>여기는 내용</p>
+	        </header>
+	    2 App 컴포넌트에서 MyHeader 엘리먼트 2개 생성
+	*/
+	
+	function MyHeader(props){
+	    let mytitle = props.title;
+	    mytitle = "변경";
+	    return(
+	        <header>
+	            <h1>{`여기는 ${mytitle}`}</h1>
+	            <p>{`여기는 ${props.content}`}</p>
+	        </header>
+	    )
+	}
+	
+	function App2(){
+	    return(
+	        <div className="App">
+	            <MyHeader title="민기" content="짱"></MyHeader>
+	            <MyHeader title="민기2" content="짱2"></MyHeader>
+	        </div>
+	    )
+	}
+	
+	export default App2;
 ```
 ### 리눅스
 ```
