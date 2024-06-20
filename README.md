@@ -8111,6 +8111,54 @@ Exception처리 - error페이지
 		
 		export default App;
 ```
+### React props 함수 이동
+```
+	// props 함수 이동 
+	import { useState } from "react";
+	
+	function LoginBtn(props){
+	    return (
+	        <div>
+	            <button onClick={props.onClick}>로그인</button>
+	        </div>
+	    );
+	}
+	
+	function LogoutBtn(props){
+	    return (
+	        <div>
+	            <button onClick={props.onClick}>로그아웃</button>
+	        </div>
+	    );
+	}
+	
+	function LoginControl(props){
+	    const [isLogged, setIsLogged] = useState(false);
+	    let button;
+	
+	    if(isLogged){
+	        button = <LogoutBtn onClick={ ()=>{ setIsLogged(false) }}/>
+	    }else{
+	        button = <LoginBtn onClick={ ()=>{ setIsLogged(true) }}/>
+	    }
+	
+	    return (
+	        <div>
+	            {button}
+	        </div>
+	    );
+	}
+	
+	function App(){
+	    return (
+	        <div>
+	            <LoginControl/>
+	        </div>
+	    );
+	}
+	
+	export default App;
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
