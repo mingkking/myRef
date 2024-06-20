@@ -7855,6 +7855,91 @@ Exception처리 - error페이지
 		
 		export default Comment;
 ```
+### React class state 클래스 스테이트
+```
+	import { Component } from "react";
+	import "../App.css";
+	
+	// 클래스형 컴포넌트
+	/*
+	    state : 리엑트에서 컴포넌트에서 변경 가능한 데이타 처리
+	        state 변수는 반드시 setState() 함수로 변경이 가능
+	*/
+	class App extends Component{
+	    
+	    // 생성자
+	    constructor(props){
+	        super(props);
+	        // 변수 선언
+	        this.title = "우리동네 사이트";
+	        this.state = { favorite : "맛집" };
+	    }
+	    render(){
+	        return(
+	            <div className="App">
+	                <h2>클래스형 컴포넌트에서 값 변경</h2>
+	                <div className="App-link">{this.title}</div>
+	                <button onClick={()=>{
+	                    this.title = "너네동네 사이트";
+	                    console.log("타이틀", this.title);
+	                    //this.forceUpdate();
+	                }}>일반변수 값 바꾸기 안됨</button>
+	                <hr/>
+	                <div className="App-link">{this.state.favorite}</div>
+	                <button onClick={()=>{
+	                    this.setState({ favorite : "호남식당" });
+	                    console.log("식당", this.state.favorite);
+	                }}>state 변수 변경</button>
+	                <hr/>
+	                <hr/>
+	                <button onClick={()=>{
+	                    this.setState({ favorite : "태국식당" });
+	                }}>setState() 함수로 변경</button>
+	            </div>
+	        );
+	    }
+	}
+	
+	export default App;
+```
+### React function useState 펑션 유즈스테이트
+```
+	import "../App.css";
+	import { useState } from "react";
+	
+	/*
+	    함수형 컴포넌트
+	        state : 리엑트 컴포넌트의 변경 가능한 데이터
+	            -> state 변경시 useState() 이용
+	
+	        [참고]
+	            useXXXXX() -> hook
+	    [예]
+	        let [변수명, set변수명] = useState(초기값);
+	        let [test, setTest] = useState("테스트"); --> let test = "테스트"; // 변경 가능 (setTest())
+	*/
+	function App(){
+	    // 정적 데이터
+	    let title = "우리동네 사이트";
+	
+	    // 동적 데이터
+	    let [favorite, setFavorite] = useState("맛집");
+	
+	    return(
+	        <div className="App">
+	            <h2>함수형 컴포넌트에서 state 변경</h2>
+	            <div className="App-title">{title}</div>
+	            <div className="App-subtitle">{favorite}</div>
+	            <hr/>
+	            <button onClick={()=>{ title = "너네동네" }}>일반변수 바꾸기</button>
+	            <button onClick={()=>{ favorite = "베트남집" }}>state변수 직접바꾸기</button>
+	            <button onClick={()=>{ setFavorite("네팔집") }}>setter로 바꾸기</button>
+	        </div>
+	    );
+	}
+	
+	export default App;
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
