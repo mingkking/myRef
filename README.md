@@ -7991,6 +7991,126 @@ Exception처리 - error페이지
 		
 		export default App;
 ```
+### React 클래스 컴포넌트 class component mount 함수
+```
+	클래스형
+		import { Component } from "react";
+		import "../App.css";
+		
+		/*
+		    - 마운팅(mounting)
+		        : 리엑트가 처음으로 각 컴포넌트의 render()를 불러서 자신의 DOM 트리를 구성하는 과정
+		    
+		*/
+		class ClassComp extends Component{
+		
+		    // 생성자
+		    constructor(props){
+		        super(props);
+		        console.log("-------------0) constructor");
+		        this.state = { number : 0 };
+		    }
+		
+		    // 처음 render() 전
+		    componentWillMount(){
+		        console.log("-------------1) componentWillMount");
+		    }
+		
+		    // 처음 render() 후
+		    componentDidMount(){
+		        console.log("-------------2) componentDidMount");
+		    }
+		
+		    // 화면 바뀔 때
+		    shouldComponentUpdate(nextPros, nextState){
+		        console.log("-------------3) shouldComponentUpdate");
+		        return true;
+		    }
+		
+		    // 바뀔 때 render() 전
+		    componentWillUpdate(nextPros, nextState){
+		        console.log("-------------4) componentWillUpdate");
+		    }
+		
+		    // 바뀔 때 render() 후
+		    componentDidUpdate(nextPros, nextState){
+		        console.log("-------------5) componentDidUpdate");
+		    }
+		
+		    // 렌더
+		    render(){
+		        console.log("-------------X) render");
+		        return (
+		            <div className="App">
+		                <h2>클래스 컴포넌트</h2>
+		                <div className="App-title">
+		                    {this.state.number}
+		                </div>
+		                <input type="button" value="눌러" onClick={()=>{this.setState({ number : Math.round(Math.random()*100) })}}></input>
+		            </div>
+		        );
+		    }
+		}
+		
+		function App(){
+		    return (
+		        <div>
+		            <ClassComp></ClassComp>
+		        </div>
+		    );
+		}
+		
+		export default App;
+```
+### React 함수 컴포넌트 function component useEffect 함수
+```
+	함수형
+		import "../App.css";
+		import { useEffect, useState } from "react";
+		
+		function FuncComp(props){
+		    let [number, setNumber] = useState(0);	
+		    /*
+		        클래스 컴포넌트에서 
+		            componentDidMount()
+		            componentDidUpdate()
+		            componentWillUnmount()
+		        3개를 합친 효과 함수가 있다.
+		        useEffect();
+		    */
+		    useEffect(function(){
+		        console.log("useEffect()");
+		    });
+		
+		    return (
+		        <div>
+		            <h2>함수 컴포넌트</h2>
+		            <p>숫자 : {number}</p>
+		            <input type="button" value="눌러1" 
+		                onClick={()=>{
+		                    setNumber( Math.round(Math.random()*100) );
+		                }}
+		            ></input>
+		            <hr/>
+		            <input type="button" value="눌러2"
+		                onClick={ function(){
+		                    setNumber( Math.round(Math.random()*100) );
+		                }}
+		            ></input>
+		        </div>
+		    );
+		}
+		
+		function App(){
+		    return (
+		        <div className="App">
+		            <FuncComp></FuncComp>
+		        </div>
+		    );
+		}
+		
+		export default App;
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
