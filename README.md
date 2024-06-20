@@ -7940,6 +7940,57 @@ Exception처리 - error페이지
 	
 	export default App;
 ```
+### React state, useState 카운트
+```
+	클래스형
+		import { Component } from "react";
+		import "../App.css";
+		
+		class App extends Component{
+		
+		    constructor(){
+		        super();
+		        this.state = { num : 0 };
+		    }
+		    
+		    render(){
+		        return (
+		            <div className="App">
+		                <h1>{`값 : ${this.state.num}`}</h1>
+		                <button onClick={()=>{
+		                    this.setState({num : this.state.num+1});
+		                }}>+</button>
+		                <button onClick={()=>{
+		                    this.setState({num : this.state.num-1});
+		                }}>-</button>
+		            </div>
+		        );
+		    } 
+		}
+		
+		export default App;
+	함수형
+		import { useState } from "react";
+		import "../App.css";
+		
+		function App(){
+		    let [num, setNum] = useState(0);
+		
+		    return (
+		        <div className="App">
+		            <h1>{`값 : ${num}`}</h1>
+		            <button onClick={()=>{
+		                setNum(++num);
+		            }}>+</button>
+		            <button onClick={()=>{
+		                setNum(--num);
+		            }}>-</button>
+		        </div>
+		    );
+		}
+		
+		export default App;
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
