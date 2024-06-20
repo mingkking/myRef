@@ -8159,6 +8159,55 @@ Exception처리 - error페이지
 	
 	export default App;
 ```
+### React render stop 컴포넌트 렌더링 막기
+```
+	/*
+	    컴포넌트 렌더링 막기
+	        return null;
+	*/
+	
+	import { useState } from "react";
+	
+	// return null 일 경우 Banner 가 화면에 출력되지 않는다
+	function Banner(props){
+	    if( !props.show ){
+	        return null; 
+	    }
+	
+	    return (
+	        <div>광고</div>
+	    );
+	}
+	
+	function MainPage(){
+	    const [show, setShow] = useState(false);
+	
+	    const toggleHandler = () => {
+	        setShow(!show);
+	    }
+	
+	    return (
+	        <div>
+	            <Banner show={show}/>
+	            <hr/>
+	            {/* show 값 true 일땐 false로 바꿔주고 show 값 false 일땐 true로 바꿔준다 */}
+	            <button onClick={()=>{ setShow(!show); }}>{ show ? "감추기" : "보이기" }</button>
+	            <br/><br/>
+	            <button onClick={toggleHandler}>{ show ? "감추기2" : "보이기2" }</button>
+	        </div>
+	    );
+	}
+	
+	function App(){
+	    return (
+	        <div>
+	            <MainPage/>
+	        </div>
+	    );
+	}
+	
+	export default App;
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
