@@ -8389,6 +8389,61 @@ Exception처리 - error페이지
 	
 	export default App;
 ```
+### React useReducer() 함수
+```
+	/*
+	    useReducer
+	        리듀서는 현재상태(state) 와 액션(action) 값을 전달받아 새로운 상태를 반환하는 함수
+	    function reducer(state, action){
+	        return {....};
+	        // 반환하는 새로운 상태는 불변성을 가짐
+	    }
+	    
+	    dispatch(action) : 리듀서 함수 호출
+	*/
+	
+	import { useReducer } from "react";
+	
+	// 리듀서 함수
+	function reducer(state, action){
+	    switch(action.type){
+	        case "ADD" : {
+	            return {value : state.value + 1};
+	        }
+	        case "MINUS" : {
+	            return {value : (state.value > 0) ? state.value - 1 : 0};
+	        }
+	        default : {
+	            return state;
+	        } 
+	    }
+	}
+	
+	// 카운터 컴포넌트
+	const Counter = ()=>{
+	
+	    // useReducer()
+	    const [state, dispatch] = useReducer(reducer, {value : 0});
+	
+	    return (
+	        <div>
+	            <h2> 값: {state.value}</h2>
+	            <hr/>
+	            <button onClick={()=>{
+	                dispatch({type : "ADD"});
+	            }}>+</button>
+	            <button onClick={()=>{
+	                dispatch({type : ""});
+	            }}>=======</button>
+	            <button onClick={()=>{
+	                dispatch({type : "MINUS"});
+	            }}>-</button>
+	        </div>
+	    );
+	}
+	
+	export default Counter;
+```
 ### React props 함수 이동
 ```
 	// props 함수 이동 
