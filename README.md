@@ -8307,6 +8307,12 @@ Exception처리 - error페이지
 	
 	export default App;
 ```
+### React 함수 컴포넌트 function component useRef 함수
+```
+	const inputEL = useRef(null); // 1111111111111111111111111111111111111 변수
+	<input type="text" value={num} onChange={onChange} ref={inputEL}></input>  {/* 222222222222222222222 포커스 주고싶은 곳 ref 지정 */}
+	inputEL.current.focus(); // 333333333333333333 이거 다음 input 태그로 포커스 지정
+```
 ### React props 함수 이동
 ```
 	// props 함수 이동 
