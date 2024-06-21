@@ -8444,6 +8444,50 @@ Exception처리 - error페이지
 	
 	export default Counter;
 ```
+### React useHook 훅 만들기
+```
+	import { useEffect, useState } from "react";
+
+	// 사용자 hook
+	function useCounter(initValue){
+	    // count 변수
+	    const [count, setCount] = useState(initValue);
+	
+	    // increase 함수
+	    const increase = () => setCount(count => count+1);
+	
+	    // decrease 함수
+	    const decrease = () => setCount(count => Math.max(count-1, 0));
+	
+	    return [count, increase, decrease];
+	}
+	
+	const MAX_CAPACITY = 5;
+	
+	function Room(props){
+	
+	    const [count, increase, decrease] = useCounter(0);
+	
+	    const [isFull, setIsFull] = useState(false);
+	
+	    // 값이 변경될 때마다
+	    useEffect(()=>{
+	        setIsFull(count >= MAX_CAPACITY);
+	    }, [count]);
+	
+	    return (
+	        <div style={{padding : 16}}>
+	            <p>{`총 ${count}명 입실`}</p>
+	            {!isFull && <button onClick={increase}>입장</button>}
+	            <button onClick={decrease}>퇴실</button>
+	            <hr/>
+	            { isFull && <p style={{color : "red"}}>정원이 가득 찼습니다.</p>}
+	        </div>
+	    );
+	}
+	
+	export default Room;
+```
 ### React props 함수 이동
 ```
 	// props 함수 이동 
