@@ -8241,6 +8241,72 @@ Exception처리 - error페이지
 	
 	export default App;
 ```
+### React 함수 컴포넌트 function component useMemo 함수
+```
+	/*
+	    useMemo
+	        - 지정된 값에 변화가 있을 때만 함수 실행
+	    
+	    useMemo(func, []);
+	*/
+	
+	import { useMemo, useState } from "react";
+	
+	const getAverage = (nums) => {
+	    console.log("계산중", nums);
+	    if(nums.length === 0){
+	        return 0;
+	    }
+	
+	    const sum = nums.reduce((a,b) => a+b);
+	    console.log(sum);
+	    return sum / nums.length;
+	};
+	
+	// function Average(){};
+	const Average = ()=>{
+	
+	    const [num, setNum] = useState("");
+	    const [list, setList] = useState([]);
+	
+	    const onChange = (event) => {
+	        setNum(event.target.value);
+	    };
+	
+	    const onInsert = () => {
+	        const newList = list.concat(parseInt(num));
+	        setList(newList); 
+	        setNum("");
+	    };
+	
+	    const avg = useMemo(()=>getAverage(list), [list]);
+	
+	    return (
+	        <div>
+	            <input type="text" value={num} onChange={onChange}></input>
+	            <button onClick={onInsert}>등록</button>
+	            <hr/>
+	            <ul>
+	                {
+	                    list.map((value, i)=>{
+	                        return <li key={i}>{value}</li>
+	                    })
+	                }
+	            </ul>
+	            <div>
+	                {/* 평균값 : { getAverage(list) } */}
+	                평균값 : {avg}
+	            </div>
+	        </div>
+	    );
+	};
+	
+	const App = ()=>{
+	    return <Average/>
+	};
+	
+	export default App;
+```
 ### React props 함수 이동
 ```
 	// props 함수 이동 
