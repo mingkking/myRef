@@ -8313,6 +8313,82 @@ Exception처리 - error페이지
 	<input type="text" value={num} onChange={onChange} ref={inputEL}></input>  {/* 222222222222222222222 포커스 주고싶은 곳 ref 지정 */}
 	inputEL.current.focus(); // 333333333333333333 이거 다음 input 태그로 포커스 지정
 ```
+### React 함수 컴포넌트 function component useRef 함수 form
+```
+	import { useRef, useState } from "react";
+	import "../App.css";
+	
+	const App = () => {
+	    // 입력 값들
+	    const [formData, setFormData] = useState({ userId : "", userName : "" }); 
+	
+	    // 입력 값들 저장
+	    const [data, setData] = useState({
+	        array : [],
+	        uselessValue : null
+	    });
+	
+	    // 입력 값들 저장 번호
+	    const nextId = useRef(1);
+	
+	    // 입력 값이 바뀔 때
+	    const onChange = (evt) => {
+	        const { name, value} = evt.target;
+	        //console.log(name, " : ", value);
+	        setFormData({...formData, [name] : [value]});
+	        console.log(formData);
+	    };
+	
+	    // 등록 버튼 클릭
+	    const onSubmit = (evt) => {
+	        evt.preventDefault();
+	        const info = {
+	            id : nextId.current,
+	            userId : formData.userId,
+	            userName : formData.userName
+	        };
+	
+	        nextId.current += 1;
+	
+	        setData( {...data, array : data.array.concat(info)} );
+	        setFormData({ userId : "", userName : "" });
+	    };
+	
+	    // 항목 삭제함수
+	    const onRemove = (id) => {
+	        alert(id);
+	        setData({ ...data,
+	            array : data.array.filter((info)=>{
+	                return info.id !== id;
+	            })
+	         });
+	    };
+	
+	    return (
+	        <div>
+	            <form onSubmit={onSubmit}>
+	                <input type="text" name="userId" placeholder="아이디" onChange={onChange} value={formData.userId}></input><br/>
+	                <input type="text" name="userName" placeholder="이름" onChange={onChange} value={formData.userName}></input><br/>
+	                <button type="submit">등록</button>
+	            </form>
+	            <hr/><hr/>
+	            <div>
+	                <ul>
+	                    {
+	                        data.array.map((info)=>{
+	                            return <li key={info.id} onClick={()=>{
+	                                onRemove(info.id);
+	                            }}>{info.userId} : {info.userName}</li>        
+	                        })
+	                    }
+	                </ul>
+	            </div>
+	        </div>
+	    );
+	};
+	
+	export default App;
+```
 ### React props 함수 이동
 ```
 	// props 함수 이동 
