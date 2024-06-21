@@ -8111,7 +8111,7 @@ Exception처리 - error페이지
 		
 		export default App;
 ```
-###
+### React 함수 컴포넌트 function component useEffect 함수
 ```
 	import { useEffect, useState } from "react";
 
@@ -8168,7 +8168,7 @@ Exception처리 - error페이지
 	
 	export default App;
 ```
-###
+### React 함수 컴포넌트 function component useEffect 함수
 ```
 	import { useEffect, useState } from "react";
 
