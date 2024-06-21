@@ -8111,6 +8111,136 @@ Exception처리 - error페이지
 		
 		export default App;
 ```
+###
+```
+	import { useEffect, useState } from "react";
+
+	/*
+	    [ hook ]
+	        1> 무조건 최상의 레벨에서만 호출
+	            -> 반복문이나 조건문, 중첩함수 안에서 호출하면 안됨
+	        2> 함수형 컴포넌트에서만 호출
+	            -> 일반 자바스크립트 함수에서는 호출하면 안됨
+	    
+	    [0] useState()
+	    [1] useEffect()
+	        클래스 컴포넌트에서 사용하던 생명주기 함수의 기능을 대신 수행
+	        componentDidMount() / componentDidUpdate() / componentWillUnmount()
+	    * useEffect( 이벤트함수, 의존성배열 );
+	        배열 안에 있는 변수 중에서 하나라도 값이 변경되면 이벤트함수 실행
+	        의존성배열이 없는 경우는 DOM 변경된 이후에 함수를 실행
+	    의존성 배열이 없는 경우
+	        컴포넌트가 업데이트될 때마다 실행
+	    의존성 배열이 있는 경우
+	        배열의 값이 변경될 때마다 실행
+	    의존성 배열이 [] 빈 배열인 경우
+	        처음에만 실행    
+	*/
+	function Form(){
+	    const [realName, setRealName] = useState("ㄲ");
+	    const [nickName, setNickName] = useState("ㄴ");
+	    
+	    useEffect(()=>{
+	        console.log(`본명: ${realName} \t 별명: ${nickName}`);
+	    }, []);
+	
+	    return (
+	        <div>
+	            <div>
+	                <span>본명 :</span>
+	                <input type="text" value={realName} onChange={(event)=>{
+	                    setRealName(event.target.value);
+	                }}></input>
+	            </div>
+	            <div>
+	                <span>별명 :</span>
+	                <input type="text" value={nickName} onChange={(event)=>{
+	                    setNickName(event.target.value);
+	                }}></input>
+	            </div>
+	        </div>
+	    );
+	}
+	
+	function App(){
+	    return <Form/>
+	}
+	
+	export default App;
+```
+###
+```
+	import { useEffect, useState } from "react";
+
+	/*
+	    [ hook ]
+	        1> 무조건 최상의 레벨에서만 호출
+	            -> 반복문이나 조건문, 중첩함수 안에서 호출하면 안됨
+	        2> 함수형 컴포넌트에서만 호출
+	            -> 일반 자바스크립트 함수에서는 호출하면 안됨
+	    
+	    [0] useState()
+	    [1] useEffect()
+	        클래스 컴포넌트에서 사용하던 생명주기 함수의 기능을 대신 수행
+	        componentDidMount() / componentDidUpdate() / componentWillUnmount()
+	    * useEffect( 이벤트함수, 의존성배열 );
+	        배열 안에 있는 변수 중에서 하나라도 값이 변경되면 이벤트함수 실행
+	        의존성배열이 없는 경우는 DOM 변경된 이후에 함수를 실행
+	    의존성 배열이 없는 경우
+	        컴포넌트가 업데이트될 때마다 실행
+	    의존성 배열이 있는 경우
+	        배열의 값이 변경될 때마다 실행
+	    의존성 배열이 [] 빈 배열인 경우
+	        처음에만 실행    
+	*/
+	function Form(){
+	    const [realName, setRealName] = useState("ㄲ");
+	    const [nickName, setNickName] = useState("ㄴ");
+	    
+	    useEffect(()=>{
+	        console.log(`Form 컴포넌트 마운트`);
+	        console.log(`본명: ${realName} \t 별명: ${nickName}`);
+	
+	        // unmount : 화면에서 없어졌을 때 동작 하는 return
+	        return ()=>{
+	            console.log(`--------> Form 컴포넌트 언마운트`);
+	        };
+	    }); // 이쪽에 배열이 있냐 없냐로 기능이 다름
+	
+	    return (
+	        <div>
+	            <div>
+	                <span>본명 :</span>
+	                <input type="text" value={realName} onChange={(event)=>{
+	                    setRealName(event.target.value);
+	                }}></input>
+	            </div>
+	            <div>
+	                <span>별명 :</span>
+	                <input type="text" value={nickName} onChange={(event)=>{
+	                    setNickName(event.target.value);
+	                }}></input>
+	            </div>
+	        </div>
+	    );
+	}
+	
+	function App(){
+	    const [isVisible, setIsVisible] = useState(true);
+	
+	    return (
+	        <div>
+	            <button onClick={()=>{
+	                setIsVisible(!isVisible);
+	            }}>{isVisible ? "숨기기" : "보이기"}</button>
+	            <hr/>
+	            {isVisible && <Form/>}
+	        </div>
+	    );
+	}
+	
+	export default App;
+```
 ### React props 함수 이동
 ```
 	// props 함수 이동 
