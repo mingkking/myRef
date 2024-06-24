@@ -8389,6 +8389,40 @@ Exception처리 - error페이지
 	
 	export default App;
 ```
+### React useRef() 함수 비제어컴포넌트
+```
+	import { useRef, useState } from "react";
+
+	const App = () => {
+	    const [result, setResult] = useState(0);
+	
+	    // HTMLDOM 접근 useRef
+	    const elemX = useRef(null);
+	    const elemY = useRef(null);
+	
+	    const add = () => {
+	        console.log(elemX.current.value);
+	        console.log(elemY.current.value);
+	        let x1 = parseInt(elemX.current.value);
+	        let y1 = parseInt(elemY.current.value);
+	        setResult(x1+y1);
+	    }
+	
+	    return (
+	        <div>
+	            <h2>비제어컴포넌트</h2>
+	            X값 : <input type="text" ref={elemX}></input>
+	            <br/>
+	            Y값 : <input type="text" ref={elemY}></input>
+	            <hr/>
+	            <button onClick={add}>계산하기</button>
+	            결과 : {result}
+	        </div>
+	    );
+	}
+	
+	export default App;
+```
 ### React useReducer() 함수
 ```
 	/*
