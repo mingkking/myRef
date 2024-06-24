@@ -8723,6 +8723,58 @@ Exception처리 - error페이지
 	
 	export default App;
 ```
+### React immer 불변성 라이브러리
+```
+	import { useState } from "react";
+	import produce from "immer";
+	
+	// immer : 불변성 라이브러리
+	const App = () => {
+	
+	    const [todo, setTodo] = useState([
+	        {item : "밥먹기", done : true},
+	        {item : "잠자기", done : false},
+	        {item : "놀기", done : true}
+	    ]);
+	
+	    const listData = () => {
+	        console.log("0>", todo);
+	    }
+	
+	    // 2번째 item을 "공부하기" 로 수정
+	    const modifyData1 = () => {
+	        setTodo(()=>{
+	            return todo[2].item = "공부하기";
+	        });
+	    }
+	
+	    const modifyData2 = () => {
+	        const temp = todo.map((data, idx)=>{
+	            return (idx === 2) ? {...data, item : "공부하기2"} : data;
+	        });
+	        setTodo(temp);
+	    }
+	
+	    const modifyData3 = () => {
+	        const temp = produce(todo, (data)=>{
+	            data[2].item = "공부하기3";
+	        });
+	        setTodo(temp);
+	    }
+	
+	    return (
+	        <div>
+	            <button onClick={listData}>확인</button>
+	            <hr/>
+	            <button onClick={modifyData1}>수정1</button><br/>
+	            <button onClick={modifyData2}>수정2</button><br/>
+	            <button onClick={modifyData3}>수정3</button><br/>
+	        </div>
+	    );
+	}
+	
+	export default App;
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
