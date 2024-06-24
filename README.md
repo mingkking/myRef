@@ -8775,6 +8775,148 @@ Exception처리 - error페이지
 	
 	export default App;
 ```
+### React immer 불변성 라이브러리
+```
+	import { useState } from "react";
+	import produce from "immer";
+	
+	const App = () => {
+	
+	    let [student, setStudent] = useState([{
+	        names : ["홍길동", "박길동", "한길동"],
+	        major : [
+	            { dept : "컴공", title : "자바", score : 3 },
+	            { dept : "소공", title : "파이썬", score : 2 },
+	            { dept : "컴공", title : "리엑트", score : 1 },
+	            { dept : "컴공", title : "스프링", score : 3 }
+	        ]
+	    }]);
+	
+	    const handleList = () => {
+	        console.log("확인: ", student);
+	    }
+	
+	    /*
+	        일반방식 버튼을 클릭하면 '리엑트' 대신에 'DB' 로 변경
+	        immer 방식 버튼을 클릭하면 '리엑트' 대신에 'ES6' 으로 변경
+	    */
+	    const normalBtn = () => {
+	        const temp = student.map((data, idx)=>{
+	            return {
+	                ...data,
+	                major: data.major.map(major => 
+	                    major.title === "리엑트" ? { ...major, title: "DB" } : major
+	                )
+	            }
+	        });
+	        setStudent(temp);
+	    }
+	
+	    const immerBtn = () => {
+	        const temp = produce(student, (data)=>{
+	            data[0].major[2].title = "DB";
+	        });
+	        setStudent(temp);
+	    }
+	
+	    return (
+	        <div>
+	            <button onClick={handleList}>확인</button>
+	            <hr/>
+	            <button onClick={normalBtn}>일반</button>
+	            <br/>
+	            <button onClick={immerBtn}>immer</button>
+	        </div>
+	    );
+	}
+	
+	export default App;
+```
+### React immer 불변성 라이브러리
+```
+	import { useRef, useState } from "react";
+	import "../App.css";
+	import produce from "immer";
+	
+	const App = () => {
+	    // 입력 값들
+	    const [formData, setFormData] = useState({ userId : "", userName : "" }); 
+	
+	    // 입력 값들 저장
+	    const [data, setData] = useState({
+	        array : [],
+	        uselessValue : null
+	    });
+	
+	    // 입력 값들 저장 번호
+	    const nextId = useRef(1);
+	
+	    // 입력 값이 바뀔 때
+	    const onChange = (evt) => {
+	        const { name, value} = evt.target;
+	        //console.log(name, " : ", value);
+	        //setFormData({...formData, [name] : [value]});
+	        setFormData(produce(formData, draft => {draft[name] = value;} ));
+	    }
+	
+	    // 등록 버튼 클릭
+	    const onSubmit = (evt) => {
+	        evt.preventDefault();
+	        const info = {
+	            id : nextId.current,
+	            userId : formData.userId,
+	            userName : formData.userName
+	        };
+	
+	        nextId.current += 1;
+	
+	        // setData( {...data, array : data.array.concat(info)} );
+	        // setFormData({ userId : "", userName : "" });
+	
+	        setData(produce(data, draft => {
+	            draft.array.push(info);
+	        }));
+	    };
+	
+	    // 항목 삭제함수
+	    const onRemove = (id) => {
+	        // alert(id);
+	        // setData({ ...data,
+	        //     array : data.array.filter((info)=>{
+	        //         return info.id !== id;
+	        //     })
+	        //  });
+	        setData(produce(data, (draft)=>{
+	            draft.array.splice(draft.array.findIndex( info => info.id===id), 1);
+	        }));
+	
+	    };
+	
+	    return (
+	        <div>
+	            <form onSubmit={onSubmit}>
+	                <input type="text" name="userId" placeholder="아이디" onChange={onChange} value={formData.userId}></input><br/>
+	                <input type="text" name="userName" placeholder="이름" onChange={onChange} value={formData.userName}></input><br/>
+	                <button type="submit">등록</button>
+	            </form>
+	            <hr/><hr/>
+	            <div>
+	                <ul>
+	                    {
+	                        data.array.map((info)=>{
+	                            return <li key={info.id} onClick={()=>{
+	                                onRemove(info.id);
+	                            }}>{info.userId} : {info.userName}</li>        
+	                        })
+	                    }
+	                </ul>
+	            </div>
+	        </div>
+	    );
+	};
+	
+	export default App;
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
