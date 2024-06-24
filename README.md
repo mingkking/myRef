@@ -8619,6 +8619,110 @@ Exception처리 - error페이지
 	
 	export default App;
 ```
+### React Form 폼
+```
+	import { useState } from "react";
+
+	function My_form(props){
+	    let [name, setName] = useState("");
+	    let [message, setMessage] = useState("");
+	    let [trevel, setTrevel] = useState("");
+	    let [gender, setGender] = useState("");
+	
+	    const formSubmit = (evt) => {
+	        evt.preventDefault();
+	        let formData = `이름은: ${name}
+	                        메세지: ${message}
+	                        여행지: ${trevel}
+	                        성별 : ${gender}`;
+	        alert(formData);
+	    }
+	
+	    return(
+	        <div>
+	            <form onSubmit={formSubmit}>
+	                <button type="submit">전송</button>
+	                <hr/>
+	                <label>이름</label>
+	                <input type="text" onChange={(evt)=> setName(evt.target.value)} value={name}/><br/>
+	                <label>메세지</label>
+	                <textarea cols={20} rows={2} onChange={(evt)=> setMessage(evt.target.value)}>{message}</textarea><br/>
+	                <label>여행 갈 나라는?</label>
+	                <select onChange={(evt)=>setTrevel(evt.target.value)}>
+	                    <option>외국</option>
+	                    <option>한국</option>
+	                    <option>부탄</option>
+	                    <option>옆나라</option>
+	                </select><br/>
+	                <label>성별</label>
+	                <input type="radio" name="gender" value="남자" onChange={(evt)=>setGender(evt.target.value)} checked/>남자
+	                <input type="radio" name="gender" value="여자" onChange={(evt)=>setGender(evt.target.value)}/>여자
+	            </form>
+	        </div>
+	    );
+	}
+	
+	function App(){
+	    return <My_form/>
+	}
+	
+	export default App;
+```
+### React 부모 자식 containment
+```
+	import { useState } from "react";
+	import "./temp.css";
+	
+	function FancyBorder(props){
+	    return (
+	        <div className="FancyBorder">
+	            {props.children}
+	        </div>
+	    );
+	}
+	
+	function TextPart(props){
+	    return (
+	        <FancyBorder>
+	            <h1 className="Dialog-title">{props.title}</h1>
+	            <p className="Dialog-message">{props.message}</p>
+	            {props.children}
+	        </FancyBorder>
+	    );
+	}
+	
+	function WelcomeDialog(props){
+	    return (
+	        <TextPart title="환영합니다" message="당신은 행운~~~~~"/>
+	    );
+	}
+	
+	function MorningDialog(props){
+	    let [nickName, setNickName] = useState("");
+	
+	    return (
+	        <div>
+	            <TextPart title="좋은아침" message="행운행운">
+	                <label>별명: </label>
+	                <input type="text" value={nickName} onChange={(evt)=>setNickName(evt.target.value)}></input><br/>
+	                <button onClick={(evt)=>{alert(`어서오세요 ${nickName}`);}}>등록</button>
+	            </TextPart>
+	        </div>
+	    );
+	}
+	
+	function App(){
+	    return (
+	        <div>
+	            <WelcomeDialog/>
+	            <hr/>
+	            <MorningDialog/>
+	        </div>
+	    );
+	}
+	
+	export default App;
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
