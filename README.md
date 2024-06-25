@@ -9174,6 +9174,70 @@ Exception처리 - error페이지
 		
 		export default App;
 ```
+### React axios
+```
+	App.js
+		import { useEffect, useState } from "react";
+		import axios from "axios";
+		import Movie from "./components/Movie";
+		
+		function App(){
+		    const [isLoading, setIsLoading] = useState(true);
+		    const [movies, setMovies] = useState([]);
+		
+		    useEffect(()=>{
+		        getMovies();
+		    }, []);
+		
+		    const getMovies = async () => {
+		        await axios.get("https://yts.mx/api/v2/list_movies.json")
+		        .then(result => {
+		            console.log();
+		            setMovies(result.data.data.movies)
+		            setIsLoading(false);
+		        })
+		        .catch( err => console.log("ERROR", err));
+		    }
+		
+		    return (
+		        <div>
+		            { isLoading ? "로딩중" : 
+		                movies.map((movie, idx)=>{
+		                    return (
+		                        <Movie
+		                            key={movie.id}
+		                            id={movie.id}
+		                            year={movie.year}
+		                            title={movie.title}
+		                            summary={movie.summary}
+		                            poster={movie.medium_cover_image}
+		                            genres={movie.genres}
+		                        />
+		                    );
+		                })
+		            }
+		        </div>
+		    );
+		}
+		
+		export default App;
+	Movie.js
+		const Movie = ({ title, year, summary, poster, genres }) => {
+			return (
+				<div>
+				    <img src={poster} title={title}></img>
+				    <div>
+					<h3>{title}</h3>
+					<h5>{year}</h5>
+					<p>{summary}</p>
+					<p>{genres}</p>
+				    </div>
+				</div>
+			);
+		}
+		
+		export default Movie;
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
