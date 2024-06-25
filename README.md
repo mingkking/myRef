@@ -8917,6 +8917,159 @@ Exception처리 - error페이지
 	
 	export default App;
 ```
+### React route 화면
+```
+	설치
+		npm install react-router-dom
+	App.js
+		import "../App.css";
+		import Home from "./pages/Home";
+		import First from "./pages/First";
+		import Second from "./pages/Second";
+		import Menu from "./pages/Menu";
+		
+		// 여러개 받아올 때 {} 필요
+		import {
+		    BrowserRouter,
+		    Routes,
+		    Route
+		} from "react-router-dom";
+		import { useState } from "react";
+		import Third from "./pages/Third";
+		import Fourth from "./pages/Fourth";
+		
+		function App(){
+		
+		    const [data, setData] = useState([
+		        { title : "영화0", img : "movie0.jpg"},
+		        { title : "영화1", img : "movie1.jpg"},
+		        { title : "영화2", img : "movie2.jpg"},
+		        { title : "영화3", img : "movie3.jpg"},
+		        { title : "영화4", img : "movie4.jpg"},
+		        { title : "영화5", img : "movie5.jpg"}
+		    ]);
+		
+		    return (
+		        <div className="App">
+		            <BrowserRouter>
+		            <Menu/>
+		                <Routes>
+		                    {/* 어떤 경로에 어떤 엘리먼트를 연결할건지 */}
+		                    <Route path="/" element={<Home/>}/>
+		                    <Route path="/first" element={<First msg="리엑트 세계에 오신것을 환영합니다."/>}/>
+		                    <Route path="/second" element={<Second msg="리엑트 만세"/>}/>
+		                    <Route path="/third/*" element={<Third datas={data}/>}></Route>
+		                    <Route path="/Fourth/:idx/:name" element={<Fourth datas={data}/>}></Route>
+		                </Routes>
+		            </BrowserRouter>
+		        </div>
+		    );
+		}
+		
+		export default App;
+```
+### React route 화면
+```
+	Menu.js
+		import { Link } from "react-router-dom";
+		import "./Menu.css";
+		
+		const Menu = (props) => {
+		    return (
+		        <div className="nav">
+		            <Link to={"/"}>홈</Link>            
+		            <Link to={"/first"}>첫번째</Link>
+		            <Link to={"/second"}>두번째</Link>
+		            <Link to={"/Third"}>세번째</Link>
+		        </div>
+		    );
+		}
+		
+		export default Menu;
+	First.js
+		const First = (props) => {
+		    return (
+		        <div>
+		            여기는 First 페이지입니다.
+		            <hr/>
+		            {props.msg}
+		        </div>
+		    );
+		}
+		
+		export default First;
+	Second.js
+		const Second = (props) => {
+		    return (
+		        <div>
+		            여기는 Second 페이지입니다.
+		            <hr/>
+		            {props.msg}
+		        </div>
+		    );
+		}
+		
+		export default Second;
+	Third.js
+		import { Link } from "react-router-dom";
+
+		const Third = (props) => {
+		
+		    //console.log(props.datas);
+		    let list = props.datas.map((data,idx)=>{
+		    console.log(`imgs/${data.img}`);
+		        return (
+		            <div key={idx}>
+		                <img src={`/imgs/${data.img}`}></img>
+		                <br/>
+		                <h3>{data.title}</h3>
+		                {/* 링크는 <a>태그 대신 <Link> */}
+		                <Link to={`/fourth/${idx}/${data.title}`} style={{TextDecoder : "none"}}>
+		                    {data.title}
+		                </Link>
+		            </div>
+		        );
+		    });
+		
+		    return (
+		        <div>
+		            여기는 세번째 페이지입니다.
+		            <hr/>
+		            <div>
+		                <ul>
+		                    {
+		                        list
+		                    }
+		                </ul>
+		            </div>
+		        </div>
+		    );
+		}
+		
+		export default Third;
+	Fourth.js
+		import { useParams } from "react-router-dom";
+
+		const Fourth = (props) => {
+		    
+		    //console.log(props.datas);
+		
+		    const {idx, name} = useParams();
+		
+		    return (
+		        <div>
+		            여기는 네번째 페이지입니다.
+		            <hr/>
+		            <div>
+		                <div>{idx} : [ {name} ]</div>
+		                <img src={`/imgs/${props.datas[idx].img}`}></img>
+		            </div>
+		        </div>
+		    );
+		}
+		
+		export default Fourth;
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
