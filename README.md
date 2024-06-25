@@ -9070,6 +9070,110 @@ Exception처리 - error페이지
 		
 		export default Fourth;
 ```
+### React fetch
+```
+	import { useEffect, useState } from "react";
+	import "../App.css";
+	
+	const App = () => {
+	    const [temp, setTemp] = useState("");
+	    const [humidity, setHumidity] = useState("");
+	    const [weather, setWeather] = useState("");
+	    const [isReady, setIsReady] = useState(false);
+	
+	    useEffect(()=>{
+	        getData();
+	
+	        // 다른 작업이 있는 경우
+	
+	    }, []);
+	
+	    const getData = async () => {
+	        await fetch("https://api.openweathermap.org/data/2.5/weather?q=Seoul,KR&appid=1db47184ebbc18af53fd996be840d270")
+	        .then( result => result.json())
+	        .then(jsonResult => {
+	            setTemp(jsonResult.main.temp);
+	            setHumidity(jsonResult.main.humidity);
+	            setWeather(jsonResult.weather[0].main);
+	
+	            // 준비 끝
+	            setIsReady(true);
+	        });
+	    }
+	
+	    if(isReady){
+	        return (
+	            <div className="App">
+	                <p>온도 : {temp}</p>
+	                <p>습도 : {humidity}</p>
+	                <p>날씨 : {weather}</p>
+	            </div>
+	        );
+	    }else{
+	        return (
+	            <div className="App">
+	                로딩중.....
+	            </div>
+	        );
+	    }
+	}
+	
+	export default App;
+```
+### React axios
+```
+	설치
+		npm install axios
+	weather.js
+		import { useEffect, useState } from "react";
+		import "../App.css";
+		
+		import axios from "axios";
+		
+		const App = () => {
+		    const [temp, setTemp] = useState("");
+		    const [humidity, setHumidity] = useState("");
+		    const [weather, setWeather] = useState("");
+		    const [isReady, setIsReady] = useState(false);
+		
+		    useEffect(()=>{
+		        getData();
+		
+		        // 다른 작업이 있는 경우
+		
+		    }, []);
+		
+		    const getData = async () => {
+		        await axios.get("https://api.openweathermap.org/data/2.5/weather?q=Seoul,KR&appid=1db47184ebbc18af53fd996be840d270")
+		        .then(jsonResult => {
+		            setTemp(jsonResult.data.main.temp);
+		            setHumidity(jsonResult.data.main.humidity);
+		            setWeather(jsonResult.data.weather[0].main);
+		
+		            // 준비 끝
+		            setIsReady(true);
+		        });
+		    }
+		
+		    if(isReady){
+		        return (
+		            <div className="App">
+		                <p>온도 : {temp}</p>
+		                <p>습도 : {humidity}</p>
+		                <p>날씨 : {weather}</p>
+		            </div>
+		        );
+		    }else{
+		        return (
+		            <div className="App">
+		                로딩중.....
+		            </div>
+		        );
+		    }
+		}
+		
+		export default App;
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
