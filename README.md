@@ -9598,6 +9598,211 @@ Exception처리 - error페이지
 ```
 ### React Context
 ```
+	index.js
+		import App from './2_todolist_context/components/App';
+		import {TodoProvider} from "./2_todolist_context/TodoContext";
+		<TodoProvider>
+			<App />
+		</TodoProvider>
+	TodoContext.js
+		import { createContext, useState } from "react";
+		const TodoContext = createContext();
+		// 생성자
+		const TodoProvider = (props) => {
+		    const [todoList, setTodoList] = useState([
+		        { no : 1, todo : "일어나기", done : true},
+		        { no : 2, todo : "씻기",    done : false},
+		        { no : 3, todo : "옷입기",  done : false},        
+		    ]);
+		
+		    // [0] 함수 기존 구조만
+		    const addTodo       = (todo) =>{ 
+		        // map 함수
+		        // let newTodoList = todoList.map((todo)=>{return {...todo}});
+		        // newTodoList.push({no:new Date().getTime(), todo:todo, done:false});
+		        // setTodoList(newTodoList);
+		
+		        // ...연산자
+		        // let newTodoList = [...todoList, {no:new Date().getTime(), todo:todo, done:false}];
+		        // setTodoList(newTodoList);
+		
+		        // immer 이용
+		        let newTodoList = produce(todoList, (draft)=>{
+		            draft.push({no:new Date().getTime(), todo:todo, done:false});
+		        });
+		        setTodoList(newTodoList);
+		    }
+		    const deleteTodo    = (no)  => {
+		        let newTodoList = todoList.filter((todoList)=>todoList.no !== no);
+		        setTodoList(newTodoList);
+		    }
+		    const toggleDone    = (no)   => {
+		        // map함수와 ...연산자
+		        // let newTodoList = todoList.map((todo)=>{
+		        //     if(todo.no === no){
+		        //         todo.done = !todo.done;
+		        //     }
+		        //     return {...todo}
+		        // });
+		        // setTodoList(newTodoList);
+		
+		        // immer
+		        let idx = todoList.findIndex((todo)=>{
+		            return todo.no === no;
+		        });
+		        let newTodoList = produce(todoList, (draft)=>{
+		            draft[idx].done = !draft[idx].done;
+		        });
+		        setTodoList(newTodoList);
+		    }
+		
+		    // return(<App todoList={todoList}
+		    //             addTodo={addTodo}
+		    //             deleteTodo={deleteTodo}
+		    //             toggleDone={toggleDone} />);
+		
+		    const values = {
+		        state : { todoList },
+		        actions : { addTodo, deleteTodo, toggleDone }
+		    }
+		
+		    return (
+		        <TodoContext.Provider value={values}>
+		            {props.children}
+		        </TodoContext.Provider>
+		    );
+		}
+		
+		export {TodoProvider};
+		export default TodoContext;
+	InputTodo.js
+		import { useContext, useState } from "react";
+		import TodoContext from "../TodoContext";
+		
+		const InputTodo = (props) => {
+		    // [0] 화면 구성 확인
+		    const [todo, setTodo] = useState('');
+		
+		    const value = useContext(TodoContext);
+		
+		    // 입력
+		    const changeTodo = (evt) => {
+		        setTodo(evt.target.value);
+		    }
+		
+		    // 추가
+		    const addBtn = (evt) => {
+		        value.actions.addTodo(todo);
+		    }
+		    // 입력창 enter
+		    const enterInput = (evt) => {
+		        if(evt.key === "Enter" && evt.target.value !== ""){
+		            console.log(evt.target.value);
+		            props.addTodo(todo);
+		        }
+		    }
+		
+		    return(
+		        <div className="row">
+		            <div className="col">
+		                <div className="input-group">
+		                    <input type='text' id='msg' name='msg' 
+		                        value={todo} placeholder="여기에 입력" 
+		                        className="form-control"
+		                        onChange={changeTodo}
+		                        onKeyUp={enterInput}
+		                    />
+		                    <span className="btn btn-primary input-group-addon" onClick={addBtn}> [ 추가 ] </span>    
+		                </div>
+		            </div>
+		        </div>
+		    );
+		
+		 
+		}
+		
+		export default InputTodo;
+	TodoList.js
+		import { useContext } from "react";
+		import TodoListItem from "./TodoListItem";
+		import TodoContext from "../TodoContext";
+		
+		const TodoList = (props) => {
+		
+		    const value = useContext(TodoContext);
+		
+		    let items = value.state.todoList.map((item)=>{
+		        return <TodoListItem key={item.no} 
+		                    todoItem={item} 
+		                    deleteTodo={value.actions.deleteTodo}
+		                    toggleDone={value.actions.toggleDone}
+		        />
+		    });
+		
+		    return(
+		        // [0] 기존 구조
+		        <div className="row">
+		            {" "}
+		            <div className="col">
+		                <ul className="list-group">{items}</ul>
+		            </div>
+		        </div>
+		     
+		    );
+		}
+		
+		export default TodoList;
+	TodoListItem.js
+		const TodoListItem = (props) => {
+		    // [0] 기존 구조
+		    let itemClassName = "list-group-item";
+		
+		    if(props.todoItem.done){
+		        itemClassName += " list-group-item-success";
+		    }
+		
+		    const deleteBtn = () => {
+		        props.deleteTodo(props.todoItem.no);
+		    }
+		
+		    return (
+		        <li className={itemClassName}>
+		            <span className={props.todoItem.done ? "todo-done pointer" : "pointer"} onClick={()=>{
+		                props.toggleDone(props.todoItem.no);
+		            }}>
+		                {props.todoItem.todo}
+		                {props.todoItem.done ? " (완료)" : ""}
+		            </span>
+		            <span className="bg-secondary badge pointer" onClick={deleteBtn}> [ 삭제 ] </span>
+		        </li>
+		    );
+		
+		   
+		}
+		
+		export default TodoListItem;
+	App.js
+		import InputTodo    from "./InputTodo";
+		import TodoList     from "./TodoList";
+		
+		const App = (props) =>{
+		    return (
+		        // [0] 기존 구조
+		        <div className="container">
+		            <div className="card card-body bg-light">
+		                <div className="title">할일목록</div>
+		            </div>
+		            <div className="card card-default">
+		                <div className="card-body">
+		                    <InputTodo/>
+		                    <TodoList/>
+		                </div>
+		            </div>
+		        </div> 
+		    );
+		}
+		
+		export default App;
 	
 ```
 ### 리눅스
