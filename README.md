@@ -9478,6 +9478,128 @@ Exception처리 - error페이지
 		
 		export default App;
 ```
+### React Context
+```
+	color.js
+		// 매개체 역할을 하는 context
+		const { createContext, useState} = require("react");
+		const ColorContext = createContext({
+		    state : { color : "black", subcolor : "red" },
+		    actions : {
+		        setColor : () => {},
+		        setSubcolor : () => {}
+		    }
+		});
+		
+		// 생산자 (제공자)
+		const ColorProvider = ({children}) => {
+		    const [color, setColor] = useState("yellow");
+		    const [subcolor, setSubcolor] = useState("green");
+		
+		    const value = {
+		        state : { color, subcolor },
+		        actions : { setColor, setSubcolor }
+		    }
+		
+		    return (
+		        <ColorContext.Provider value={value}>{children}</ColorContext.Provider>
+		    );
+		}
+		
+		// 소비자
+		// 개념적으로 const ColorConsumer = ColorContext.Consumer; 같은 의미 필요
+		const { Consumer : ColorConsumer} = ColorContext;
+		
+		export { ColorProvider, ColorConsumer};
+		export default ColorContext;
+	ColorBox.js
+		import { useContext } from "react";
+		import ColorContext, { ColorConsumer } from "../context/color";
+		
+		const ColorBox = () => {
+		    const {state} = useContext(ColorContext);
+		    return (
+		        <div>
+		            {
+		                <div>
+		                    <div style={{ width : "100px", height : "100px", background : state.color }}></div>
+		                    <div style={{ width : "100px", height : "100px", background : state.subcolor }}></div>
+		                </div>
+		            }
+		        </div>
+		    );
+		}
+		
+		export default ColorBox;
+	SelectColor.js
+		import { useContext } from "react";
+		import ColorContext, { ColorConsumer } from "../context/color";
+		
+		// 색깔 변수 배열
+		const colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"];
+		
+		// 컴포넌트
+		const SelectColor = () => {
+		    const {actions} = useContext(ColorContext);
+		    return (
+		        <div>
+		            {
+		                // ColorConsumer(소비자)는 ColorContext 매개체로 전달받을 때 actions만 받음
+		                <div style={{display:"flex"}}>
+		                    {
+		                        colors.map(color => (
+		                            <div
+		                                key={color}
+		                                style={{background : color,
+		                                    width : "50px",
+		                                    height : "50px",
+		                                    cursor : "pointer"
+		                                }}
+		                                // 왼쪽마우스클릭
+		                                onClick={()=>actions.setColor(color)}
+		                                onContextMenu={(evt)=>{
+		                                    evt.preventDefault();
+		                                    actions.setSubcolor(color);
+		                                }}
+		                            />
+		                        ))
+		                    }
+		                </div>
+		            }
+		        </div>
+		    );
+		}
+		
+		export default SelectColor;
+	App.js
+		import ColorBox0 from "./components/ColorBox0";
+		import ColorBox from "./components/ColorBox";
+		import SelectColor0 from "./components/SelectColor0";
+		import SelectColor from "./components/SelectColor";
+		import { ColorProvider } from "./context/color";
+		
+		const App = () => {
+		    return (
+		        <ColorProvider>
+		            <div>
+		                <ColorBox0/>
+		                <hr/>
+		                <SelectColor0/>
+		                <hr/><hr/><hr/><hr/><hr/>
+		                <ColorBox/>
+		                <hr/>
+		                <SelectColor/>
+		            </div>
+		        </ColorProvider>
+		    );
+		}
+		
+		export default App;
+```
+### React Context
+```
+	
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
