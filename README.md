@@ -3,7 +3,12 @@
 윤년
 	y % 4 == 0 && y % 100 != 0 || y % 400 == 0
 ```
-
+### lombok 롬복
+```
+	설치
+		install software
+			https://projectlombok.org/p2
+```
 ### 1. jdk 환경변수 설정하는 법
  - 1.  JAVA_HOME
      jdk 파일 경로를 시스템 변수에 등록
