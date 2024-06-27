@@ -9886,6 +9886,197 @@ Exception처리 - error페이지
 		
 		export default Cals;
 ```
+### react typescript
+```
+	AppContainer.tsx
+		import { useState } from "react";
+		import App from './components/App';
+		
+		import produce from 'immer';
+		
+		// type
+		export type TodoListItemType = {
+		    no : number;
+		    todo : string;
+		    done : boolean;
+		}
+		
+		const AppContainer = () => {
+		    const [todoList, setTodoList] = useState([
+		        { no : 1, todo : "일어나기", done : true},
+		        { no : 2, todo : "씻기",    done : false},
+		        { no : 3, todo : "옷입기",  done : false},        
+		    ]);
+		
+		    
+		
+		    // [0] 함수 기존 구조만
+		    const addTodo       = (todo:string) =>{ 
+		        // map 함수
+		        // let newTodoList = todoList.map((todo)=>{return {...todo}});
+		        // newTodoList.push({no:new Date().getTime(), todo:todo, done:false});
+		        // setTodoList(newTodoList);
+		
+		        // ...연산자
+		        // let newTodoList = [...todoList, {no:new Date().getTime(), todo:todo, done:false}];
+		        // setTodoList(newTodoList);
+		
+		        // immer 이용
+		        let newTodoList = produce(todoList, (draft)=>{
+		            draft.push({no:new Date().getTime(), todo:todo, done:false});
+		        });
+		        setTodoList(newTodoList);
+		    }
+		    const deleteTodo    = (no:number)  => {
+		        let newTodoList = todoList.filter((todoList)=>todoList.no !== no);
+		        setTodoList(newTodoList);
+		    }
+		    const toggleDone    = (no:number)   => {
+		        // map함수와 ...연산자
+		        // let newTodoList = todoList.map((todo)=>{
+		        //     if(todo.no === no){
+		        //         todo.done = !todo.done;
+		        //     }
+		        //     return {...todo}
+		        // });
+		        // setTodoList(newTodoList);
+		
+		        // immer
+		        let idx = todoList.findIndex((todo)=>{
+		            return todo.no === no;
+		        });
+		        let newTodoList = produce(todoList, (draft)=>{
+		            draft[idx].done = !draft[idx].done;
+		        });
+		        setTodoList(newTodoList);
+		    }
+		
+		    return(<App todoList={todoList}
+		                addTodo={addTodo}
+		                deleteTodo={deleteTodo}
+		                toggleDone={toggleDone} />);
+		
+		}
+		
+		export default AppContainer;
+	InputTodo.tsx
+		import { useState } from "react";
+
+		type InputTodoType = {
+		    addTodo : (todo:string) => void;
+		}
+		
+		const InputTodo = (props:InputTodoType) => {
+		    // [0] 화면 구성 확인
+		    const [todo, setTodo] = useState('');
+		
+		    // 입력
+		    const changeTodo = (evt:React.ChangeEvent<HTMLInputElement>) => {
+		        setTodo(evt.target.value);
+		    }
+		
+		    // 추가
+		    const addBtn = () => {
+		        props.addTodo(todo);
+		    }
+		    // 입력창 enter
+		    const enterInput = (evt:React.KeyboardEvent) => {
+		        if(evt.key === "Enter"){
+		            props.addTodo(todo);
+		        }
+		    }
+		
+		    return(
+		        <div className="row">
+		            <div className="col">
+		                <div className="input-group">
+		                    <input type='text' id='msg' name='msg' 
+		                        value={todo} placeholder="여기에 입력" 
+		                        className="form-control"
+		                        onChange={changeTodo}
+		                        onKeyUp={enterInput}
+		                    />
+		                    <span className="btn btn-primary input-group-addon" onClick={addBtn}> [ 추가 ] </span>    
+		                </div>
+		            </div>
+		        </div>
+		    );
+		
+		 
+		}
+		
+		export default InputTodo;
+	TodoList.tsx
+		import TodoListItem from "./TodoListItem";
+		import { TodoListItemType } from "../AppContainer";
+		
+		type TodoListProps = {
+		    todoList : Array<TodoListItemType>;
+		    deleteTodo : (no:number) => void;
+		    toggleDone : (no:number) => void;
+		}
+		
+		const TodoList = (props:TodoListProps) => {
+		
+		    let items = props.todoList.map((item)=>{
+		        return <TodoListItem key={item.no} 
+		                    todoItem={item} 
+		                    deleteTodo={props.deleteTodo}
+		                    toggleDone={props.toggleDone}
+		        />
+		    });
+		
+		    return(
+		        // [0] 기존 구조
+		        <div className="row">
+		            {" "}
+		            <div className="col">
+		                <ul className="list-group">{items}</ul>
+		            </div>
+		        </div>
+		     
+		    );
+		}
+		
+		export default TodoList;
+	TodoListItem.tsx
+		import { TodoListItemType } from "../AppContainer";
+		
+		type TodoListItemProps = {
+		    todoItem : TodoListItemType;
+		    deleteTodo : (no:number) => void;
+		    toggleDone : (no:number) => void;
+		}
+		
+		const TodoListItem = (props:TodoListItemProps) => {
+		    // [0] 기존 구조
+		    let itemClassName = "list-group-item";
+		
+		    if(props.todoItem.done){
+		        itemClassName += " list-group-item-success";
+		    }
+		
+		    const deleteBtn = () => {
+		        props.deleteTodo(props.todoItem.no);
+		    }
+		
+		    return (
+		        <li className={itemClassName}>
+		            <span className={props.todoItem.done ? "todo-done pointer" : "pointer"} onClick={()=>{
+		                props.toggleDone(props.todoItem.no);
+		            }}>
+		                {props.todoItem.todo}
+		                {props.todoItem.done ? " (완료)" : ""}
+		            </span>
+		            <span className="bg-secondary badge pointer" onClick={deleteBtn}> [ 삭제 ] </span>
+		        </li>
+		    );
+		
+		   
+		}
+		
+		export default TodoListItem;
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
