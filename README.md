@@ -9805,6 +9805,82 @@ Exception처리 - error페이지
 		export default App;
 	
 ```
+### react typescript - 자바스크립트 와는 달리 자료형 검사
+```
+	node.js 버전 18버전으로 낮춤
+		https://nodejs.org/en/download/prebuilt-installer
+	자바스크립트 파일
+		js ---> jsx (리엑트 권장)
+	자바스크립트 특성
+		자료형에 유연하다
+	자바스크립트에서 자료형을 철저하게 하자
+		1. PropTypes
+			개발하는동안 모르고 실행할 때 잘못된 것을 알 수 있음
+		2. typescript
+			컴파일 시 자료형을 검사 후 경고 및 오류 출력
+	cmd 설치
+		create-react-app . --template typescript
+		npm install -g typescript
+		npm install -g ts-node
+	확장자가 다르다
+		ts, tsx
+```
+### react typescript
+```
+	App.tsx
+		import { useState } from "react";
+		import Cals from "./2_Cals";
+		
+		// 2_App.tsx
+		const App = () => {
+		    const [x, setX] = useState(100);
+		    const [y, setY] = useState(200);
+		
+		    return (
+		        <div>
+		            <Cals x={x} y={y} op={"+"}/>
+		            <Cals x={1} y={2} op={"*"}/>
+		            <Cals x={1}/>
+		        </div>
+		    );
+		}
+		
+		export default App;
+	Cals.tsx
+		// props 타입을 지정해줘야 한다
+		type CalsType = {
+		    x : number;
+		    y : number;
+		    op : string;
+		}
+		
+		const Cals = (props:CalsType) => {
+		
+		    let result = 0;
+		
+		    switch(props.op){
+		        case "+": result = props.x + props.y; break;
+		        case "*": result = props.x * props.y; break;
+		    }
+		
+		    return (
+		        <div>
+		            <h1>연산결과</h1>
+		            <div>
+		                {props.x} {props.op} {props.y} = {result}
+		            </div>
+		        </div>
+		    );
+		}
+		
+		Cals.defaultProps = {
+		    op : "+",
+		    x : 1,
+		    y : -1
+		}
+		
+		export default Cals;
+```
 ### 리눅스
 ```
 	1. 리눅스 설치
