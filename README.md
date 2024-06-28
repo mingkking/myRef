@@ -452,7 +452,7 @@ con.rollback();
 // 잘되었을 경우 commit
 con.commit();
 ```
-### 자바 JPA
+### 자바 JPA 세팅(setting) Insert 입력력
 ```
 	ORM (Object Relational Mapping)
 		Object = 자바클래스 (VO or DTO)
@@ -602,6 +602,111 @@ con.commit();
 		}
 
 	
+```
+### 자바 JPA 검색(Select)
+```
+	main
+		import javax.persistence.EntityManager;
+		import javax.persistence.EntityManagerFactory;
+		import javax.persistence.EntityTransaction;
+		import javax.persistence.Persistence;
+		
+		import com.javassem.domain.EmpVO;
+		
+		public class EmpMain {
+			public static void main(String[] args) {
+				// 1. 엔티티 매니저 팩토리 생성
+				EntityManagerFactory emf = Persistence.createEntityManagerFactory("bContextState");
+				
+				// 2. 엔티티 매니저 생성
+				EntityManager em = emf.createEntityManager();
+				
+				// 4. 엔티티 트랜잭션 생성
+				EntityTransaction tx = em.getTransaction();
+				
+				try {
+					// 검색
+					EmpVO emp0 = em.find(EmpVO.class, 9999);
+					System.out.println("검색결과: " + emp0.toString());
+					System.out.println("============================");
+					
+					// 결과 값이 없으면 null 반환
+		//			EmpVO emp1 = em.find(EmpVO.class, 6666);
+		//			System.out.println("검색결과1: " + emp1.toString());
+		//			System.out.println("============================");
+					
+					// 결과 값이 없으면 null 반환
+					EmpVO emp2 = em.find(EmpVO.class, 9999);
+					System.out.println("검색결과2: " + emp2.toString());
+					System.out.println("============================");
+					
+					if(emp0 == emp2) {
+						System.out.println("동일 객체");
+						System.out.println("============================");
+					}else {
+						System.out.println("다른 객체");
+						System.out.println("============================");
+					}
+					
+					// 생성
+					EmpVO emp = new EmpVO();
+					emp.setEmpNo(9);
+					emp.setEName("맹길동");
+					tx.begin();
+					em.persist(emp);;
+					tx.commit();
+					
+					EmpVO emp3 = em.find(EmpVO.class, 9);
+					System.out.println("검색결과3: " + emp3.toString());
+					
+				} catch (Exception e) {
+					tx.rollback(); // 롤백
+					System.out.println("실패: " + e.getMessage());
+				}
+			}
+		}
+```
+### 자바 JPA 수정(Update)
+```
+	main
+		import javax.persistence.EntityManager;
+		import javax.persistence.EntityManagerFactory;
+		import javax.persistence.EntityTransaction;
+		import javax.persistence.Persistence;
+		
+		import com.javassem.domain.EmpVO;
+		
+		public class EmpDetached {
+			public static void main(String[] args) {
+				// 1. 엔티티 매니저 팩토리 생성
+				EntityManagerFactory emf = Persistence.createEntityManagerFactory("bContextState");
+				
+				// 2. 엔티티 매니저 생성
+				EntityManager em = emf.createEntityManager();
+				
+				// 4. 엔티티 트랜잭션 생성
+				EntityTransaction tx = em.getTransaction();
+				
+				try {
+					// 엔티티 컨테이너에 있는 상태 (Managed 상태)
+					EmpVO emp1 = em.find(EmpVO.class, 8888);
+					System.out.println("검색결과1: " + emp1.toString());
+					
+					// 검색 후 수정 가능
+					tx.begin();
+					emp1.setEName("홍홍이변경2"); 
+					tx.commit();
+					
+					tx.begin();
+					em.detach(emp1); // 관리 벗어나기
+					emp1.setEName("홍홍이"); 
+					tx.commit();
+				} catch (Exception e) {
+					tx.rollback(); // 롤백
+					System.out.println("실패: " + e.getMessage());
+				}
+			}
+		}
 ```
 ### 20. HTML/CSS
 ```
