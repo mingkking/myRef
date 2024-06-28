@@ -778,6 +778,71 @@ con.commit();
 			}
 		}
 ```
+### 자바 JPA BoardVO 숙제
+```
+	main
+		import java.util.Date;
+		import java.util.List;
+		
+		import javax.persistence.EntityManager;
+		import javax.persistence.EntityManagerFactory;
+		import javax.persistence.EntityTransaction;
+		import javax.persistence.Persistence;
+		import javax.persistence.TypedQuery;
+		
+		import jpaContextHomeWork.vo.BoardVO;
+		
+		public class Main {
+		
+			public static void main(String[] args) {
+				EntityManagerFactory emf = Persistence.createEntityManagerFactory("board_homework");
+				EntityManager em = emf.createEntityManager();
+				EntityTransaction tx = em.getTransaction();
+				
+				try {
+					// 입력
+					BoardVO boardVO = new BoardVO();
+					boardVO.setSeq(1);
+					boardVO.setTitle("1");
+					boardVO.setWriter("20");
+					boardVO.setContent("1");
+					boardVO.setRegDate(new Date());
+					boardVO.setCnt(0);
+					
+					tx.begin();
+		//			em.persist(boardVO); // 입력
+					em.merge(boardVO); // 없으면 입력 있으면 수정
+					tx.commit();
+					
+					// 1개검색
+					boardVO = em.find(BoardVO.class, 1);
+					System.out.println("1개 검색결과: " + boardVO.toString());
+					
+					// 전체검색
+					String jpql = "SELECT boardVO FROM BoardVO boardVO ORDER BY boardVO.seq DESC";
+					List<BoardVO> boardList = em.createQuery(jpql, BoardVO.class).getResultList();
+					
+					for (BoardVO vo : boardList) {
+						System.out.println(vo.toString());
+					}
+					
+					// 이름 검색
+					String writer = "20";
+					jpql = "SELECT boardVO FROM BoardVO boardVO WHERE boardVO.writer =?1";
+					TypedQuery<BoardVO> query = em.createQuery(jpql, BoardVO.class);
+					query.setParameter(1, writer);
+					boardVO = query.getSingleResult();
+					
+					System.out.println("1개 검색결과2: " + boardVO.toString());
+					
+					
+				} catch (Exception e) {
+					System.out.println("실패: " + e.getMessage());
+				}
+			}
+		
+		}
+```
 ### 20. HTML/CSS
 ```
 웹에서 메소드 : 전송방식 (get/post)
