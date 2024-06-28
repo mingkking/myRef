@@ -452,7 +452,7 @@ con.rollback();
 // 잘되었을 경우 commit
 con.commit();
 ```
-### 자바 JPA 세팅(setting) Insert 입력력
+### 자바 JPA 세팅(setting) Insert 입력
 ```
 	ORM (Object Relational Mapping)
 		Object = 자바클래스 (VO or DTO)
@@ -603,7 +603,7 @@ con.commit();
 
 	
 ```
-### 자바 JPA 검색(Select)
+### 자바 JPA 머지(Merge) 없으면 입력 있으면 수정
 ```
 	main
 		import javax.persistence.EntityManager;
@@ -613,7 +613,7 @@ con.commit();
 		
 		import com.javassem.domain.EmpVO;
 		
-		public class EmpMain {
+		public class EmpMerge {
 			public static void main(String[] args) {
 				// 1. 엔티티 매니저 팩토리 생성
 				EntityManagerFactory emf = Persistence.createEntityManagerFactory("bContextState");
@@ -625,39 +625,74 @@ con.commit();
 				EntityTransaction tx = em.getTransaction();
 				
 				try {
-					// 검색
+					EmpVO emp = new EmpVO();
+					emp.setEmpNo(6666);
+					emp.setEName("홍설이");
+					
+					tx.begin();
+					em.merge(emp);
+					tx.commit();
+					
+				} catch (Exception e) {
+					tx.rollback(); // 롤백
+					System.out.println("실패: " + e.getMessage());
+				}
+			}
+		}
+```
+### 자바 JPA 검색(Select)
+```
+	main
+		import java.util.List;
+		
+		import javax.persistence.EntityManager;
+		import javax.persistence.EntityManagerFactory;
+		import javax.persistence.EntityTransaction;
+		import javax.persistence.Persistence;
+		
+		import com.javassem.domain.EmpVO;
+		
+		public class EmpSelect {
+			public static void main(String[] args) {
+				// 1. 엔티티 매니저 팩토리 생성
+				EntityManagerFactory emf = Persistence.createEntityManagerFactory("bContextState");
+				
+				// 2. 엔티티 매니저 생성
+				EntityManager em = emf.createEntityManager();
+				
+				// 4. 엔티티 트랜잭션 생성
+				EntityTransaction tx = em.getTransaction();
+				
+				try {
+					// find() 검색
 					EmpVO emp0 = em.find(EmpVO.class, 9999);
 					System.out.println("검색결과: " + emp0.toString());
 					System.out.println("============================");
 					
-					// 결과 값이 없으면 null 반환
-		//			EmpVO emp1 = em.find(EmpVO.class, 6666);
+		//			EmpVO emp1 = em.find(EmpVO.class, 3333);
 		//			System.out.println("검색결과1: " + emp1.toString());
 		//			System.out.println("============================");
 					
-					// 결과 값이 없으면 null 반환
-					EmpVO emp2 = em.find(EmpVO.class, 9999);
+					// getReference()
+					EmpVO emp2 = em.getReference(EmpVO.class, 9999);
 					System.out.println("검색결과2: " + emp2.toString());
 					System.out.println("============================");
 					
-					if(emp0 == emp2) {
-						System.out.println("동일 객체");
-						System.out.println("============================");
-					}else {
-						System.out.println("다른 객체");
-						System.out.println("============================");
+		//			EmpVO emp3 = em.getReference(EmpVO.class, 1212);
+		//			System.out.println("검색결과3: " + emp3.toString());
+		//			System.out.println("============================");
+					
+					// JPQL (Java Persistence Query Language)
+					// SQL 문장이 아님
+					//		테이블명이 아니라 클래스명(대소문자 구별)
+					// SELECT * FROM emp_a ORDER BY empNo DESC
+					String jpql = "SELECT empVO FROM EmpVO empVO ORDER BY empVO.empNo DESC";
+					List<EmpVO> empList = em.createQuery(jpql, EmpVO.class).getResultList();
+					
+					for(EmpVO vo : empList) {
+						System.out.println(">>> " + vo.toString());
 					}
 					
-					// 생성
-					EmpVO emp = new EmpVO();
-					emp.setEmpNo(9);
-					emp.setEName("맹길동");
-					tx.begin();
-					em.persist(emp);;
-					tx.commit();
-					
-					EmpVO emp3 = em.find(EmpVO.class, 9);
-					System.out.println("검색결과3: " + emp3.toString());
 					
 				} catch (Exception e) {
 					tx.rollback(); // 롤백
@@ -700,6 +735,41 @@ con.commit();
 					tx.begin();
 					em.detach(emp1); // 관리 벗어나기
 					emp1.setEName("홍홍이"); 
+					tx.commit();
+				} catch (Exception e) {
+					tx.rollback(); // 롤백
+					System.out.println("실패: " + e.getMessage());
+				}
+			}
+		}
+```
+### 자바 JPA 삭제(Delete)
+```
+	main
+		import javax.persistence.EntityManager;
+		import javax.persistence.EntityManagerFactory;
+		import javax.persistence.EntityTransaction;
+		import javax.persistence.Persistence;
+		
+		import com.javassem.domain.EmpVO;
+		
+		public class EmpDelete {
+			public static void main(String[] args) {
+				// 1. 엔티티 매니저 팩토리 생성
+				EntityManagerFactory emf = Persistence.createEntityManagerFactory("bContextState");
+				
+				// 2. 엔티티 매니저 생성
+				EntityManager em = emf.createEntityManager();
+				
+				// 4. 엔티티 트랜잭션 생성
+				EntityTransaction tx = em.getTransaction();
+				
+				try {
+					// 삭제를 위한 검색
+					EmpVO emp = em.find(EmpVO.class, 9999);
+					
+					tx.begin();
+					em.remove(emp); // 검색 후 삭제
 					tx.commit();
 				} catch (Exception e) {
 					tx.rollback(); // 롤백
