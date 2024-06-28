@@ -452,6 +452,157 @@ con.rollback();
 // 잘되었을 경우 commit
 con.commit();
 ```
+### 자바 JPA
+```
+	ORM (Object Relational Mapping)
+		Object = 자바클래스 (VO or DTO)
+		Relatinal - RDBMS (mysql, mariadb, oracle...) 의 테이블 관계
+		객체와 테이블을 자동으로 매핑해주는 프레임워크
+		ORM 표준은 JPA (Java Persistence API)
+		ORM 중 하나로 Hibernate
+			JPA : 개념
+			Hibernate : 구현된 거
+	pom.xml
+		<!-- ### Lombok ### -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.24</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>5.4.9.Final</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client -->
+		<dependency>
+			<groupId>org.mariadb.jdbc</groupId>
+			<artifactId>mariadb-java-client</artifactId>
+			<version>2.6.2</version>
+		</dependency>
+	리소스 xml 파일 생성
+		META-INF
+			persistence.xml
+				<?xml version="1.0" encoding="UTF-8"?>
+
+				<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+					xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+							http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+				
+					<!-- * 영속성 유닛 설정 : 여기 지정한 name값으로 찾음 -->
+					<persistence-unit name="aBasic">
+					
+						<!-- JPA 속성 설정 -->
+						<properties>
+							
+							<!-- 마리아디비 -->
+							<property name="javax.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver"/>
+							<property name="javax.persistence.jdbc.user" value="scott"/>
+							<property name="javax.persistence.jdbc.password" value="tiger"/>
+							<property name="javax.persistence.jdbc.url" value="jdbc:mariadb://127.0.0.1:3306/basic"/>
+							
+							<!-- JPA 구현체 설정 -->
+							<property name="hibernate.dialect" value="org.hibernate.dialect.MariaDB103Dialect"/>
+							
+							<!-- 옵션 sql문장 확인 -->
+							<property name="hibernate.show_sql" value="true"/> <!-- 콘솔에 sql 문 확인 가능 -->
+							<property name="hibernate.hbm2ddl.auto" value="update"/> <!-- 무조건 update 로 -->
+							
+							<!-- MySQL -->
+							
+						</properties>
+				
+					</persistence-unit>
+				
+				</persistence>
+	EmpVO
+		package com.javassem.domain;
+
+		import java.util.Date;
+		
+		import javax.persistence.Column;
+		import javax.persistence.Entity;
+		import javax.persistence.GeneratedValue;
+		import javax.persistence.GenerationType;
+		import javax.persistence.Id;
+		import javax.persistence.Table;
+		
+		import lombok.Data;
+		
+		@Data
+		@Entity
+		@Table(name = "emp_d")
+		public class EmpVO3 {
+			@Id
+			@GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
+		//	@GeneratedValue(strategy = GenerationType.SEQUENCE) // emp_b_seq
+			private Integer empNo;
+			
+			@Column(length = 30) // varChar(30)
+			private String eName; 
+			
+			@Column(length = 50, nullable = true) // varChar(30) not null
+			private String job;
+			private Integer mgr;
+			
+			@Column(name = "hire_date") // 테이블 컬럼명
+			private Date hiredate;
+			private Integer comm;
+			
+			@Column(precision = 5)
+			private Integer sal;
+			
+			private Integer deptNo;
+		}
+	main
+		import java.util.Date;
+		
+		import javax.persistence.EntityManager;
+		import javax.persistence.EntityManagerFactory;
+		import javax.persistence.EntityTransaction;
+		import javax.persistence.Persistence;
+		
+		import com.javassem.domain.EmpVO3;
+		
+		public class EmpMain2 {
+			public static void main(String[] args) {
+				// 1. 엔티티 매니저 팩토리 생성
+				EntityManagerFactory emf = Persistence.createEntityManagerFactory("aBasic");
+				
+				// 2. 엔티티 매니저 생성
+				EntityManager em = emf.createEntityManager();
+				
+				// 4. 엔티티 트랜잭션 생성
+				EntityTransaction tx = em.getTransaction();
+				
+				try {
+					
+					// 3. 엔티티 생성
+					EmpVO3 empVO = new EmpVO3();
+					empVO.setEName("홍길순");
+					empVO.setJob("개발자");
+					empVO.setHiredate(new Date());
+					empVO.setDeptNo(77);
+					empVO.setSal(3000000);
+					
+					tx.begin();
+					em.persist(empVO);
+					tx.commit(); // 커밋
+					
+				} catch (Exception e) {
+					tx.rollback(); // 롤백
+					System.out.println("실패: " + e.getMessage());
+				}
+			}
+		}
+
+	
+```
 ### 20. HTML/CSS
 ```
 웹에서 메소드 : 전송방식 (get/post)
