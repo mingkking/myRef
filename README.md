@@ -1062,6 +1062,55 @@ con.commit();
 			}
 		}
 ```
+### 자바 JAVA JPA NativeQuery 네이티브쿼리리
+```
+	import java.util.Arrays;
+	import java.util.Iterator;
+	import java.util.List;
+	
+	import javax.persistence.EntityManager;
+	import javax.persistence.EntityManagerFactory;
+	import javax.persistence.Persistence;
+	import javax.persistence.Query;
+	
+	import com.javaclass.domain.Department;
+	import com.javaclass.domain.Employee;
+	
+	public class MainApp4_nativequery {
+	
+		public static void main(String[] args) {
+			EntityManagerFactory emf = Persistence.createEntityManagerFactory("dJpql");
+	
+			try {
+				selectData(emf);
+			} catch (Exception e) {
+				System.out.println("예외발생: ");
+				e.printStackTrace();
+			} finally {
+				emf.close();
+			}
+		}
+	
+		static void selectData(EntityManagerFactory emf) {
+			EntityManager em = emf.createEntityManager();
+			
+			// 네이티브 쿼리 : 진짜 DB의 SQL (jpql 아님)
+			String sql = "SELECT * FROM emp WHERE deptNo=:deptNo";
+			Query query = em.createNativeQuery(sql, Employee.class);
+			query.setParameter("deptNo", 30);
+			
+			List<Employee> list = query.getResultList();
+			
+			for(Employee e : list) {
+				System.out.println(e.getEName() + "님 " + e.getDept().getDName());
+			}
+			
+			
+			em.close();
+		}
+	
+	}
+```
 ### 20. HTML/CSS
 ```
 웹에서 메소드 : 전송방식 (get/post)
