@@ -843,6 +843,225 @@ con.commit();
 		
 		}
 ```
+### 자바 JAVA JPA
+```
+	Department
+		package com.javassem.domain;
+
+		import java.util.ArrayList;
+		import java.util.List;
+		
+		import javax.persistence.CascadeType;
+		import javax.persistence.Entity;
+		import javax.persistence.Id;
+		import javax.persistence.OneToMany;
+		import javax.persistence.Table;
+		
+		import lombok.Data;
+		
+		@Data
+		@Entity
+		@Table(name = "dept")
+		public class Department {
+			@Id
+			//@GeneratedValue(strategy = GenerationType.IDENTITY) // MYSQL, mariaDB
+			//@GeneratedValue(strategy = GenerationType.SEQUENCE) // ORACLE
+			private Integer deptNo;
+			private String dName;
+			private String loc;
+			
+			// 케스케이드 삭제
+			@OneToMany(mappedBy = "dept", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+			private List<Employee> empList = new ArrayList<Employee>();
+		}
+	Employee
+		package com.javassem.domain;
+
+		import java.util.Date;
+		
+		import javax.persistence.Entity;
+		import javax.persistence.Id;
+		import javax.persistence.JoinColumn;
+		import javax.persistence.ManyToOne;
+		import javax.persistence.Table;
+		
+		import lombok.Data;
+		
+		@Data
+		@Entity
+		@Table(name = "emp")
+		public class Employee {
+			@Id
+			private Integer empNo;
+			private String eName;
+			private String job;
+			private Integer mgr;
+			private Date hiredate;
+			private Integer sal;
+			private Integer comm;
+			
+			/*
+			외래키 
+			private Integer deptNo;
+			*/
+			@ManyToOne(optional = true) // INNER JOIN
+			@JoinColumn(name = "deptNo") // 만일 이 코드 없으면 자동으로 테이블명_컬럼명에 해당하는 새로운 컬럼이 생성되고 그 컬럼과 조인함
+			private Department dept;
+			
+		}
+	Main
+		import java.util.List;
+
+		import javax.persistence.EntityManager;
+		import javax.persistence.EntityManagerFactory;
+		import javax.persistence.EntityTransaction;
+		import javax.persistence.Persistence;
+		
+		import com.javassem.domain.Department;
+		import com.javassem.domain.Employee;
+		
+		public class MainApp {
+		
+			public static void main(String[] args) {
+				EntityManagerFactory emf = Persistence.createEntityManagerFactory("cReference");
+				
+				try {
+					// 입력 함수
+		//			insertData(emf);
+					
+					// 검색 함수
+		//			selectData(emf);
+					
+					// 수정 함수
+		//			modifyData(emf);
+					
+					// 삭제 함수
+		//			deleteData(emf);
+					
+					// OneToMany 검색
+					selectOneToMany(emf);
+				} catch (Exception e) {
+					System.out.println("실패: " + e.getMessage());
+				}
+			}
+			
+			static void insertData(EntityManagerFactory emf) {
+				EntityManager em = emf.createEntityManager();
+				EntityTransaction tx = em.getTransaction();
+				
+				tx.begin();
+				
+				// 사원 정보 입력 - 부서번호가 없는 경우
+				Employee emp1 = new Employee(); // 객체 생성
+				
+		//		emp1.setEmpNo(101);
+		//		emp1.setEName("정민기");
+		//		emp1.setDeptNo(60);
+		//		em.persist(emp1); // 입력
+				
+				// 부서번호입력 - 자동증가수
+		//		Department dept1 = new Department();
+		//		dept1.setDeptNo(70);
+		//		dept1.setDName("운영팀");
+		//		dept1.setLoc("신촌");
+		//		em.persist(dept1);
+		//		
+		//		Employee emp2 = new Employee();
+		//		emp2.setEmpNo(102);
+		//		emp2.setEName("맹돌이");
+		//		emp2.setDept(dept1);
+		//		em.persist(emp2);
+				
+				// 기존에 40번부서의 직원으로 등록하려면????
+				Department dept2 = em.find(Department.class, 40);
+				System.out.println(dept2.toString());
+				
+				Employee emp3 = new Employee();
+				emp3.setEmpNo(103);
+				emp3.setEName("맹구");
+				emp3.setDept(dept2);
+				em.persist(emp3);
+				
+				tx.commit();
+				em.close();
+				
+			}
+			
+			static void selectData(EntityManagerFactory emf) {
+				EntityManager em = emf.createEntityManager();
+				
+				Employee emp1 = em.find(Employee.class, 5555);
+				
+				System.out.println(emp1.getEName() + "님 정보");
+				System.out.println(emp1.getEName() + "님 부서는 " + emp1.getDept().getDName());
+				
+			}
+			
+			static void modifyData(EntityManagerFactory emf) {
+				EntityManager em = emf.createEntityManager();
+				EntityTransaction tx = em.getTransaction();
+				
+				tx.begin();
+				
+				// 3902 사원 정보
+				Employee emp1 = em.find(Employee.class, 3902);
+				System.out.println(emp1.toString());
+				
+				// 40번 부서로 변경하려면?
+				Department dept1 = em.find(Department.class, 40);
+				System.out.println(dept1.toString());
+				
+				emp1.setDept(dept1); // 수정
+				System.out.println(emp1.toString());
+				
+				tx.commit();
+			}
+			
+			static void deleteData(EntityManagerFactory emf) {
+				EntityManager em = emf.createEntityManager();
+				EntityTransaction tx = em.getTransaction();
+				
+				tx.begin();
+				
+				// 40번 부서를 삭제한다면?
+		//		Department dept1 = em.find(Department.class, 40);
+		//		System.out.println(dept1);
+		//		em.remove(dept1);
+				
+				// 부서에 대한 참조를 제거 후 삭제
+		//		Employee emp1 = em.find(Employee.class, 100);
+		//		emp1.setDept(null);
+		//		System.out.println(emp1.toString());
+		//		
+		//		Department dept2 = em.find(Department.class, 50);
+		//		em.remove(dept2);
+				
+				// cascade : 영속성전이
+				// 케스케이드 삭제
+				Department dept3 = em.find(Department.class, 40);
+				em.remove(dept3);
+				
+				tx.commit();
+			}
+			
+			static void selectOneToMany(EntityManagerFactory emf) {
+				EntityManager em = emf.createEntityManager();
+				
+				Department dept = em.find(Department.class, 30);
+		//		System.out.println("부서명: " + dept.getDName());
+				
+				// toString() 사용 못함
+		//		System.out.println("부서정보: " + dept.toString());
+				
+				List<Employee> emp_list = dept.getEmpList();
+				for (Employee e : emp_list) {
+					System.out.println("30번 부서 이름: " + e.getEName());
+				}
+				
+				em.close();
+			}
+		}
+```
 ### 20. HTML/CSS
 ```
 웹에서 메소드 : 전송방식 (get/post)
