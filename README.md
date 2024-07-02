@@ -3586,6 +3586,147 @@ Exception처리 - error페이지
 		PagingVO pVO = new PagingVO(pageNum, memberService.selectMemberCount());
 		m.addAttribute("pVO", pVO);
 ```
+### springboot 스프링부트
+```
+	application.properties
+		spring.application.name=bBoardJsp
+
+		# setting ViewResolver
+		spring.mvc.view.prefix=/WEB-INF/views/
+		spring.mvc.view.suffix=.jsp
+		
+		# setting mysql information
+		spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+		spring.datasource.url=jdbc:mysql://127.0.0.1:3306/basic
+		spring.datasource.username=scott
+		spring.datasource.password=tiger
+		
+		# setting mybatis aliases
+		mybatis.type-aliases-package=com.example.domain
+		
+		# setting mybatis mapper
+		mybatis.mapper-locations=classpath:mappers/**/*Mapper.xml
+	Mapper.xml
+		<?xml version="1.0" encoding="UTF-8"?>
+		<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+		<mapper namespace="com.example.dao.BoardDAO">
+		
+			<select id="getBoardList" resultType="BoardVO">
+				SELECT *
+				FROM BOARD
+				ORDER BY SEQ DESC
+			</select>
+			
+			<select id="getBoard" resultType="BoardVO">
+				SELECT *
+				FROM BOARD
+				WHERE seq = #{seq}
+			</select>
+			
+			<update id="updateBoardCnt">
+				UPDATE board SET cnt = cnt + 1 WHERE seq = #{seq}
+			</update>
+			
+			<insert id="saveBoard">
+				INSERT INTO board(title, writer, content, regDate, cnt)
+				VALUES(#{title}, #{writer}, #{content}, now(), 0)
+			</insert>
+		
+			<update id="updateBoard">
+				UPDATE board SET title = #{title}, content = #{content} WHERE seq = #{seq}
+			</update>
+			
+			<delete id="deleteBoard">
+				DELETE FROM board WHERE seq = #{seq}
+			</delete>
+
+		</mapper>
+	DAO
+		package com.example.dao;
+
+		import java.util.List;
+		import org.apache.ibatis.annotations.Mapper;
+		import com.example.domain.BoardVO;
+		
+		//**
+		/*
+		 * DAO와 Mapper 연결
+		 * mapper namespase="com.example.dao.BoardDAO"
+		 * DAO 클래스에서
+		 * 함수명과 mapper 에서 ID 값 동일
+		 */
+		@Mapper
+		public interface BoardDAO {
+			public List<BoardVO> getBoardList(BoardVO vo) ;
+			public BoardVO getBoard(BoardVO vo);
+			public void saveBoard(BoardVO vo);
+			public void updateBoard(BoardVO vo);
+			public void deleteBoard(BoardVO vo);
+			public void updateBoardCnt(BoardVO vo);
+		}
+	Service
+		package com.example.service;
+
+		import java.util.List;
+		import com.example.domain.BoardVO;
+		
+		public interface BoardService {
+			List<BoardVO> getBoardList(BoardVO vo);
+			BoardVO getBoard(BoardVO vo);
+			void saveBoard(BoardVO vo);
+			void updateBoard(BoardVO vo);
+			void deleteBoard(BoardVO vo);
+			void updateBoardCnt(BoardVO vo);
+		}
+	ServiceImpl
+		package com.example.service;
+
+		import java.util.List;
+		import org.springframework.beans.factory.annotation.Autowired;
+		import org.springframework.stereotype.Service;
+		import com.example.dao.BoardDAO;
+		import com.example.domain.BoardVO;
+		
+		//**
+		@Service
+		public class BoardServiceImpl implements BoardService {
+			
+			//**
+			@Autowired
+			private BoardDAO boardDAO;
+		
+		
+			public List<BoardVO>getBoardList(BoardVO vo) {
+				return boardDAO.getBoardList(vo);
+			}
+			
+			public BoardVO getBoard(BoardVO vo) {
+				return boardDAO.getBoard(vo);
+			}
+		
+			@Override
+			public void saveBoard(BoardVO vo) {
+				boardDAO.saveBoard(vo);
+			}
+		
+			@Override
+			public void updateBoard(BoardVO vo) {
+				boardDAO.updateBoard(vo);
+			}
+		
+			@Override
+			public void deleteBoard(BoardVO vo) {
+				boardDAO.deleteBoard(vo);
+			}
+		
+			@Override
+			public void updateBoardCnt(BoardVO vo) {
+				boardDAO.updateBoardCnt(vo);
+			}
+		}
+```
 깃허브 - gitHub 세팅 참고
 ```
 	https://github.com/devAon/Eclipse-GitHub-Coraboration-Tutorial?tab=readme-ov-file
