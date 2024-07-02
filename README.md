@@ -3588,6 +3588,8 @@ Exception처리 - error페이지
 ```
 ### springboot 스프링부트
 ```
+	설치
+		https://spring.io/tools
 	application.properties
 		spring.application.name=bBoardJsp
 
